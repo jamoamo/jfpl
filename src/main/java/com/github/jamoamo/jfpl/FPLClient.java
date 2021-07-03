@@ -9,6 +9,9 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.httpclient.HttpClient;
@@ -58,11 +61,11 @@ class FPLClient implements IFPLClient
 		{
 			throw new RuntimeException("API Exception: " + getMethod.getStatusCode());
 		}
-		String jsonResponse = getMethod.getResponseBodyAsString();
+		InputStream is = getMethod.getResponseBodyAsStream();
 		Gson gson = new GsonBuilder()
 				  .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 				  .create();
-		T userHistory = gson.fromJson(jsonResponse, returnObjectClass);
-		return userHistory;
+		T responseObject = gson.fromJson(new InputStreamReader(is, Charset.forName("utf-8")), returnObjectClass);
+		return responseObject;
 	}
 }
