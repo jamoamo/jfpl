@@ -15,6 +15,9 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.config.CookieSpecs;
@@ -56,7 +59,7 @@ class FPLClient implements IFPLClient
 	}
 	
 	@Override
-	public void login(FPLLoginCredentials credentials)
+	public boolean login(FPLLoginCredentials credentials)
 			  throws Exception
 	{
 		HttpPost httpPost = new HttpPost(URL_LOGIN);
@@ -73,18 +76,22 @@ class FPLClient implements IFPLClient
 			httpPost.setEntity(new UrlEncodedFormEntity(params));
 			
 			CloseableHttpResponse response = httpClient.execute(httpPost);
-			System.out.println(response.getStatusLine().getReasonPhrase());
-			
-			List<Cookie> cookies = cookieStore.getCookies();
-			for(Cookie cookie : cookies)
+			Header[] headers = response.getAllHeaders();
+			for(Header header : headers)
 			{
-				System.out.println(cookie.toString());
+				if(header.getName().equalsIgnoreCase("location"))
+				{
+					String locationValue = header.getValue();
+					Pattern p = Pattern.compile("https[:]//fantasy[.]premierleague[.]com/a/login[?]state[=]success[;]?");
+					return p.matcher(locationValue).matches();
+				}
 			}
 		}
 		finally
 		{
 			httpPost.releaseConnection();
 		}
+		return false;
 	}
 	
 	@Override

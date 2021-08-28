@@ -14,7 +14,7 @@ import java.util.List;
  */
 interface IFPLClient
 {
-	public abstract void login(FPLLoginCredentials creds)
+	public abstract boolean login(FPLLoginCredentials creds)
 			  throws Exception;
 	
 	public abstract JsonCurrentUser getCurrentUser()

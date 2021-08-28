@@ -32,9 +32,23 @@ public final class FPL
 		this.fplClient = client;
 	}
 	
-	public void login(FPLLoginCredentials creds) throws Exception
+	public void login(FPLLoginCredentials creds) throws FPLLoginException
 	{
-		this.fplClient.login(creds);
+		boolean loginSuccess = false;
+		try
+		{
+			loginSuccess = this.fplClient.login(creds);
+		}
+		catch(Exception ex)
+		{
+			throw new FPLLoginException(ex);
+		}
+
+		if(!loginSuccess)
+		{
+			throw new FPLLoginException();
+		}
+
 	}
 	
 	public FPLUser getCurrentUser()

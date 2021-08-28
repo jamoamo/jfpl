@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  *
  * @author James Amoore
  */
-public class TestClient implements IFPLClient
+class TestClient implements IFPLClient
 {
 	JsonStaticData data = new JsonStaticData();
 	List<JsonFixture> fixtures = new ArrayList<>();
@@ -60,13 +60,6 @@ public class TestClient implements IFPLClient
 	}
 
 	@Override
-	public void login(FPLLoginCredentials creds)
-			  throws Exception
-	{
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
 	public JsonCurrentUser getCurrentUser()
 			  throws IOException
 	{
@@ -78,6 +71,13 @@ public class TestClient implements IFPLClient
 			  throws IOException
 	{
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public boolean login(FPLLoginCredentials creds)
+			  throws Exception
+	{
+		return true;
 	}
 	
 }
