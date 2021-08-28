@@ -14,7 +14,15 @@ import java.util.List;
  */
 interface IFPLClient
 {
-
+	public abstract void login(FPLLoginCredentials creds)
+			  throws Exception;
+	
+	public abstract JsonCurrentUser getCurrentUser()
+			  throws IOException;
+	
+	public abstract JsonUser getUser(int id)
+			  throws IOException;
+	
 	public JsonStaticData getStaticData()
 			  throws IOException;
 	

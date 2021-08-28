@@ -5,7 +5,6 @@
  */
 package com.github.jamoamo.jfpl;
 
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,6 +57,27 @@ public class TestClient implements IFPLClient
 			  throws IOException
 	{
 		return fixtures.stream().filter(f -> f.getEvent() == gameweekNr).collect(Collectors.toList());
+	}
+
+	@Override
+	public void login(FPLLoginCredentials creds)
+			  throws Exception
+	{
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public JsonCurrentUser getCurrentUser()
+			  throws IOException
+	{
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public JsonUser getUser(int id)
+			  throws IOException
+	{
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 	
 }

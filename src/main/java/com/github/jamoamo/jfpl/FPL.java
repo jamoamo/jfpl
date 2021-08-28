@@ -4,6 +4,7 @@ import com.github.jamoamo.jfpl.model.FPLPlayer;
 import com.github.jamoamo.jfpl.model.FPLFixture;
 import com.github.jamoamo.jfpl.model.FPLGameweek;
 import com.github.jamoamo.jfpl.model.FPLTeam;
+import com.github.jamoamo.jfpl.model.FPLUser;
 import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.util.List;
@@ -29,6 +30,25 @@ public final class FPL
 	FPL(IFPLClient client)
 	{
 		this.fplClient = client;
+	}
+	
+	public void login(FPLLoginCredentials creds) throws Exception
+	{
+		this.fplClient.login(creds);
+	}
+	
+	public FPLUser getCurrentUser()
+				throws Exception
+	{
+		JsonCurrentUser current = this.fplClient.getCurrentUser();
+		if(current == null)
+		{
+			return null;
+		}
+		JsonUser user = this.fplClient.getUser(current.getPlayer().getEntry());
+		
+		UserMapper userMapper = new UserMapper();
+		return userMapper.mapUser(user);
 	}
 	
 	/**
