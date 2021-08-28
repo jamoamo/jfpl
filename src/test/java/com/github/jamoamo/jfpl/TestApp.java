@@ -18,8 +18,8 @@ public class TestApp
 	{
 		FPL fpl = new FPL();
 		FPLLoginCredentials creds = new FPLLoginCredentials();
-		creds.setUsername("amoore.james@gmail.com");
-		creds.setPassword("Gfk7iO7VyPSE9a7g");
+		creds.setUsername(args[0]);
+		creds.setPassword(args[1]);
 		fpl.login(creds);
 		FPLUser user = fpl.getCurrentUser();
 		System.out.println(user.getTeamName());
