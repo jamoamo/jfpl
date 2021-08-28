@@ -18,10 +18,13 @@ public class TestApp
 	{
 		FPL fpl = new FPL();
 		FPLLoginCredentials creds = new FPLLoginCredentials();
-		creds.setUsername(args[0]);
-		creds.setPassword(args[1]);
+		//creds.setUsername(args[0]);
+		creds.setUsername("amoore.james@gmail.com");
+		//creds.setPassword(args[1]);
+		creds.setPassword("r5w2TVVQbblj");
 		fpl.login(creds);
 		FPLUser user = fpl.getCurrentUser();
 		System.out.println(user.getTeamName());
+		fpl.getPlayers();
 	}
 }
