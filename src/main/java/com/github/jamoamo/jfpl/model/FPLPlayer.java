@@ -73,7 +73,7 @@ public class FPLPlayer
 		return this.playingChance;
 	}
 	
-	public FPLPlayerStats getPlayerStats()
+	public FPLPlayerStats getStats()
 	{
 		return this.playerStats;
 	}

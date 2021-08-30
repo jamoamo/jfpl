@@ -11,23 +11,31 @@ package com.github.jamoamo.jfpl.model;
  */
 public class FPLPlayerICT
 {
+	private final double influence;
 	private final int influenceRank;
 	private final int influenceRankType;
+	private final double creativity;
 	private final int creativityRank;
 	private final int creativityRankType;
+	private final double threat;
 	private final int threatRank;
 	private final int threatRankType;
+	private final double ictIndex;
 	private final int ictIndexRank;
 	private final int ictIndexRankType;
 	
-	public FPLPlayerICT(int influenceRank, int influenceRankType, int creativityRank, int creativityRankType, int threatRank, int threatRankType, int ictIndexRank, int ictIndexRankType)
+	public FPLPlayerICT(double influence, int influenceRank, int influenceRankType, double creativity, int creativityRank, int creativityRankType, double threat, int threatRank, int threatRankType, double ictIndex, int ictIndexRank, int ictIndexRankType)
 	{
+		this.influence = influence;
 		this.influenceRank = influenceRank;
 		this.influenceRankType = influenceRankType;
+		this.creativity = creativity;
 		this.creativityRank = creativityRank;
 		this.creativityRankType = creativityRankType;
+		this.threat = threat;
 		this.threatRank = threatRank;
 		this.threatRankType = threatRankType;
+		this.ictIndex = ictIndex;
 		this.ictIndexRank = ictIndexRank;
 		this.ictIndexRankType = ictIndexRankType;
 	}
@@ -71,6 +79,24 @@ public class FPLPlayerICT
 	{
 		return ictIndexRankType;
 	}
-	
-	
+
+	public double getInfluence()
+	{
+		return influence;
+	}
+
+	public double getCreativity()
+	{
+		return creativity;
+	}
+
+	public double getThreat()
+	{
+		return threat;
+	}
+
+	public double getIctIndex()
+	{
+		return ictIndex;
+	}
 }

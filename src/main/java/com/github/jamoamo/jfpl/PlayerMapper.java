@@ -34,13 +34,15 @@ class PlayerMapper
 		
 		FPLPlayerSetPieces setPieces = mapSetPieces(jsonPlayer);
 		
+		FPLPosition position = mapFPLPosition(jsonPlayer);
+		
 		FPLPlayer player = new FPLPlayer(
 				  jsonPlayer.getId(), 
 				  jsonPlayer.getFirstName(), 
 				  jsonPlayer.getSecondName(), 
 				  jsonPlayer.getWebName(),
 				  teamMap.get(jsonPlayer.getTeam()), 
-				  FPLPosition.values()[jsonPlayer.getElementType() -1],
+				  position,
 				  playingChance,
 				  playerStats,
 				  transfers,
@@ -70,8 +72,9 @@ class PlayerMapper
 
 	private FPLPlayerICT mapICT(JsonPlayer jsonPlayer)
 	{
-		FPLPlayerICT ict = new FPLPlayerICT(jsonPlayer.getInfluenceRank(), jsonPlayer.getInfluenceRankType(), jsonPlayer.getCreativityRank(),
-				  jsonPlayer.getCreativityRankType(), jsonPlayer.getThreatRank(), jsonPlayer.getThreatRankType(), jsonPlayer.getIctIndexRank(),
+		FPLPlayerICT ict = new FPLPlayerICT(jsonPlayer.getInfluence(), jsonPlayer.getInfluenceRank(), jsonPlayer.getInfluenceRankType(), 
+				  jsonPlayer.getCreativity(), jsonPlayer.getCreativityRank(), jsonPlayer.getCreativityRankType(), jsonPlayer.getThreat(), 
+				  jsonPlayer.getThreatRank(), jsonPlayer.getThreatRankType(), jsonPlayer.getIctIndex(), jsonPlayer.getIctIndexRank(),
 				  jsonPlayer.getIctIndexRankType());
 		return ict;
 	}
@@ -80,10 +83,16 @@ class PlayerMapper
 	{
 		FPLPlayerStats playerStats = new FPLPlayerStats(jsonPlayer.getForm(), jsonPlayer.getPointsPerGame(),
 				  jsonPlayer.getSelectedByPercent(), jsonPlayer.getTotalPoints(), jsonPlayer.getValueForm(), jsonPlayer.getValueSeason(),
-				  jsonPlayer.getNowCost(), jsonPlayer.getMinutes(), jsonPlayer.getGoalsScored(), jsonPlayer.getAssists(),
+				  jsonPlayer.getNowCost()/10, jsonPlayer.getMinutes(), jsonPlayer.getGoalsScored(), jsonPlayer.getAssists(),
 				  jsonPlayer.getCleanSheets(), jsonPlayer.getGoalsConceeded(), jsonPlayer.getOwnGoals(), jsonPlayer.getPenaltiesSaved(),
 				  jsonPlayer.getPenaltiesMissed(), jsonPlayer.getYellowCards(), jsonPlayer.getRedCards(), jsonPlayer.getSaves(),
-				  jsonPlayer.getBonus());
+				  jsonPlayer.getBonus(), jsonPlayer.getBps());
 		return playerStats;
+	}
+
+	private FPLPosition mapFPLPosition(JsonPlayer jsonPlayer)
+	{
+		int jsonPlayerType = jsonPlayer.getElementType();
+		return FPLPosition.values()[jsonPlayerType -1];
 	}
 }

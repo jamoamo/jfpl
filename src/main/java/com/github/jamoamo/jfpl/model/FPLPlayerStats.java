@@ -30,10 +30,11 @@ public class FPLPlayerStats
 	private final int redCards;
 	private final int saves;
 	private final int bonus;
+	private final int bps;
 	
 	public FPLPlayerStats(double form, double pointsPerGame, double selectedBy, int totalPoints, double valueForm, double valueSeason,
 							double cost, int minutes, int goalsScored, int assists, int cleanSheets, int goalsConceeded, int ownGoals,
-							int penaltiesSaved, int penaltiesMissed, int yellowCards, int redCards, int saves, int bonus)
+							int penaltiesSaved, int penaltiesMissed, int yellowCards, int redCards, int saves, int bonus, int bps)
 	{
 		this.form = form;
 		this.pointsPerGame = pointsPerGame;
@@ -54,6 +55,7 @@ public class FPLPlayerStats
 		this.redCards = redCards;
 		this.saves = saves;
 		this.bonus = bonus;
+		this.bps = bps;
 	}
 
 	public double getForm()
@@ -150,6 +152,9 @@ public class FPLPlayerStats
 	{
 		return bonus;
 	}
-	
-	
+
+	public int getBps()
+	{
+		return bps;
+	}
 }
