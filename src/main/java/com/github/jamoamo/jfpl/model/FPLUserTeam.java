@@ -13,25 +13,27 @@ import java.util.List;
  */
 public class FPLUserTeam
 {
-	private final List<FPLPlayer> starting11;
-	private final List<FPLPlayer> bench;
+	private final List<FPLUserTeamPick> starting11;
+	private final List<FPLUserTeamPick> bench;
+	private final List<FPLTeamChip> chips;
 	private final FPLPlayer captain;
 	private final FPLPlayer viceCaptain;
 	
-	public FPLUserTeam(List<FPLPlayer> starting11, List<FPLPlayer> bench, FPLPlayer captain, FPLPlayer viceCaptain)
+	public FPLUserTeam(List<FPLUserTeamPick> starting11, List<FPLUserTeamPick> bench, List<FPLTeamChip> chips, FPLPlayer captain, FPLPlayer viceCaptain)
 	{
 		this.starting11 = starting11;
 		this.bench = bench;
+		this.chips = chips;
 		this.captain = captain;
 		this.viceCaptain = viceCaptain;
 	}
 
-	public List<FPLPlayer> getStarting11()
+	public List<FPLUserTeamPick> getStarting11()
 	{
 		return starting11;
 	}
 
-	public List<FPLPlayer> getBench()
+	public List<FPLUserTeamPick> getBench()
 	{
 		return bench;
 	}
@@ -46,5 +48,8 @@ public class FPLUserTeam
 		return viceCaptain;
 	}
 	
-	
+	public List<FPLTeamChip> getChips()
+	{
+		return chips;
+	}
 }

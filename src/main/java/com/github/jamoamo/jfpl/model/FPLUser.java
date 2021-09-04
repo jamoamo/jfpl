@@ -16,14 +16,14 @@ public class FPLUser
 	private final String playerFirstName;
 	private final String playerLastName;
 	private final FPLTeam favouriteTeam;
-	private final String region;
+	private final FPLRegion region;
 
 	public FPLUser(int id, 
 					String teamName, 
 					String playerFirstName, 
 					String playerLastName, 
 					FPLTeam favuriteTeam, 
-					String region)
+					FPLRegion region)
 	{
 		this.id = id;
 		this.teamName = teamName;
@@ -58,7 +58,7 @@ public class FPLUser
 		return favouriteTeam;
 	}
 
-	public String getRegion()
+	public FPLRegion getRegion()
 	{
 		return region;
 	}

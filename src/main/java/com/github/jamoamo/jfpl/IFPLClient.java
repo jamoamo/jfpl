@@ -20,6 +20,9 @@ interface IFPLClient
 	public abstract JsonCurrentUser getCurrentUser()
 			  throws IOException;
 	
+	public abstract JsonCurrentUserTeam getCurrentUserTeam(int id)
+			  throws IOException;
+	
 	public abstract JsonUser getUser(int id)
 			  throws IOException;
 	

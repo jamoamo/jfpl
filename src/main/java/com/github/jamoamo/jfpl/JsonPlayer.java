@@ -5,8 +5,6 @@
  */
 package com.github.jamoamo.jfpl;
 
-import java.time.LocalDateTime;
-
 /**
  *
  * @author James Amoore

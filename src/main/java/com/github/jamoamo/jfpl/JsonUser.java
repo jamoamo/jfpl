@@ -14,16 +14,25 @@ class JsonUser
 	private int id;
 	private String playerFirstName;
 	private String playerLastName;
+	private int playerRegionId;
 	private String playerRegionIsoCodeShort;
+	private String playerRegionIsoCodeLong;
 	private String playerRegionName;
 	private int summaryOverallPoints;
-	private int summary_overall_rank;
+	private int summaryOverallRank;
 	private String name;
-	private int last_deadline_bank;
-	private int last_deadline_value;
-	private int last_deadline_total_transfers;
-	private int summary_event_points;
-	private int summary_event_rank;
+	private int lastDeadlineBank;
+	private int lastDeadlineValue;
+	private int lastDeadlineTotalTransfers;
+	private int summaryEventPoints;
+	private int summaryEventRank;
+	private int favouriteTeam;
+	private String joinedTIme;
+	private int startedEvent;
+	private int currentEvent;
+	private FPLUserLeagues[] leagues;
+	private boolean nameChangeBlocked;
+	private String kit;
 
 	public int getId()
 	{
@@ -89,12 +98,12 @@ class JsonUser
 
 	public int getSummary_overall_rank()
 	{
-		return summary_overall_rank;
+		return summaryOverallRank;
 	}
 
-	public void setSummary_overall_rank(int summary_overall_rank)
+	public void setSummaryOverallRank(int summary_overall_rank)
 	{
-		this.summary_overall_rank = summary_overall_rank;
+		this.summaryOverallRank = summary_overall_rank;
 	}
 
 	public String getName()
@@ -107,53 +116,145 @@ class JsonUser
 		this.name = name;
 	}
 
-	public int getLast_deadline_bank()
+	public int getLastDeadlineBank()
 	{
-		return last_deadline_bank;
+		return lastDeadlineBank;
 	}
 
-	public void setLast_deadline_bank(int last_deadline_bank)
+	public void setLastDeadlineBank(int last_deadline_bank)
 	{
-		this.last_deadline_bank = last_deadline_bank;
+		this.lastDeadlineBank = last_deadline_bank;
 	}
 
-	public int getLast_deadline_value()
+	public int getLastDeadlineValue()
 	{
-		return last_deadline_value;
+		return lastDeadlineValue;
 	}
 
-	public void setLast_deadline_value(int last_deadline_value)
+	public void setLastDeadlineValue(int last_deadline_value)
 	{
-		this.last_deadline_value = last_deadline_value;
+		this.lastDeadlineValue = last_deadline_value;
 	}
 
-	public int getLast_deadline_total_transfers()
+	public int getLastDeadlineTotalTransfers()
 	{
-		return last_deadline_total_transfers;
+		return lastDeadlineTotalTransfers;
 	}
 
-	public void setLast_deadline_total_transfers(int last_deadline_total_transfers)
+	public void setLastDeadlineTotalTransfers(int last_deadline_total_transfers)
 	{
-		this.last_deadline_total_transfers = last_deadline_total_transfers;
+		this.lastDeadlineTotalTransfers = last_deadline_total_transfers;
 	}
 
-	public int getSummary_event_points()
+	public int getSummaryEventPoints()
 	{
-		return summary_event_points;
+		return summaryEventPoints;
 	}
 
-	public void setSummary_event_points(int summary_event_points)
+	public void setSummaryEventPoints(int summary_event_points)
 	{
-		this.summary_event_points = summary_event_points;
+		this.summaryEventPoints = summary_event_points;
 	}
 
-	public int getSummary_event_rank()
+	public int getSummaryEventRank()
 	{
-		return summary_event_rank;
+		return summaryEventRank;
 	}
 
-	public void setSummary_event_rank(int summary_event_rank)
+	public void setSummaryEventRank(int summary_event_rank)
 	{
-		this.summary_event_rank = summary_event_rank;
+		this.summaryEventRank = summary_event_rank;
 	}
+
+	public int getPlayerRegionId()
+	{
+		return playerRegionId;
+	}
+
+	public void setPlayerRegionId(int playerRegionId)
+	{
+		this.playerRegionId = playerRegionId;
+	}
+
+	public String getPlayerRegionIsoCodeLong()
+	{
+		return playerRegionIsoCodeLong;
+	}
+
+	public void setPlayerRegionIsoCodeLong(String playerRegionIsoCodeLong)
+	{
+		this.playerRegionIsoCodeLong = playerRegionIsoCodeLong;
+	}
+
+	public int getFavouriteTeam()
+	{
+		return favouriteTeam;
+	}
+
+	public void setFavouriteTeam(int favouriteTeam)
+	{
+		this.favouriteTeam = favouriteTeam;
+	}
+
+	public String getJoinedTIme()
+	{
+		return joinedTIme;
+	}
+
+	public void setJoinedTIme(String joinedTIme)
+	{
+		this.joinedTIme = joinedTIme;
+	}
+
+	public int getStartedEvent()
+	{
+		return startedEvent;
+	}
+
+	public void setStartedEvent(int startedEvent)
+	{
+		this.startedEvent = startedEvent;
+	}
+
+	public int getCurrentEvent()
+	{
+		return currentEvent;
+	}
+
+	public void setCurrentEvent(int currentEvent)
+	{
+		this.currentEvent = currentEvent;
+	}
+
+	public FPLUserLeagues[] getLeagues()
+	{
+		return leagues;
+	}
+
+	public void setLeagues(FPLUserLeagues[] leagues)
+	{
+		this.leagues = leagues;
+	}
+
+	public boolean isNameChangeBlocked()
+	{
+		return nameChangeBlocked;
+	}
+
+	public void setNameChangeBlocked(boolean nameChangeBlocked)
+	{
+		this.nameChangeBlocked = nameChangeBlocked;
+	}
+
+	public String getKit()
+	{
+		return kit;
+	}
+
+	public void setKit(String kit)
+	{
+		this.kit = kit;
+	}
+	
+	
 }

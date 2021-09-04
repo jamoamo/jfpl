@@ -41,6 +41,7 @@ class FPLClient implements IFPLClient
 	private static final String URL_FIXTURES = URL_FPL_API + "fixtures/";
 	private static final String URL_LOGIN = "https://users.premierleague.com/accounts/login/";
 	private static final String URL_CURRENT_USER = URL_FPL_API + "me/";
+	private static final String URL_USER_TEAM = URL_FPL_API + "my-team/";
 	private static final String URL_USER = URL_FPL_API + "entry/";
 	
 	private final CookieStore cookieStore;
@@ -100,10 +101,18 @@ class FPLClient implements IFPLClient
 	}
 	
 	@Override
-	public JsonUser getUser(int event_id)
+	public JsonCurrentUserTeam getCurrentUserTeam(int id)
 			  throws IOException
 	{
-		JsonUser user = getRequest(URL_USER + event_id + "/", JsonUser.class);
+		JsonCurrentUserTeam team = getRequest(URL_USER_TEAM + id + "/", JsonCurrentUserTeam.class);
+		return team;
+	}
+	
+	@Override
+	public JsonUser getUser(int user_id)
+			  throws IOException
+	{
+		JsonUser user = getRequest(URL_USER + user_id + "/", JsonUser.class);
 		return user;
 	}
 	

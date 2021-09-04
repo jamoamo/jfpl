@@ -5,9 +5,6 @@
  */
 package com.github.jamoamo.jfpl;
 
-import com.github.jamoamo.jfpl.model.FPLPlayer;
-import java.util.List;
-
 /**
  *
  * @author James Amoore
@@ -15,14 +12,25 @@ import java.util.List;
 class FPLDataCache
 {
 	private JsonStaticData staticData;
+	private JsonCurrentUser currentUser;
 	
 	JsonStaticData getStaticData()
 	{
 		return this.staticData;
 	}
 	
+	JsonCurrentUser getCurrentUser()
+	{
+		return this.currentUser;
+	}
+	
 	void storeStaticData(JsonStaticData staticData)
 	{
 		this.staticData = staticData;
+	}
+	
+	void storeCurrentUser(JsonCurrentUser user)
+	{
+		this.currentUser = user;
 	}
 }

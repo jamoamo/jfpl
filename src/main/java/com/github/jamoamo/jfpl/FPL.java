@@ -5,6 +5,7 @@ import com.github.jamoamo.jfpl.model.FPLFixture;
 import com.github.jamoamo.jfpl.model.FPLGameweek;
 import com.github.jamoamo.jfpl.model.FPLTeam;
 import com.github.jamoamo.jfpl.model.FPLUser;
+import com.github.jamoamo.jfpl.model.FPLUserTeam;
 import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.util.List;
@@ -48,13 +49,12 @@ public final class FPL
 		{
 			throw new FPLLoginException();
 		}
-
 	}
 	
 	public FPLUser getCurrentUser()
 				throws Exception
 	{
-		JsonCurrentUser current = this.fplClient.getCurrentUser();
+		JsonCurrentUser current = getCurrentUserData();
 		if(current == null)
 		{
 			return null;
@@ -62,7 +62,37 @@ public final class FPL
 		JsonUser user = this.fplClient.getUser(current.getPlayer().getEntry());
 		
 		UserMapper userMapper = new UserMapper();
-		return userMapper.mapUser(user);
+		return userMapper.mapUser(user, getTeamMap());
+	}
+
+	private JsonCurrentUser getCurrentUserData()
+			  throws IOException
+	{
+		JsonCurrentUser current;
+		if(this.cachedData != null && this.cachedData.getCurrentUser() != null)
+		{
+			current = this.cachedData.getCurrentUser();
+		}
+		else
+		{
+			current = this.fplClient.getCurrentUser();
+			cachedData.storeCurrentUser(current);
+		}
+		return current;
+	}
+	
+	public FPLUserTeam getCurrentUserTeam()
+			  throws Exception
+	{
+		JsonCurrentUser current = getCurrentUserData();
+		if(current == null)
+		{
+			return null;
+		}
+		JsonCurrentUserTeam team = this.fplClient.getCurrentUserTeam(current.getPlayer().getEntry());
+		
+		UserTeamMapper mapper = new UserTeamMapper();
+		return mapper.mapUserTeam(team, getPlayerMap());
 	}
 	
 	/**
@@ -184,5 +214,13 @@ public final class FPL
 				  .stream()
 				  .collect(Collectors.toMap(t -> t.getId(), t -> t));
 		return teams;
+	}
+	
+	private Map<Integer,FPLPlayer> getPlayerMap()
+	{
+		Map<Integer, FPLPlayer> players = getPlayers()
+				  .stream()
+				  .collect(Collectors.toMap(p -> p.getId(), p -> p));
+		return players;
 	}
 }

@@ -79,5 +79,12 @@ class TestClient implements IFPLClient
 	{
 		return true;
 	}
+
+	@Override
+	public JsonCurrentUserTeam getCurrentUserTeam(int id)
+			  throws IOException
+	{
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
 	
 }
