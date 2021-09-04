@@ -30,7 +30,7 @@ class JsonUser
 	private String joinedTIme;
 	private int startedEvent;
 	private int currentEvent;
-	private FPLUserLeagues[] leagues;
+	private JsonUserLeagues[] leagues;
 	private boolean nameChangeBlocked;
 	private String kit;
 
@@ -226,12 +226,12 @@ class JsonUser
 		this.currentEvent = currentEvent;
 	}
 
-	public FPLUserLeagues[] getLeagues()
+	public JsonUserLeagues[] getLeagues()
 	{
 		return leagues;
 	}
 
-	public void setLeagues(FPLUserLeagues[] leagues)
+	public void setLeagues(JsonUserLeagues[] leagues)
 	{
 		this.leagues = leagues;
 	}

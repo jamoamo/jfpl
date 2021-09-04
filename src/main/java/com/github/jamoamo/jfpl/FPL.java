@@ -68,12 +68,13 @@ public final class FPL
 	private JsonCurrentUser getCurrentUserData()
 			  throws IOException
 	{
-		JsonCurrentUser current;
+		JsonCurrentUser current = null;
 		if(this.cachedData != null && this.cachedData.getCurrentUser() != null)
 		{
 			current = this.cachedData.getCurrentUser();
 		}
-		else
+				
+		if(current == null)
 		{
 			current = this.fplClient.getCurrentUser();
 			cachedData.storeCurrentUser(current);

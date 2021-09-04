@@ -83,7 +83,7 @@ class PlayerMapper
 	{
 		FPLPlayerStats playerStats = new FPLPlayerStats(jsonPlayer.getForm(), jsonPlayer.getPointsPerGame(),
 				  jsonPlayer.getSelectedByPercent(), jsonPlayer.getTotalPoints(), jsonPlayer.getValueForm(), jsonPlayer.getValueSeason(),
-				  jsonPlayer.getNowCost()/10, jsonPlayer.getMinutes(), jsonPlayer.getGoalsScored(), jsonPlayer.getAssists(),
+				  jsonPlayer.getNowCost()/10.0, jsonPlayer.getMinutes(), jsonPlayer.getGoalsScored(), jsonPlayer.getAssists(),
 				  jsonPlayer.getCleanSheets(), jsonPlayer.getGoalsConceeded(), jsonPlayer.getOwnGoals(), jsonPlayer.getPenaltiesSaved(),
 				  jsonPlayer.getPenaltiesMissed(), jsonPlayer.getYellowCards(), jsonPlayer.getRedCards(), jsonPlayer.getSaves(),
 				  jsonPlayer.getBonus(), jsonPlayer.getBps());

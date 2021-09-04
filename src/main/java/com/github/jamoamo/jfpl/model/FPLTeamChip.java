@@ -5,6 +5,8 @@
  */
 package com.github.jamoamo.jfpl.model;
 
+import java.util.Arrays;
+
 /**
  *
  * @author James Amoore
@@ -19,7 +21,7 @@ public class FPLTeamChip
 	{
 		this.chip = chip;
 		this.status = status;
-		this.gameweekUsed = gameweekUsed;
+		this.gameweekUsed = Arrays.copyOf(gameweekUsed, gameweekUsed.length);
 	}
 
 	public FPLChip getChip()
@@ -34,6 +36,6 @@ public class FPLTeamChip
 
 	public Integer[] getGameweekUsed()
 	{
-		return gameweekUsed;
+		return Arrays.copyOf(gameweekUsed, gameweekUsed.length);
 	}
 }
