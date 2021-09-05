@@ -29,6 +29,6 @@ public class FixtureMapper
 		{
 			kickoff = LocalDateTime.parse(jsonFixture.getKickoffTime(), FORMATTER);
 		}
-		return new FPLFixture(jsonFixture.getEvent(), kickoff, homeTeam, awayTeam);
+		return new FPLFixture(jsonFixture.getId(), jsonFixture.getEvent(), kickoff, homeTeam, awayTeam);
 	}
 }

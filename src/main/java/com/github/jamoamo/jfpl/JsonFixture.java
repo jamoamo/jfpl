@@ -11,6 +11,8 @@ package com.github.jamoamo.jfpl;
  */
 class JsonFixture
 {
+	private int id;
+	private int code;
 	private int event;
 	private boolean finished;
 	private int teamA;
@@ -71,4 +73,26 @@ class JsonFixture
 	{
 		this.kickoffTime = kickoffTime;
 	}
+
+	public int getId()
+	{
+		return id;
+	}
+
+	public void setId(int id)
+	{
+		this.id = id;
+	}
+
+	public int getCode()
+	{
+		return code;
+	}
+
+	public void setCode(int code)
+	{
+		this.code = code;
+	}
+	
+	
 }

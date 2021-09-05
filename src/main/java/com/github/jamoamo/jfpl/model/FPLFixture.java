@@ -13,17 +13,24 @@ import java.time.LocalDateTime;
  */
 public class FPLFixture
 {
+	private final int id;
 	private final int gameweek;
 	private final LocalDateTime dateTime;
 	private final FPLTeam homeTeam;
 	private final FPLTeam awayTeam;
 	
-	public FPLFixture(int gameweek, LocalDateTime dateTime, FPLTeam homeTeam, FPLTeam awayTeam)
+	public FPLFixture(int id, int gameweek, LocalDateTime dateTime, FPLTeam homeTeam, FPLTeam awayTeam)
 	{
+		this.id = id;
 		this.gameweek = gameweek;
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
 		this.dateTime = dateTime;
+	}
+	
+	public int getId()
+	{
+		return id;
 	}
 
 	public int getGameweek()
