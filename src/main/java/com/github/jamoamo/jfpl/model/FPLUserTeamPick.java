@@ -11,15 +11,22 @@ package com.github.jamoamo.jfpl.model;
  */
 public class FPLUserTeamPick
 {
+	private final int position;
 	private final FPLPlayer player;
 	private final double sellingPrice;
 	private final double purchasingPrice;
 	
-	public FPLUserTeamPick(FPLPlayer player,  double sellingPrice, double purchasingPrice)
+	public FPLUserTeamPick(int position, FPLPlayer player,  double sellingPrice, double purchasingPrice)
 	{
+		this.position = position;
 		this.player = player;
 		this.sellingPrice = sellingPrice;
 		this.purchasingPrice = purchasingPrice;
+	}
+	
+	public int getPosition()
+	{
+		return position;
 	}
 
 	public FPLPlayer getPlayer()

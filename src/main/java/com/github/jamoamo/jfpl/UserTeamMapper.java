@@ -24,15 +24,14 @@ class UserTeamMapper
 {
 	FPLUserTeam mapUserTeam(JsonCurrentUserTeam team, Map<Integer, FPLPlayer> playerMap)
 	{
-		List<FPLUserTeamPick> starting11 = mapStarting11(team.getPicks(), playerMap);
-		List<FPLUserTeamPick> bench = mapBench(team.getPicks(), playerMap);
+		List<FPLUserTeamPick> picks = mapPicks(team.getPicks(), playerMap);
 		List<FPLTeamChip> chips = mapChips(team.getChips());
 		
 		FPLPlayer captain = mapCaptain(team, playerMap);
 		
 		FPLPlayer viceCaptain = mapViceCaptain(team, playerMap);
 		
-		FPLUserTeam userTeam = new FPLUserTeam(starting11, bench, chips, captain, viceCaptain);
+		FPLUserTeam userTeam = new FPLUserTeam(picks, chips, captain, viceCaptain);
 		
 		return userTeam;
 	}
@@ -63,19 +62,10 @@ class UserTeamMapper
 		return viceCaptain;
 	}
 
-	private List<FPLUserTeamPick> mapStarting11(JsonTeamPick[] jsonPicks, Map<Integer, FPLPlayer> playerMap)
+	private List<FPLUserTeamPick> mapPicks(JsonTeamPick[] jsonPicks, Map<Integer, FPLPlayer> playerMap)
 	{
 		return Arrays.stream(jsonPicks)
-				  .filter(pick -> pick.getPosition() <= 11)
-				  .map(pick -> new FPLUserTeamPick(playerMap.get(pick.getElementId()), pick.getSellingPrice(), pick.getPurchasingPrice()))
-				  .collect(Collectors.toList());
-	}
-
-	private List<FPLUserTeamPick> mapBench(JsonTeamPick[] jsonPicks, Map<Integer, FPLPlayer> playerMap)
-	{
-		return Arrays.stream(jsonPicks)
-				  .filter(pick -> pick.getPosition() >= 12)
-				  .map(pick -> new FPLUserTeamPick(playerMap.get(pick.getElementId()), pick.getSellingPrice(), pick.getPurchasingPrice()))
+				  .map(pick -> new FPLUserTeamPick(pick.getPosition(), playerMap.get(pick.getElementId()), pick.getSellingPrice(), pick.getPurchasingPrice()))
 				  .collect(Collectors.toList());
 	}
 
