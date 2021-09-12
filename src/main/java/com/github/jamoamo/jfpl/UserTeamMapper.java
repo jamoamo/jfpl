@@ -116,6 +116,8 @@ class UserTeamMapper
 				return FPLChipStatus.UNAVAILABLE;
 			case "available":
 				return FPLChipStatus.AVAILABLE;
+			case "played":
+				return FPLChipStatus.PLAYED;
 			default:
 				throw new XFPLMappingException("Unknown chip status: " + statusForEntry);
 		}
