@@ -349,6 +349,14 @@ public class UserTeamMapperTest
 		assertEquals(FPLChipStatus.UNAVAILABLE, chipStatus);
 	}
 	
+	public void testMapChipStatus_played()
+	{
+		UserTeamMapper mapper = new UserTeamMapper();
+		
+		FPLChipStatus chipStatus = mapper.mapChipStatus("played");
+		assertEquals(FPLChipStatus.PLAYED, chipStatus);
+	}
+	
 	public void testMapChipStatus_null()
 	{
 		UserTeamMapper mapper = new UserTeamMapper();
