@@ -11,22 +11,22 @@ package com.github.jamoamo.jfpl;
  */
 class JsonTeamPick
 {
-	private int elementId;
+	private int element;
 	private int position;
 	private int sellingPrice;
 	private int multiplier;
-	private int purchasingPrice;
+	private int purchasePrice;
 	private boolean isCaptain;
 	private boolean isViceCaptain;
 
-	public int getElementId()
+	public int getElement()
 	{
-		return elementId;
+		return element;
 	}
 
-	public void setElementId(int elementId)
+	public void setElement(int element)
 	{
-		this.elementId = elementId;
+		this.element = element;
 	}
 
 	public int getPosition()
@@ -59,14 +59,14 @@ class JsonTeamPick
 		this.multiplier = multiplier;
 	}
 
-	public int getPurchasingPrice()
+	public int getPurchasePrice()
 	{
-		return purchasingPrice;
+		return purchasePrice;
 	}
 
-	public void setPurchasingPrice(int purchasingPrice)
+	public void setPurchasePrice(int purchasingPrice)
 	{
-		this.purchasingPrice = purchasingPrice;
+		this.purchasePrice = purchasingPrice;
 	}
 
 	public boolean isIsCaptain()

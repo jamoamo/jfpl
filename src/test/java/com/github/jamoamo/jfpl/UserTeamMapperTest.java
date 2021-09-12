@@ -67,138 +67,138 @@ public class UserTeamMapperTest
 		
 		JsonTeamPick[] picks = new JsonTeamPick[15];
 		picks[0] = new JsonTeamPick();
-		picks[0].setElementId(1);
+		picks[0].setElement(1);
 		picks[0].setIsCaptain(false);
 		picks[0].setIsViceCaptain(false);
 		picks[0].setMultiplier(1);
 		picks[0].setPosition(1);
-		picks[0].setPurchasingPrice(56);
+		picks[0].setPurchasePrice(56);
 		picks[0].setSellingPrice(57);
 		
 		picks[1] = new JsonTeamPick();
-		picks[1].setElementId(2);
+		picks[1].setElement(2);
 		picks[1].setIsCaptain(false);
 		picks[1].setIsViceCaptain(false);
 		picks[1].setMultiplier(1);
 		picks[1].setPosition(2);
-		picks[1].setPurchasingPrice(56);
+		picks[1].setPurchasePrice(56);
 		picks[1].setSellingPrice(57);
 		
 		picks[2] = new JsonTeamPick();
-		picks[2].setElementId(3);
+		picks[2].setElement(3);
 		picks[2].setIsCaptain(false);
 		picks[2].setIsViceCaptain(false);
 		picks[2].setMultiplier(1);
 		picks[2].setPosition(3);
-		picks[2].setPurchasingPrice(56);
+		picks[2].setPurchasePrice(56);
 		picks[2].setSellingPrice(57);
 		
 		picks[3] = new JsonTeamPick();
-		picks[3].setElementId(4);
+		picks[3].setElement(4);
 		picks[3].setIsCaptain(false);
 		picks[3].setIsViceCaptain(false);
 		picks[3].setMultiplier(1);
 		picks[3].setPosition(4);
-		picks[3].setPurchasingPrice(56);
+		picks[3].setPurchasePrice(56);
 		picks[3].setSellingPrice(57);
 		
 		picks[4] = new JsonTeamPick();
-		picks[4].setElementId(5);
+		picks[4].setElement(5);
 		picks[4].setIsCaptain(false);
 		picks[4].setIsViceCaptain(false);
 		picks[4].setMultiplier(1);
 		picks[4].setPosition(5);
-		picks[4].setPurchasingPrice(56);
+		picks[4].setPurchasePrice(56);
 		picks[4].setSellingPrice(57);
 		
 		picks[5] = new JsonTeamPick();
-		picks[5].setElementId(6);
+		picks[5].setElement(6);
 		picks[5].setIsCaptain(false);
 		picks[5].setIsViceCaptain(false);
 		picks[5].setMultiplier(1);
 		picks[5].setPosition(6);
-		picks[5].setPurchasingPrice(56);
+		picks[5].setPurchasePrice(56);
 		picks[5].setSellingPrice(57);
 		
 		picks[6] = new JsonTeamPick();
-		picks[6].setElementId(7);
+		picks[6].setElement(7);
 		picks[6].setIsCaptain(false);
 		picks[6].setIsViceCaptain(false);
 		picks[6].setMultiplier(1);
 		picks[6].setPosition(7);
-		picks[6].setPurchasingPrice(56);
+		picks[6].setPurchasePrice(56);
 		picks[6].setSellingPrice(57);
 		
 		picks[7] = new JsonTeamPick();
-		picks[7].setElementId(8);
+		picks[7].setElement(8);
 		picks[7].setIsCaptain(true);
 		picks[7].setIsViceCaptain(false);
 		picks[7].setMultiplier(2);
 		picks[7].setPosition(8);
-		picks[7].setPurchasingPrice(56);
+		picks[7].setPurchasePrice(56);
 		picks[7].setSellingPrice(57);
 		
 		picks[8] = new JsonTeamPick();
-		picks[8].setElementId(9);
+		picks[8].setElement(9);
 		picks[8].setIsCaptain(false);
 		picks[8].setIsViceCaptain(false);
 		picks[8].setMultiplier(1);
 		picks[8].setPosition(9);
-		picks[8].setPurchasingPrice(56);
+		picks[8].setPurchasePrice(56);
 		picks[8].setSellingPrice(57);
 		
 		picks[9] = new JsonTeamPick();
-		picks[9].setElementId(10);
+		picks[9].setElement(10);
 		picks[9].setIsCaptain(false);
 		picks[9].setIsViceCaptain(false);
 		picks[9].setMultiplier(1);
 		picks[9].setPosition(10);
-		picks[9].setPurchasingPrice(56);
+		picks[9].setPurchasePrice(56);
 		picks[9].setSellingPrice(57);
 		
 		picks[10] = new JsonTeamPick();
-		picks[10].setElementId(11);
+		picks[10].setElement(11);
 		picks[10].setIsCaptain(false);
 		picks[10].setIsViceCaptain(true);
 		picks[10].setMultiplier(1);
 		picks[10].setPosition(11);
-		picks[10].setPurchasingPrice(56);
+		picks[10].setPurchasePrice(56);
 		picks[10].setSellingPrice(57);
 		
 		picks[11] = new JsonTeamPick();
-		picks[11].setElementId(12);
+		picks[11].setElement(12);
 		picks[11].setIsCaptain(false);
 		picks[11].setIsViceCaptain(false);
 		picks[11].setMultiplier(1);
 		picks[11].setPosition(12);
-		picks[11].setPurchasingPrice(56);
+		picks[11].setPurchasePrice(56);
 		picks[11].setSellingPrice(57);
 		
 		picks[12] = new JsonTeamPick();
-		picks[12].setElementId(13);
+		picks[12].setElement(13);
 		picks[12].setIsCaptain(false);
 		picks[12].setIsViceCaptain(false);
 		picks[12].setMultiplier(1);
 		picks[12].setPosition(13);
-		picks[12].setPurchasingPrice(56);
+		picks[12].setPurchasePrice(56);
 		picks[12].setSellingPrice(57);
 		
 		picks[13] = new JsonTeamPick();
-		picks[13].setElementId(14);
+		picks[13].setElement(14);
 		picks[13].setIsCaptain(false);
 		picks[13].setIsViceCaptain(false);
 		picks[13].setMultiplier(1);
 		picks[13].setPosition(14);
-		picks[13].setPurchasingPrice(56);
+		picks[13].setPurchasePrice(56);
 		picks[13].setSellingPrice(57);
 		
 		picks[14] = new JsonTeamPick();
-		picks[14].setElementId(15);
+		picks[14].setElement(15);
 		picks[14].setIsCaptain(false);
 		picks[14].setIsViceCaptain(false);
 		picks[14].setMultiplier(1);
 		picks[14].setPosition(15);
-		picks[14].setPurchasingPrice(56);
+		picks[14].setPurchasePrice(56);
 		picks[14].setSellingPrice(57);
 		
 		team.setChips(chips);

@@ -45,7 +45,7 @@ class UserTeamMapper
 		{
 			throw new XFPLMappingException("More than one captain in team.");
 		}
-		FPLPlayer captain = playerMap.get(captainList.get(0).getElementId());
+		FPLPlayer captain = playerMap.get(captainList.get(0).getElement());
 		return captain;
 	}
 
@@ -58,15 +58,20 @@ class UserTeamMapper
 		{
 			throw new XFPLMappingException("More than one vice captain in team.");
 		}
-		FPLPlayer viceCaptain = playerMap.get(viceCaptainList.get(0).getElementId());
+		FPLPlayer viceCaptain = playerMap.get(viceCaptainList.get(0).getElement());
 		return viceCaptain;
 	}
 
 	private List<FPLUserTeamPick> mapPicks(JsonTeamPick[] jsonPicks, Map<Integer, FPLPlayer> playerMap)
 	{
 		return Arrays.stream(jsonPicks)
-				  .map(pick -> new FPLUserTeamPick(pick.getPosition(), playerMap.get(pick.getElementId()), pick.getSellingPrice(), pick.getPurchasingPrice()))
+				  .map(pick -> mapPick(pick, playerMap))
 				  .collect(Collectors.toList());
+	}
+
+	private static FPLUserTeamPick mapPick(JsonTeamPick pick, Map<Integer, FPLPlayer> playerMap)
+	{
+		return new FPLUserTeamPick(pick.getPosition(), playerMap.get(pick.getElement()), pick.getSellingPrice(), pick.getPurchasePrice());
 	}
 
 	private List<FPLTeamChip> mapChips(JsonTeamChip[] chips)
