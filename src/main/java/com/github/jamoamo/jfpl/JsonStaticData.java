@@ -17,7 +17,7 @@ class JsonStaticData
 	private List<JsonPlayer> elements;
 	private List<JsonGameweek> events;
 	
-	public JsonStaticData()
+	JsonStaticData()
 	{
 		
 	}

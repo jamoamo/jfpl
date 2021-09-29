@@ -19,7 +19,7 @@ class JsonFixture
 	private int teamH;
 	private String kickoffTime;
 	
-	public JsonFixture()
+	JsonFixture()
 	{
 		
 	}

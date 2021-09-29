@@ -9,7 +9,7 @@ package com.github.jamoamo.jfpl;
  *
  * @author James Amoore
  */
-class JsonTeamPick
+class JsonTeamPicks
 {
 	private int element;
 	private int position;

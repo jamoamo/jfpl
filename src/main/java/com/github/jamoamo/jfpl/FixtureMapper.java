@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.github.jamoamo.jfpl;
 
 import com.github.jamoamo.jfpl.model.FPLFixture;
@@ -16,11 +17,11 @@ import java.util.Map;
  * 
  * @author James Amoore
  */
-public class FixtureMapper
+class FixtureMapper
 {
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 	
-	protected FPLFixture mapFixture(JsonFixture jsonFixture, Map<Integer, FPLTeam> teamMap)
+	protected FPLFixture mapFixture(final JsonFixture jsonFixture, final Map<Integer, FPLTeam> teamMap)
 	{
 		FPLTeam homeTeam = teamMap.get(jsonFixture.getTeamH());
 		FPLTeam awayTeam = teamMap.get(jsonFixture.getTeamA());

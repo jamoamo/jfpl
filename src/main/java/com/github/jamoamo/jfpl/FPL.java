@@ -28,29 +28,42 @@ public final class FPL
 		this(new FPLClient());
 	}
 	
-	FPL(IFPLClient client)
+	FPL(final IFPLClient client)
 	{
 		this.fplClient = client;
 	}
 	
-	public void login(FPLLoginCredentials creds) throws FPLLoginException
+	/**
+	 * Login to FPL with the provided FPL credentials.
+	 * @param creds The FPLLoginCredentials object containing the username and password
+	 * @throws XFPLLoginException if something went wrong during authentication
+	 */
+	public void login(final FPLLoginCredentials creds) throws XFPLLoginException
 	{
 		boolean loginSuccess = false;
 		try
 		{
 			loginSuccess = this.fplClient.login(creds);
 		}
-		catch(Exception ex)
+		catch(IOException ex)
 		{
-			throw new FPLLoginException(ex);
+			throw new XFPLLoginException(ex);
 		}
 
 		if(!loginSuccess)
 		{
-			throw new FPLLoginException();
+			throw new XFPLLoginException();
 		}
 	}
 	
+	/**
+	 * Returns the current user. Requires that the user be logged in using the 
+	 * {@link FPL#login(com.github.jamoamo.jfpl.FPLLoginCredentials)} method
+	 * 
+	 * @return an object representing the current logged in user
+	 * @throws Exception if an error occurs
+	 * @see FPL#login(com.github.jamoamo.jfpl.FPLLoginCredentials)
+	 */
 	public FPLUser getCurrentUser()
 				throws Exception
 	{
@@ -82,6 +95,10 @@ public final class FPL
 		return current;
 	}
 	
+	/** 
+	 * @return the team of the current logged-in user
+	 * @throws Exception if an error occurs
+	 */
 	public FPLUserTeam getCurrentUserTeam()
 			  throws Exception
 	{
@@ -97,8 +114,7 @@ public final class FPL
 	}
 	
 	/**
-	 * Get the full list of players in FPL.
-	 * @return
+	 * @return a full list of players in FPL
 	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
 	 */
 	public List<FPLPlayer> getPlayers() 
@@ -127,8 +143,7 @@ public final class FPL
 	}
 	
 	/**
-	 * Get a list of all FPL game-weeks.
-	 * @return
+	 * @return a list of all FPL game-weeks.
 	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
 	 */
 	public List<FPLGameweek> getGameweeks() 
@@ -136,7 +151,10 @@ public final class FPL
 	{
 		JsonStaticData data = getStaticData();
 		final GameweekMapper mapper = new GameweekMapper();
-		return data.getEvents().stream().map(gameweek -> mapper.mapGameweek(gameweek)).collect(Collectors.toList());
+		return data.getEvents()
+				  .stream()
+				  .map(gameweek -> mapper.mapGameweek(gameweek))
+				  .collect(Collectors.toList());
 	}
 	
 	/**

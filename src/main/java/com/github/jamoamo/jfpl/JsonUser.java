@@ -27,7 +27,7 @@ class JsonUser
 	private int summaryEventPoints;
 	private int summaryEventRank;
 	private int favouriteTeam;
-	private String joinedTIme;
+	private String joinedTime;
 	private int startedEvent;
 	private int currentEvent;
 	private JsonUserLeagues[] leagues;
@@ -96,14 +96,14 @@ class JsonUser
 		this.summaryOverallPoints = summaryOverallPoints;
 	}
 
-	public int getSummary_overall_rank()
+	public int getSummaryOverallRank()
 	{
 		return summaryOverallRank;
 	}
 
-	public void setSummaryOverallRank(int summary_overall_rank)
+	public void setSummaryOverallRank(int summaryOverallRank)
 	{
-		this.summaryOverallRank = summary_overall_rank;
+		this.summaryOverallRank = summaryOverallRank;
 	}
 
 	public String getName()
@@ -121,9 +121,9 @@ class JsonUser
 		return lastDeadlineBank;
 	}
 
-	public void setLastDeadlineBank(int last_deadline_bank)
+	public void setLastDeadlineBank(int lastDeadlineBank)
 	{
-		this.lastDeadlineBank = last_deadline_bank;
+		this.lastDeadlineBank = lastDeadlineBank;
 	}
 
 	public int getLastDeadlineValue()
@@ -131,9 +131,9 @@ class JsonUser
 		return lastDeadlineValue;
 	}
 
-	public void setLastDeadlineValue(int last_deadline_value)
+	public void setLastDeadlineValue(int lastDeadlineValue)
 	{
-		this.lastDeadlineValue = last_deadline_value;
+		this.lastDeadlineValue = lastDeadlineValue;
 	}
 
 	public int getLastDeadlineTotalTransfers()
@@ -141,9 +141,9 @@ class JsonUser
 		return lastDeadlineTotalTransfers;
 	}
 
-	public void setLastDeadlineTotalTransfers(int last_deadline_total_transfers)
+	public void setLastDeadlineTotalTransfers(int lastDeadlineTotalTransfers)
 	{
-		this.lastDeadlineTotalTransfers = last_deadline_total_transfers;
+		this.lastDeadlineTotalTransfers = lastDeadlineTotalTransfers;
 	}
 
 	public int getSummaryEventPoints()
@@ -151,9 +151,9 @@ class JsonUser
 		return summaryEventPoints;
 	}
 
-	public void setSummaryEventPoints(int summary_event_points)
+	public void setSummaryEventPoints(int summaryEventPoints)
 	{
-		this.summaryEventPoints = summary_event_points;
+		this.summaryEventPoints = summaryEventPoints;
 	}
 
 	public int getSummaryEventRank()
@@ -161,9 +161,9 @@ class JsonUser
 		return summaryEventRank;
 	}
 
-	public void setSummaryEventRank(int summary_event_rank)
+	public void setSummaryEventRank(int summaryEventRank)
 	{
-		this.summaryEventRank = summary_event_rank;
+		this.summaryEventRank = summaryEventRank;
 	}
 
 	public int getPlayerRegionId()
@@ -198,12 +198,12 @@ class JsonUser
 
 	public String getJoinedTIme()
 	{
-		return joinedTIme;
+		return joinedTime;
 	}
 
-	public void setJoinedTIme(String joinedTIme)
+	public void setJoinedTime(String joinedTIme)
 	{
-		this.joinedTIme = joinedTIme;
+		this.joinedTime = joinedTIme;
 	}
 
 	public int getStartedEvent()
@@ -255,6 +255,4 @@ class JsonUser
 	{
 		this.kit = kit;
 	}
-	
-	
 }

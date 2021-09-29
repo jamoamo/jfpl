@@ -75,7 +75,7 @@ class TestClient implements IFPLClient
 
 	@Override
 	public boolean login(FPLLoginCredentials creds)
-			  throws Exception
+			  throws IOException
 	{
 		return true;
 	}

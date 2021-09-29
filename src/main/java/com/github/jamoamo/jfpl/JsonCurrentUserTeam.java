@@ -11,18 +11,18 @@ package com.github.jamoamo.jfpl;
  */
 class JsonCurrentUserTeam
 {
-	private JsonTeamPick[] picks;
+	private JsonTeamPicks[] picks;
 	
 	private JsonTeamChip[] chips;
 	
 	private JsonTeamTransfers transfers;
 
-	public JsonTeamPick[] getPicks()
+	public JsonTeamPicks[] getPicks()
 	{
 		return picks;
 	}
 
-	public void setPicks(JsonTeamPick[] picks)
+	public void setPicks(JsonTeamPicks[] picks)
 	{
 		this.picks = picks;
 	}

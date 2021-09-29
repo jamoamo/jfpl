@@ -8,30 +8,25 @@ package com.github.jamoamo.jfpl;
 import java.io.IOException;
 import java.util.List;
 
-/**
- *
- * @author James Amoore
- */
 interface IFPLClient
 {
-	public abstract boolean login(FPLLoginCredentials creds)
-			  throws Exception;
+	boolean login(FPLLoginCredentials creds) throws IOException;
 	
-	public abstract JsonCurrentUser getCurrentUser()
+	JsonCurrentUser getCurrentUser()
 			  throws IOException;
 	
-	public abstract JsonCurrentUserTeam getCurrentUserTeam(int id)
+	JsonCurrentUserTeam getCurrentUserTeam(int id)
 			  throws IOException;
 	
-	public abstract JsonUser getUser(int id)
+	JsonUser getUser(int id)
 			  throws IOException;
 	
-	public JsonStaticData getStaticData()
+	JsonStaticData getStaticData()
 			  throws IOException;
 	
-	public List<JsonFixture> getFixtures()
+	List<JsonFixture> getFixtures()
 			  throws IOException;
 	
-	public List<JsonFixture> getFixturesForGameweek(int gameweekNr)
+	List<JsonFixture> getFixturesForGameweek(int gameweekNr)
 			  throws IOException;
 }

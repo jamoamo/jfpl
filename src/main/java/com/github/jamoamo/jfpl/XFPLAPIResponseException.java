@@ -6,13 +6,21 @@
 package com.github.jamoamo.jfpl;
 
 /**
- *
+ * An exception that occurs when parsing the response from the FPL API.
+ * 
  * @author James Amoore
  */
 public class XFPLAPIResponseException extends RuntimeException
 {
-	public XFPLAPIResponseException()
+	private static final String ERROR_MESSAGE = "There was an error interpreting the response from FPL.";
+	
+	XFPLAPIResponseException()
 	{
-		super("There was an error interpreting the response from FPL.");
+		super(ERROR_MESSAGE);
+	}
+	
+	XFPLAPIResponseException(Exception cause)
+	{
+		super(ERROR_MESSAGE, cause);
 	}
 }

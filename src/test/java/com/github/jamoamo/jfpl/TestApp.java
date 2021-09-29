@@ -17,9 +17,7 @@ public class TestApp
 			  throws Exception
 	{
 		FPL fpl = new FPL();
-		FPLLoginCredentials creds = new FPLLoginCredentials();
-		creds.setUsername(args[0]);
-		creds.setPassword(args[1]);
+		FPLLoginCredentials creds = new FPLLoginCredentials(args[0], args[1]);
 		fpl.login(creds);
 		FPLUser user = fpl.getCurrentUser();
 		System.out.println(user.getTeamName());

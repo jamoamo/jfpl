@@ -12,7 +12,7 @@ package com.github.jamoamo.jfpl;
  */
 public class XFPLUnavailableException extends RuntimeException
 {
-	public XFPLUnavailableException()
+	XFPLUnavailableException()
 	{
 		super("Unable to connect to FPL.");
 	}	

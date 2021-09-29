@@ -5,10 +5,6 @@
  */
 package com.github.jamoamo.jfpl;
 
-/**
- *
- * @author James Amoore
- */
 class FPLDataCache
 {
 	private JsonStaticData staticData;

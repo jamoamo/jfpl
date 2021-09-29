@@ -39,7 +39,7 @@ class UserTeamMapper
 	private FPLPlayer mapCaptain(JsonCurrentUserTeam team, Map<Integer, FPLPlayer> playerMap)
 			  throws XFPLMappingException
 	{
-		List<JsonTeamPick> captainList = Arrays.stream(team.getPicks())
+		List<JsonTeamPicks> captainList = Arrays.stream(team.getPicks())
 				  .filter(p -> p.isIsCaptain()).collect(Collectors.toList());
 		if(captainList.size() > 1)
 		{
@@ -52,7 +52,7 @@ class UserTeamMapper
 	private FPLPlayer mapViceCaptain(JsonCurrentUserTeam team, Map<Integer, FPLPlayer> playerMap)
 			  throws XFPLMappingException
 	{
-		List<JsonTeamPick> viceCaptainList = Arrays.stream(team.getPicks())
+		List<JsonTeamPicks> viceCaptainList = Arrays.stream(team.getPicks())
 				  .filter(p -> p.isIsViceCaptain()).collect(Collectors.toList());
 		if(viceCaptainList.size() > 1)
 		{
@@ -62,23 +62,28 @@ class UserTeamMapper
 		return viceCaptain;
 	}
 
-	private List<FPLUserTeamPick> mapPicks(JsonTeamPick[] jsonPicks, Map<Integer, FPLPlayer> playerMap)
+	private List<FPLUserTeamPick> mapPicks(JsonTeamPicks[] jsonPicks, Map<Integer, FPLPlayer> playerMap)
 	{
 		return Arrays.stream(jsonPicks)
 				  .map(pick -> mapPick(pick, playerMap))
 				  .collect(Collectors.toList());
 	}
 
-	private static FPLUserTeamPick mapPick(JsonTeamPick pick, Map<Integer, FPLPlayer> playerMap)
+	private static FPLUserTeamPick mapPick(JsonTeamPicks pick, Map<Integer, FPLPlayer> playerMap)
 	{
-		return new FPLUserTeamPick(pick.getPosition(), playerMap.get(pick.getElement()), pick.getSellingPrice(), pick.getPurchasePrice());
+		return new FPLUserTeamPick(
+				  pick.getPosition(), 
+				  playerMap.get(pick.getElement()), pick.getSellingPrice(), pick.getPurchasePrice());
 	}
 
 	private List<FPLTeamChip> mapChips(JsonTeamChip[] chips)
 	{
 		return Arrays.stream(chips)
-				  .map(chip -> new FPLTeamChip(mapChip(chip.getName()), mapChipStatus(chip.getStatusForEntry()), Arrays.stream(chip.getPlayedByEntry()).boxed().toArray(Integer[]::new)))
-				  .collect(Collectors.toList());
+				  .map(chip -> 
+							 new FPLTeamChip(mapChip(chip.getName()), 
+									mapChipStatus(chip.getStatusForEntry()),
+									Arrays.stream(chip.getPlayedByEntry()).boxed().toArray(Integer[]::new))
+				  ).collect(Collectors.toList());
 	}
 	
 	protected FPLChip mapChip(String chipName)
@@ -108,18 +113,21 @@ class UserTeamMapper
 		{
 			throw new XFPLMappingException("Missing chip status");
 		}
-		else switch(statusForEntry)
+		else 
 		{
-			case "active":
-				return FPLChipStatus.ACTIVE;
-			case "unavailable":
-				return FPLChipStatus.UNAVAILABLE;
-			case "available":
-				return FPLChipStatus.AVAILABLE;
-			case "played":
-				return FPLChipStatus.PLAYED;
-			default:
-				throw new XFPLMappingException("Unknown chip status: " + statusForEntry);
+			switch(statusForEntry)
+			{
+				case "active":
+					return FPLChipStatus.ACTIVE;
+				case "unavailable":
+					return FPLChipStatus.UNAVAILABLE;
+				case "available":
+					return FPLChipStatus.AVAILABLE;
+				case "played":
+					return FPLChipStatus.PLAYED;
+				default:
+					throw new XFPLMappingException("Unknown chip status: " + statusForEntry);
+			}
 		}
 	}
 }

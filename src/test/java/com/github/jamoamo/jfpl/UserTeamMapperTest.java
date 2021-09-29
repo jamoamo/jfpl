@@ -65,8 +65,8 @@ public class UserTeamMapperTest
 		chips[3].setStopEvent(38);
 		chips[3].setStatusForEntry("available");
 		
-		JsonTeamPick[] picks = new JsonTeamPick[15];
-		picks[0] = new JsonTeamPick();
+		JsonTeamPicks[] picks = new JsonTeamPicks[15];
+		picks[0] = new JsonTeamPicks();
 		picks[0].setElement(1);
 		picks[0].setIsCaptain(false);
 		picks[0].setIsViceCaptain(false);
@@ -75,7 +75,7 @@ public class UserTeamMapperTest
 		picks[0].setPurchasePrice(56);
 		picks[0].setSellingPrice(57);
 		
-		picks[1] = new JsonTeamPick();
+		picks[1] = new JsonTeamPicks();
 		picks[1].setElement(2);
 		picks[1].setIsCaptain(false);
 		picks[1].setIsViceCaptain(false);
@@ -84,7 +84,7 @@ public class UserTeamMapperTest
 		picks[1].setPurchasePrice(56);
 		picks[1].setSellingPrice(57);
 		
-		picks[2] = new JsonTeamPick();
+		picks[2] = new JsonTeamPicks();
 		picks[2].setElement(3);
 		picks[2].setIsCaptain(false);
 		picks[2].setIsViceCaptain(false);
@@ -93,7 +93,7 @@ public class UserTeamMapperTest
 		picks[2].setPurchasePrice(56);
 		picks[2].setSellingPrice(57);
 		
-		picks[3] = new JsonTeamPick();
+		picks[3] = new JsonTeamPicks();
 		picks[3].setElement(4);
 		picks[3].setIsCaptain(false);
 		picks[3].setIsViceCaptain(false);
@@ -102,7 +102,7 @@ public class UserTeamMapperTest
 		picks[3].setPurchasePrice(56);
 		picks[3].setSellingPrice(57);
 		
-		picks[4] = new JsonTeamPick();
+		picks[4] = new JsonTeamPicks();
 		picks[4].setElement(5);
 		picks[4].setIsCaptain(false);
 		picks[4].setIsViceCaptain(false);
@@ -111,7 +111,7 @@ public class UserTeamMapperTest
 		picks[4].setPurchasePrice(56);
 		picks[4].setSellingPrice(57);
 		
-		picks[5] = new JsonTeamPick();
+		picks[5] = new JsonTeamPicks();
 		picks[5].setElement(6);
 		picks[5].setIsCaptain(false);
 		picks[5].setIsViceCaptain(false);
@@ -120,7 +120,7 @@ public class UserTeamMapperTest
 		picks[5].setPurchasePrice(56);
 		picks[5].setSellingPrice(57);
 		
-		picks[6] = new JsonTeamPick();
+		picks[6] = new JsonTeamPicks();
 		picks[6].setElement(7);
 		picks[6].setIsCaptain(false);
 		picks[6].setIsViceCaptain(false);
@@ -129,7 +129,7 @@ public class UserTeamMapperTest
 		picks[6].setPurchasePrice(56);
 		picks[6].setSellingPrice(57);
 		
-		picks[7] = new JsonTeamPick();
+		picks[7] = new JsonTeamPicks();
 		picks[7].setElement(8);
 		picks[7].setIsCaptain(true);
 		picks[7].setIsViceCaptain(false);
@@ -138,7 +138,7 @@ public class UserTeamMapperTest
 		picks[7].setPurchasePrice(56);
 		picks[7].setSellingPrice(57);
 		
-		picks[8] = new JsonTeamPick();
+		picks[8] = new JsonTeamPicks();
 		picks[8].setElement(9);
 		picks[8].setIsCaptain(false);
 		picks[8].setIsViceCaptain(false);
@@ -147,7 +147,7 @@ public class UserTeamMapperTest
 		picks[8].setPurchasePrice(56);
 		picks[8].setSellingPrice(57);
 		
-		picks[9] = new JsonTeamPick();
+		picks[9] = new JsonTeamPicks();
 		picks[9].setElement(10);
 		picks[9].setIsCaptain(false);
 		picks[9].setIsViceCaptain(false);
@@ -156,7 +156,7 @@ public class UserTeamMapperTest
 		picks[9].setPurchasePrice(56);
 		picks[9].setSellingPrice(57);
 		
-		picks[10] = new JsonTeamPick();
+		picks[10] = new JsonTeamPicks();
 		picks[10].setElement(11);
 		picks[10].setIsCaptain(false);
 		picks[10].setIsViceCaptain(true);
@@ -165,7 +165,7 @@ public class UserTeamMapperTest
 		picks[10].setPurchasePrice(56);
 		picks[10].setSellingPrice(57);
 		
-		picks[11] = new JsonTeamPick();
+		picks[11] = new JsonTeamPicks();
 		picks[11].setElement(12);
 		picks[11].setIsCaptain(false);
 		picks[11].setIsViceCaptain(false);
@@ -174,7 +174,7 @@ public class UserTeamMapperTest
 		picks[11].setPurchasePrice(56);
 		picks[11].setSellingPrice(57);
 		
-		picks[12] = new JsonTeamPick();
+		picks[12] = new JsonTeamPicks();
 		picks[12].setElement(13);
 		picks[12].setIsCaptain(false);
 		picks[12].setIsViceCaptain(false);
@@ -183,7 +183,7 @@ public class UserTeamMapperTest
 		picks[12].setPurchasePrice(56);
 		picks[12].setSellingPrice(57);
 		
-		picks[13] = new JsonTeamPick();
+		picks[13] = new JsonTeamPicks();
 		picks[13].setElement(14);
 		picks[13].setIsCaptain(false);
 		picks[13].setIsViceCaptain(false);
@@ -192,7 +192,7 @@ public class UserTeamMapperTest
 		picks[13].setPurchasePrice(56);
 		picks[13].setSellingPrice(57);
 		
-		picks[14] = new JsonTeamPick();
+		picks[14] = new JsonTeamPicks();
 		picks[14].setElement(15);
 		picks[14].setIsCaptain(false);
 		picks[14].setIsViceCaptain(false);

@@ -22,77 +22,112 @@ import java.util.Map;
  */
 class PlayerMapper
 {
-	protected FPLPlayer mapPlayer(JsonPlayer jsonPlayer, Map<Integer,FPLTeam> teamMap)
+	private static final double FACTOR_OF_TEN = 10.0;
+	
+	protected FPLPlayer mapPlayer(JsonPlayer jsonPlayer, Map<Integer, FPLTeam> teamMap)
 	{
 		FPLPlayingChance playingChance = mapPlayingChance(jsonPlayer);
-		
+
 		FPLPlayerStats playerStats = mapPlayerStats(jsonPlayer);
-		
+
 		FPLPlayerTransfers transfers = mapTransfers(jsonPlayer);
-		
+
 		FPLPlayerICT ict = mapICT(jsonPlayer);
-		
+
 		FPLPlayerSetPieces setPieces = mapSetPieces(jsonPlayer);
-		
+
 		FPLPosition position = mapFPLPosition(jsonPlayer);
-		
+
 		FPLPlayer player = new FPLPlayer(
-				  jsonPlayer.getId(), 
-				  jsonPlayer.getFirstName(), 
-				  jsonPlayer.getSecondName(), 
+				  jsonPlayer.getId(),
+				  jsonPlayer.getFirstName(),
+				  jsonPlayer.getSecondName(),
 				  jsonPlayer.getWebName(),
-				  teamMap.get(jsonPlayer.getTeam()), 
+				  teamMap.get(jsonPlayer.getTeam()),
 				  position,
 				  playingChance,
 				  playerStats,
 				  transfers,
 				  ict,
 				  setPieces);
-		
+
 		return player;
 	}
 
 	private FPLPlayingChance mapPlayingChance(JsonPlayer jsonPlayer)
 	{
-		FPLPlayingChance playingChance = new FPLPlayingChance(jsonPlayer.getChanceOfPlayingThisRound(), jsonPlayer.getChanceOfPlayingNextRound());
+		FPLPlayingChance playingChance = new FPLPlayingChance(
+				  jsonPlayer.getChanceOfPlayingThisRound(), 
+				  jsonPlayer.getChanceOfPlayingNextRound());
 		return playingChance;
 	}
 
 	private FPLPlayerSetPieces mapSetPieces(JsonPlayer jsonPlayer)
 	{
-		FPLPlayerSetPieces setPieces = new FPLPlayerSetPieces(jsonPlayer.getCornersAndIndirectFreekicksOrder(), jsonPlayer.getDirectFreekicksOrder(), jsonPlayer.getPenaltiesOrder());
+		FPLPlayerSetPieces setPieces = new FPLPlayerSetPieces(
+				jsonPlayer.getCornersAndIndirectFreekicksOrder(),
+				jsonPlayer.getDirectFreekicksOrder(), 
+				jsonPlayer.getPenaltiesOrder());
 		return setPieces;
 	}
 
 	private FPLPlayerTransfers mapTransfers(JsonPlayer jsonPlayer)
 	{
-		FPLPlayerTransfers transfers = new FPLPlayerTransfers(jsonPlayer.getTransfersIn(), jsonPlayer.getTransfersInEvent(), jsonPlayer.getTransfersOut(), jsonPlayer.getTransfersOutEvent());
+		FPLPlayerTransfers transfers = new FPLPlayerTransfers(
+				  jsonPlayer.getTransfersIn(), 
+				  jsonPlayer.getTransfersInEvent(), 
+				  jsonPlayer.getTransfersOut(),
+				  jsonPlayer.getTransfersOutEvent());
 		return transfers;
 	}
 
 	private FPLPlayerICT mapICT(JsonPlayer jsonPlayer)
 	{
-		FPLPlayerICT ict = new FPLPlayerICT(jsonPlayer.getInfluence(), jsonPlayer.getInfluenceRank(), jsonPlayer.getInfluenceRankType(), 
-				  jsonPlayer.getCreativity(), jsonPlayer.getCreativityRank(), jsonPlayer.getCreativityRankType(), jsonPlayer.getThreat(), 
-				  jsonPlayer.getThreatRank(), jsonPlayer.getThreatRankType(), jsonPlayer.getIctIndex(), jsonPlayer.getIctIndexRank(),
+		FPLPlayerICT ict = new FPLPlayerICT(
+				  jsonPlayer.getInfluence(), 
+				  jsonPlayer.getInfluenceRank(), 
+				  jsonPlayer.getInfluenceRankType(),	
+				  jsonPlayer.getCreativity(), 
+				  jsonPlayer.getCreativityRank(),
+				  jsonPlayer.getCreativityRankType(), 
+				  jsonPlayer.getThreat(),	
+				  jsonPlayer.getThreatRank(), 
+				  jsonPlayer.getThreatRankType(), 
+				  jsonPlayer.getIctIndex(), 
+				  jsonPlayer.getIctIndexRank(),	
 				  jsonPlayer.getIctIndexRankType());
 		return ict;
 	}
 
 	private FPLPlayerStats mapPlayerStats(JsonPlayer jsonPlayer)
 	{
-		FPLPlayerStats playerStats = new FPLPlayerStats(jsonPlayer.getForm(), jsonPlayer.getPointsPerGame(),
-				  jsonPlayer.getSelectedByPercent(), jsonPlayer.getTotalPoints(), jsonPlayer.getValueForm(), jsonPlayer.getValueSeason(),
-				  jsonPlayer.getNowCost()/10.0, jsonPlayer.getMinutes(), jsonPlayer.getGoalsScored(), jsonPlayer.getAssists(),
-				  jsonPlayer.getCleanSheets(), jsonPlayer.getGoalsConceeded(), jsonPlayer.getOwnGoals(), jsonPlayer.getPenaltiesSaved(),
-				  jsonPlayer.getPenaltiesMissed(), jsonPlayer.getYellowCards(), jsonPlayer.getRedCards(), jsonPlayer.getSaves(),
-				  jsonPlayer.getBonus(), jsonPlayer.getBps());
+		FPLPlayerStats playerStats = new FPLPlayerStats(
+				  jsonPlayer.getForm(),
+				  jsonPlayer.getPointsPerGame(),
+				  jsonPlayer.getSelectedByPercent(),
+				  jsonPlayer.getTotalPoints(),
+				  jsonPlayer.getValueForm(),
+				  jsonPlayer.getValueSeason(),
+				  jsonPlayer.getNowCost() / FACTOR_OF_TEN,
+				  jsonPlayer.getMinutes(),
+				  jsonPlayer.getGoalsScored(),
+				  jsonPlayer.getAssists(),
+				  jsonPlayer.getCleanSheets(),
+				  jsonPlayer.getGoalsConceeded(),
+				  jsonPlayer.getOwnGoals(), 
+				  jsonPlayer.getPenaltiesSaved(),
+				  jsonPlayer.getPenaltiesMissed(), 
+				  jsonPlayer.getYellowCards(),
+				  jsonPlayer.getRedCards(), 
+				  jsonPlayer.getSaves(),
+				  jsonPlayer.getBonus(),
+				  jsonPlayer.getBps());
 		return playerStats;
 	}
 
 	private FPLPosition mapFPLPosition(JsonPlayer jsonPlayer)
 	{
 		int jsonPlayerType = jsonPlayer.getElementType();
-		return FPLPosition.values()[jsonPlayerType -1];
+		return FPLPosition.values()[jsonPlayerType - 1];
 	}
 }

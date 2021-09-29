@@ -9,14 +9,14 @@ package com.github.jamoamo.jfpl;
  *
  * @author James Amoore
  */
-public class FPLLoginException extends Exception
+public class XFPLLoginException extends Exception
 {
-	public FPLLoginException()
+	XFPLLoginException()
 	{
 		super("Login failed!");
 	}
 	
-	public FPLLoginException(Exception ex)
+	XFPLLoginException(Exception ex)
 	{
 		super(ex);
 	}

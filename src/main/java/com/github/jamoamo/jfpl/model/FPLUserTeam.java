@@ -8,7 +8,7 @@ package com.github.jamoamo.jfpl.model;
 import java.util.List;
 
 /**
- *
+ * An FPL user's team.
  * @author James Amoore
  */
 public class FPLUserTeam
@@ -18,6 +18,13 @@ public class FPLUserTeam
 	private final FPLPlayer captain;
 	private final FPLPlayer viceCaptain;
 	
+	/**
+	 * Creates a new instance.
+	 * @param picks The players that make up the user's team
+	 * @param chips The FPL chips for the team
+	 * @param captain The team captain
+	 * @param viceCaptain The team vice-captain
+	 */
 	public FPLUserTeam(List<FPLUserTeamPick> picks, List<FPLTeamChip> chips, FPLPlayer captain, FPLPlayer viceCaptain)
 	{
 		this.picks = picks;
@@ -26,21 +33,33 @@ public class FPLUserTeam
 		this.viceCaptain = viceCaptain;
 	}
 
+	/**
+	 * @return The player's in the team
+	 */
 	public List<FPLUserTeamPick> getPicks()
 	{
 		return picks;
 	}
 
+	/**
+	 * @return The team captain 
+	 */
 	public FPLPlayer getCaptain()
 	{
 		return captain;
 	}
 
+	/**
+	 * @return The team vice captain 
+	 */
 	public FPLPlayer getViceCaptain()
 	{
 		return viceCaptain;
 	}
 	
+	/**
+	 * @return The chips available to the team.
+	 */
 	public List<FPLTeamChip> getChips()
 	{
 		return chips;

@@ -14,5 +14,5 @@ public enum FPLChipStatus
 	ACTIVE,
 	UNAVAILABLE,
 	AVAILABLE,
-	PLAYED;
+	PLAYED
 }

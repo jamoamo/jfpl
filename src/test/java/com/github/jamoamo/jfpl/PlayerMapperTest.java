@@ -240,7 +240,7 @@ public class PlayerMapperTest
 		assertEquals(1, result.getStats().getGoalsScored());
 		assertEquals(2, result.getStats().getAssists());
 		assertEquals(3, result.getStats().getCleanSheets());
-		assertEquals(4, result.getStats().getGoalsConceeded());
+		assertEquals(4, result.getStats().getGoalsConceded());
 		assertEquals(5, result.getStats().getOwnGoals());
 		assertEquals(6, result.getStats().getPenaltiesSaved());
 		assertEquals(7, result.getStats().getPenaltiesMissed());

@@ -141,9 +141,9 @@ class JsonPlayer
 		return elementType;
 	}
 
-	public void setElementType(int element_type)
+	public void setElementType(int elementType)
 	{
-		this.elementType = element_type;
+		this.elementType = elementType;
 	}
 
 	public int getCostChangeEvent()
@@ -391,9 +391,9 @@ class JsonPlayer
 		return webName;
 	}
 
-	public void setWebName(String WebName)
+	public void setWebName(String webName)
 	{
-		this.webName = WebName;
+		this.webName = webName;
 	}
 
 	public int getMinutes()

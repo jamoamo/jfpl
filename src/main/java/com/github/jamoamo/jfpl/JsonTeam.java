@@ -9,7 +9,7 @@ package com.github.jamoamo.jfpl;
  *
  * @author James Amoore
  */
-public class JsonTeam
+class JsonTeam
 {
 	private int id;
 	private String name;
