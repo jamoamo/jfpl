@@ -5,6 +5,8 @@
  */
 package com.github.jamoamo.jfpl.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,8 +15,8 @@ import java.util.List;
  */
 public class FPLUserTeam
 {
-	private final List<FPLUserTeamPick> picks;
-	private final List<FPLTeamChip> chips;
+	private final List<FPLUserTeamPick> picks = new ArrayList<>();
+	private final List<FPLTeamChip> chips = new ArrayList<>();
 	private final FPLPlayer captain;
 	private final FPLPlayer viceCaptain;
 	
@@ -27,8 +29,8 @@ public class FPLUserTeam
 	 */
 	public FPLUserTeam(List<FPLUserTeamPick> picks, List<FPLTeamChip> chips, FPLPlayer captain, FPLPlayer viceCaptain)
 	{
-		this.picks = picks;
-		this.chips = chips;
+		this.picks.addAll(picks);
+		this.chips.addAll(chips);
 		this.captain = captain;
 		this.viceCaptain = viceCaptain;
 	}
@@ -38,7 +40,7 @@ public class FPLUserTeam
 	 */
 	public List<FPLUserTeamPick> getPicks()
 	{
-		return picks;
+		return Collections.unmodifiableList(picks);
 	}
 
 	/**
@@ -62,6 +64,6 @@ public class FPLUserTeam
 	 */
 	public List<FPLTeamChip> getChips()
 	{
-		return chips;
+		return Collections.unmodifiableList(chips);
 	}
 }
