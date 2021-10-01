@@ -35,7 +35,7 @@ public final class FPLFixture
 		this.gameweek = gameweek;
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
-		this.dateTime = dateTime;
+		this.dateTime = LocalDateTime.from(dateTime);
 	}
 	
 	/**
@@ -75,6 +75,6 @@ public final class FPLFixture
 	 */
 	public LocalDateTime getDateTime()
 	{
-		return dateTime;
+		return LocalDateTime.from(dateTime);
 	}
 }

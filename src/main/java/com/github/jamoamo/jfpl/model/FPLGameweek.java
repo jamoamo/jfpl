@@ -36,7 +36,7 @@ public final class FPLGameweek
 	{
 		this.id = id;
 		this.name = name;
-		this.deadlineTime = deadlineTime;
+		this.deadlineTime = LocalDateTime.from(deadlineTime);
 		this.current = isCurrent;
 		this.next = isNext;
 		this.finished = isFinished;
@@ -63,7 +63,7 @@ public final class FPLGameweek
 	 */
 	public LocalDateTime getDeadlineTime()
 	{
-		return deadlineTime;
+		return LocalDateTime.from(deadlineTime);
 	}
 
 	/**
