@@ -16,6 +16,8 @@ import java.util.Map;
  */
 class UserMapper
 {
+	private static final double FACTOR_OF_TEN = 10.0;
+	
 	protected FPLUser mapUser(JsonUser user, Map<Integer, FPLTeam> team)
 	{
 		return new FPLUser(
@@ -24,13 +26,17 @@ class UserMapper
 				  user.getPlayerFirstName(),
 				  user.getPlayerLastName(),
 				  team.get(user.getFavouriteTeam()),
-				  mapRegion(user)
+				  mapRegion(user),
+				  user.getLastDeadlineBank()/FACTOR_OF_TEN
 		);
 	}
 
 	private FPLRegion mapRegion(JsonUser user)
 	{
-		FPLRegion region = new FPLRegion(user.getPlayerRegionId(), user.getPlayerRegionName(), user.getPlayerRegionIsoCodeLong(), user.getPlayerRegionIsoCodeShort());
+		FPLRegion region = new FPLRegion(user.getPlayerRegionId(), 
+				  user.getPlayerRegionName(), 
+				  user.getPlayerRegionIsoCodeLong(), 
+				  user.getPlayerRegionIsoCodeShort());
 		return region;
 	}
 }

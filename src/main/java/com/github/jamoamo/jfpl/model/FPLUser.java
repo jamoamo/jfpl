@@ -17,6 +17,7 @@ public class FPLUser
 	private final String playerLastName;
 	private final FPLTeam favouriteTeam;
 	private final FPLRegion region;
+	private final double lastDeadlineBank;
 
 	/**
 	 * Creates a new instance.
@@ -24,22 +25,25 @@ public class FPLUser
 	 * @param teamName The name of the user's team
 	 * @param playerFirstName The user's first name
 	 * @param playerLastName The user's last name
-	 * @param favuriteTeam The user's favourite team
+	 * @param favouriteTeam The user's favourite team
 	 * @param region The region the user lives in
+	 * @param bank The team's bank value at the last deadline
 	 */
 	public FPLUser(int id, 
 					String teamName, 
 					String playerFirstName, 
 					String playerLastName, 
-					FPLTeam favuriteTeam, 
-					FPLRegion region)
+					FPLTeam favouriteTeam, 
+					FPLRegion region,
+					double bank)
 	{
 		this.id = id;
 		this.teamName = teamName;
 		this.playerFirstName = playerFirstName;
 		this.playerLastName = playerLastName;
-		this.favouriteTeam = favuriteTeam;
+		this.favouriteTeam = favouriteTeam;
 		this.region = region;
+		this.lastDeadlineBank = bank;
 	}
 
 	/**
@@ -47,7 +51,7 @@ public class FPLUser
 	 */
 	public int getId()
 	{
-		return id;
+		return this.id;
 	}
 
 	/**
@@ -55,7 +59,7 @@ public class FPLUser
 	 */
 	public String getTeamName()
 	{
-		return teamName;
+		return this.teamName;
 	}
 
 	/**
@@ -63,7 +67,7 @@ public class FPLUser
 	 */
 	public String getPlayerFirstName()
 	{
-		return playerFirstName;
+		return this.playerFirstName;
 	}
 
 	/**
@@ -71,7 +75,7 @@ public class FPLUser
 	 */
 	public String getPlayerLastName()
 	{
-		return playerLastName;
+		return this.playerLastName;
 	}
 
 	/**
@@ -79,7 +83,7 @@ public class FPLUser
 	 */
 	public FPLTeam getFavouriteTeam()
 	{
-		return favouriteTeam;
+		return this.favouriteTeam;
 	}
 
 	/**
@@ -87,6 +91,14 @@ public class FPLUser
 	 */
 	public FPLRegion getRegion()
 	{
-		return region;
+		return this.region;
+	}
+	
+	/**
+	 * @return The teams bank amount at the last deadline.
+	 */
+	public double getLastDeadlineBank()
+	{
+		return this.lastDeadlineBank;
 	}
 }

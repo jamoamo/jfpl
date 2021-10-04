@@ -12,10 +12,10 @@
 
    <groupId>com.github.jamoamo</groupId>
    <artifactId>jfpl</artifactId>
-   <version>0.0.1-SNAPSHOT</version>
+   <version>0.1-SNAPSHOT</version>
 
    <name>jfpl</name>
-   <description>A Java wrapper for FPL (fantasy.premierleague.com)</description>
+   <description>An unofficial Java wrapper for FPL (fantasy.premierleague.com)</description>
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
