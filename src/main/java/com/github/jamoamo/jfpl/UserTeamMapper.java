@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
  */
 class UserTeamMapper
 {
+	private static final double FACTOR_OF_TEN = 10.0;
+	
 	FPLUserTeam mapUserTeam(JsonCurrentUserTeam team, Map<Integer, FPLPlayer> playerMap)
 	{
 		List<FPLUserTeamPick> picks = mapPicks(team.getPicks(), playerMap);
@@ -73,7 +75,7 @@ class UserTeamMapper
 	{
 		return new FPLUserTeamPick(
 				  pick.getPosition(), 
-				  playerMap.get(pick.getElement()), pick.getSellingPrice(), pick.getPurchasePrice());
+				  playerMap.get(pick.getElement()), pick.getSellingPrice()/FACTOR_OF_TEN, pick.getPurchasePrice()/FACTOR_OF_TEN);
 	}
 
 	private List<FPLTeamChip> mapChips(JsonTeamChip[] chips)
