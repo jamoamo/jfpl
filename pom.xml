@@ -16,6 +16,14 @@
 
    <name>jfpl</name>
    <description>An unofficial Java wrapper for FPL (fantasy.premierleague.com)</description>
+   <url>https://github.com/jamoamo/jfpl</url>
+
+   <licenses>
+      <license>
+         <name>MIT License</name>
+         <url>http://www.opensource.org/licenses/mit-license.php</url>
+      </license>
+   </licenses>
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -110,6 +118,32 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <version>3.8.1</version>
          </plugin>
+         <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-javadoc-plugin</artifactId>
+               <version>3.3.1</version>
+               <executions>
+                  <execution>
+                     <id>attach-javadocs</id>
+                     <goals>
+                        <goal>jar</goal>
+                     </goals>
+                  </execution>
+               </executions>
+            </plugin>
+            <plugin>
+               <artifactId>maven-source-plugin</artifactId>
+               <version>3.2.1</version>
+               <executions>
+                  <execution>
+                     <id>attach-source</id>
+                     <phase>compile</phase>
+                     <goals>
+                        <goal>jar</goal>
+                     </goals>
+                  </execution>
+               </executions>
+            </plugin>
       </plugins>
    </build>
 
