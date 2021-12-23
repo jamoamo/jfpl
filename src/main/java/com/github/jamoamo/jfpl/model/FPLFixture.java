@@ -21,8 +21,8 @@ public final class FPLFixture
 	private final FPLTeam awayTeam;
 	
 	/**
-	 * Creates a nre instance.
-	 * 
+	 * Creates a new instance.
+	 *
 	 * @param id The fixture id in FPL
 	 * @param gameweek the game-week nr in which the fixture takes place
 	 * @param dateTime The Date and time of the fixture
@@ -35,7 +35,7 @@ public final class FPLFixture
 		this.gameweek = gameweek;
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
-		this.dateTime = LocalDateTime.from(dateTime);
+		this.dateTime = dateTime == null ? null : LocalDateTime.from(dateTime);
 	}
 	
 	/**
@@ -75,6 +75,6 @@ public final class FPLFixture
 	 */
 	public LocalDateTime getDateTime()
 	{
-		return LocalDateTime.from(dateTime);
+		return this.dateTime == null ? null : LocalDateTime.from(dateTime);
 	}
 }

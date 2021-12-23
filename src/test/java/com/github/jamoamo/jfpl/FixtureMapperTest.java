@@ -53,4 +53,25 @@ public class FixtureMapperTest
 		assertEquals(0, result.getDateTime().getSecond());
 	}
 	
+	@Test
+	public void testMapFixture_nullDateTime()
+	{
+		JsonFixture jsonFixture = new JsonFixture();
+		jsonFixture.setEvent(1);
+		jsonFixture.setFinished(true);
+		jsonFixture.setKickoffTime(null);
+		jsonFixture.setTeamA(12);
+		jsonFixture.setTeamH(13);
+		Map<Integer, FPLTeam> teamMap = new HashMap<>();
+		teamMap.put(13, new FPLTeam(13,"Man Utd","MUN"));
+		teamMap.put(14, new FPLTeam(14,"Newcastle", "NEW"));
+		teamMap.put(12, new FPLTeam(12,"Man City", "MCI"));
+		FixtureMapper instance = new FixtureMapper();
+		FPLFixture result = instance.mapFixture(jsonFixture, teamMap);
+		assertEquals(jsonFixture.getEvent(), result.getGameweek());
+		assertEquals(jsonFixture.getTeamA(), result.getAwayTeam().getId());
+		assertEquals(jsonFixture.getTeamH(), result.getHomeTeam().getId());
+		assertNull(result.getDateTime());
+	}
+	
 }
