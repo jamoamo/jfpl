@@ -271,12 +271,24 @@ public class UserTeamMapperTest
 		assertEquals("Eleven", result.getViceCaptain().getLastName());
 		assertEquals(FPLChip.WILDCARD, result.getChips().get(0).getChip());
 		assertEquals(FPLChipStatus.ACTIVE, result.getChips().get(0).getStatus());
+		assertEquals(1, result.getChips().get(0).getNumber());
+		assertEquals(2, result.getChips().get(0).getStartGameweek());
+		assertEquals(20, result.getChips().get(0).getStopGameweek());
 		assertEquals(FPLChip.FREEHIT, result.getChips().get(1).getChip());
 		assertEquals(FPLChipStatus.UNAVAILABLE, result.getChips().get(1).getStatus());
+		assertEquals(1, result.getChips().get(1).getNumber());
+		assertEquals(2, result.getChips().get(1).getStartGameweek());
+		assertEquals(38, result.getChips().get(1).getStopGameweek());
 		assertEquals(FPLChip.BENCH_BOOST, result.getChips().get(2).getChip());
 		assertEquals(FPLChipStatus.AVAILABLE, result.getChips().get(2).getStatus());
+		assertEquals(1, result.getChips().get(2).getNumber());
+		assertEquals(1, result.getChips().get(2).getStartGameweek());
+		assertEquals(38, result.getChips().get(2).getStopGameweek());
 		assertEquals(FPLChip.TRIPLE_CAPTAIN, result.getChips().get(3).getChip());
 		assertEquals(FPLChipStatus.AVAILABLE, result.getChips().get(3).getStatus());
+		assertEquals(1, result.getChips().get(3).getNumber());
+		assertEquals(1, result.getChips().get(3).getStartGameweek());
+		assertEquals(38, result.getChips().get(3).getStopGameweek());
 	}
 	
 	public void testMapChip_wildcard()

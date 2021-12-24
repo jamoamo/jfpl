@@ -84,7 +84,10 @@ class UserTeamMapper
 				  .map(chip -> 
 							 new FPLTeamChip(mapChip(chip.getName()), 
 									mapChipStatus(chip.getStatusForEntry()),
-									Arrays.stream(chip.getPlayedByEntry()).boxed().toArray(Integer[]::new))
+									Arrays.stream(chip.getPlayedByEntry()).boxed().toArray(Integer[]::new),
+									chip.getNumber(),
+									chip.getStartEvent(),
+									chip.getStopEvent())
 				  ).collect(Collectors.toList());
 	}
 	

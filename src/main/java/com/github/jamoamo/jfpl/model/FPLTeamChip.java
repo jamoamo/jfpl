@@ -16,18 +16,27 @@ public class FPLTeamChip
 	private final FPLChip chip;
 	private final FPLChipStatus status;
 	private final Integer[] gameweekUsed;
+	private final int number;
+	private final int startGameweek;
+	private final int stopGameweek;
 	
 	/**
 	 * Creates a new instance.
 	 * @param chip The chip
 	 * @param status Its current status for the FPL team
 	 * @param gameweekUsed When the chip was used by the FPL team
+	 * @param number The number of this chip
+	 * @param startGameweek The first game week this chip can be used
+	 * @param stopGameweek The last game week this chip can be used
 	 */
-	public FPLTeamChip(FPLChip chip, FPLChipStatus status, Integer[] gameweekUsed)
+	public FPLTeamChip(FPLChip chip, FPLChipStatus status, Integer[] gameweekUsed, int number, int startGameweek, int stopGameweek)
 	{
 		this.chip = chip;
 		this.status = status;
 		this.gameweekUsed = Arrays.copyOf(gameweekUsed, gameweekUsed.length);
+		this.number = number;
+		this.startGameweek = startGameweek;
+		this.stopGameweek = stopGameweek;
 	}
 
 	/**
@@ -52,5 +61,29 @@ public class FPLTeamChip
 	public Integer[] getGameweekUsed()
 	{
 		return Arrays.copyOf(gameweekUsed, gameweekUsed.length);
+	}
+	
+	/**
+	 * @return the number of this chip available. 
+	 */
+	public int getNumber()
+	{
+		return number;
+	}
+	
+	/**
+	 * @return the last game week that this chip may be used. 
+	 */
+	public int getStopGameweek()
+	{
+		return this.stopGameweek;
+	}
+	
+	/**
+	 * @return the first game week that this chip may be used. 
+	 */
+	public int getStartGameweek()
+	{
+		return this.startGameweek;
 	}
 }

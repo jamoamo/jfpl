@@ -6,7 +6,8 @@
 package com.github.jamoamo.jfpl;
 
 /**
- *
+ * Team Chip from the FPL JSON.
+ * 
  * @author James Amoore
  */
 class JsonTeamChip
@@ -88,6 +89,4 @@ class JsonTeamChip
 	{
 		this.chipType = chipType;
 	}
-	
-	
 }
