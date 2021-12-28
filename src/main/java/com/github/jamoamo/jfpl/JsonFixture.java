@@ -18,6 +18,8 @@ class JsonFixture
 	private int teamA;
 	private int teamH;
 	private String kickoffTime;
+	private int teamHDifficulty;
+	private int teamADifficulty;
 	
 	JsonFixture()
 	{
@@ -93,6 +95,24 @@ class JsonFixture
 	{
 		this.code = code;
 	}
-	
-	
+
+	public int getTeamHDifficulty()
+	{
+		return teamHDifficulty;
+	}
+
+	public void setTeamHDifficulty(int teamHDifficulty)
+	{
+		this.teamHDifficulty = teamHDifficulty;
+	}
+
+	public int getTeamADifficulty()
+	{
+		return teamADifficulty;
+	}
+
+	public void setTeamADifficulty(int teamADifficulty)
+	{
+		this.teamADifficulty = teamADifficulty;
+	}
 }
