@@ -11,8 +11,8 @@ package com.github.jamoamo.jfpl;
  */
 class JsonPlayer
 {
-	private int chanceOfPlayingNextRound;
-	private int chanceOfPlayingThisRound;
+	private Integer chanceOfPlayingNextRound;
+	private Integer chanceOfPlayingThisRound;
 	private String firstName;
 	private String secondName;
 	private int id;
@@ -76,22 +76,22 @@ class JsonPlayer
 	private int penaltiesOrder;
 	private String penaltiesText;
 
-	public int getChanceOfPlayingNextRound()
+	public Integer getChanceOfPlayingNextRound()
 	{
 		return chanceOfPlayingNextRound;
 	}
 
-	public void setChanceOfPlayingNextRound(int chanceOfPlayingNextRound)
+	public void setChanceOfPlayingNextRound(Integer chanceOfPlayingNextRound)
 	{
 		this.chanceOfPlayingNextRound = chanceOfPlayingNextRound;
 	}
 
-	public int getChanceOfPlayingThisRound()
+	public Integer getChanceOfPlayingThisRound()
 	{
 		return chanceOfPlayingThisRound;
 	}
 
-	public void setChanceOfPlayingThisRound(int chanceOfPlayingThisRound)
+	public void setChanceOfPlayingThisRound(Integer chanceOfPlayingThisRound)
 	{
 		this.chanceOfPlayingThisRound = chanceOfPlayingThisRound;
 	}
