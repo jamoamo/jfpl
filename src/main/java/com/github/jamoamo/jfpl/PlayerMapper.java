@@ -23,7 +23,8 @@ import java.util.Map;
 class PlayerMapper
 {
 	private static final double FACTOR_OF_TEN = 10.0;
-	
+	private static final int FULL_CHANCE = 100;
+
 	protected FPLPlayer mapPlayer(JsonPlayer jsonPlayer, Map<Integer, FPLTeam> teamMap)
 	{
 		FPLPlayingChance playingChance = mapPlayingChance(jsonPlayer);
@@ -57,25 +58,25 @@ class PlayerMapper
 	private FPLPlayingChance mapPlayingChance(JsonPlayer jsonPlayer)
 	{
 		FPLPlayingChance playingChance = new FPLPlayingChance(
-				  jsonPlayer.getChanceOfPlayingThisRound(), 
-				  jsonPlayer.getChanceOfPlayingNextRound());
+				  jsonPlayer.getChanceOfPlayingThisRound() == null ? FULL_CHANCE : jsonPlayer.getChanceOfPlayingThisRound(),
+				  jsonPlayer.getChanceOfPlayingNextRound() == null ? FULL_CHANCE : jsonPlayer.getChanceOfPlayingNextRound());
 		return playingChance;
 	}
 
 	private FPLPlayerSetPieces mapSetPieces(JsonPlayer jsonPlayer)
 	{
 		FPLPlayerSetPieces setPieces = new FPLPlayerSetPieces(
-				jsonPlayer.getCornersAndIndirectFreekicksOrder(),
-				jsonPlayer.getDirectFreekicksOrder(), 
-				jsonPlayer.getPenaltiesOrder());
+				  jsonPlayer.getCornersAndIndirectFreekicksOrder(),
+				  jsonPlayer.getDirectFreekicksOrder(),
+				  jsonPlayer.getPenaltiesOrder());
 		return setPieces;
 	}
 
 	private FPLPlayerTransfers mapTransfers(JsonPlayer jsonPlayer)
 	{
 		FPLPlayerTransfers transfers = new FPLPlayerTransfers(
-				  jsonPlayer.getTransfersIn(), 
-				  jsonPlayer.getTransfersInEvent(), 
+				  jsonPlayer.getTransfersIn(),
+				  jsonPlayer.getTransfersInEvent(),
 				  jsonPlayer.getTransfersOut(),
 				  jsonPlayer.getTransfersOutEvent());
 		return transfers;
@@ -84,17 +85,17 @@ class PlayerMapper
 	private FPLPlayerICT mapICT(JsonPlayer jsonPlayer)
 	{
 		FPLPlayerICT ict = new FPLPlayerICT(
-				  jsonPlayer.getInfluence(), 
-				  jsonPlayer.getInfluenceRank(), 
-				  jsonPlayer.getInfluenceRankType(),	
-				  jsonPlayer.getCreativity(), 
+				  jsonPlayer.getInfluence(),
+				  jsonPlayer.getInfluenceRank(),
+				  jsonPlayer.getInfluenceRankType(),
+				  jsonPlayer.getCreativity(),
 				  jsonPlayer.getCreativityRank(),
-				  jsonPlayer.getCreativityRankType(), 
-				  jsonPlayer.getThreat(),	
-				  jsonPlayer.getThreatRank(), 
-				  jsonPlayer.getThreatRankType(), 
-				  jsonPlayer.getIctIndex(), 
-				  jsonPlayer.getIctIndexRank(),	
+				  jsonPlayer.getCreativityRankType(),
+				  jsonPlayer.getThreat(),
+				  jsonPlayer.getThreatRank(),
+				  jsonPlayer.getThreatRankType(),
+				  jsonPlayer.getIctIndex(),
+				  jsonPlayer.getIctIndexRank(),
 				  jsonPlayer.getIctIndexRankType());
 		return ict;
 	}
@@ -114,11 +115,11 @@ class PlayerMapper
 				  jsonPlayer.getAssists(),
 				  jsonPlayer.getCleanSheets(),
 				  jsonPlayer.getGoalsConceeded(),
-				  jsonPlayer.getOwnGoals(), 
+				  jsonPlayer.getOwnGoals(),
 				  jsonPlayer.getPenaltiesSaved(),
-				  jsonPlayer.getPenaltiesMissed(), 
+				  jsonPlayer.getPenaltiesMissed(),
 				  jsonPlayer.getYellowCards(),
-				  jsonPlayer.getRedCards(), 
+				  jsonPlayer.getRedCards(),
 				  jsonPlayer.getSaves(),
 				  jsonPlayer.getBonus(),
 				  jsonPlayer.getBps());
