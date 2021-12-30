@@ -19,9 +19,8 @@ import org.junit.jupiter.api.Test;
 public class UserMapperTest
 {
 	@Test
-	public void testMapTeam()
+	public void testMapUser()
 	{
-		System.out.println("mapTeam");
 		JsonUser user = new JsonUser();
 		user.setId(57912);
 		user.setName("User Name");
