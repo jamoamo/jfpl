@@ -5,6 +5,7 @@ import com.github.jamoamo.jfpl.model.FPLFixture;
 import com.github.jamoamo.jfpl.model.FPLGameweek;
 import com.github.jamoamo.jfpl.model.FPLTeam;
 import com.github.jamoamo.jfpl.model.FPLUser;
+import com.github.jamoamo.jfpl.model.FPLUserHistory;
 import com.github.jamoamo.jfpl.model.FPLUserTeam;
 import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
@@ -201,6 +202,33 @@ public final class FPL
 				  .map(t -> mapper.mapTeam(t))
 				  .collect(Collectors.toList());
 		return teams;
+	}
+	
+	/**
+	 * get the current user's history.
+	 * @return a history of the current user
+	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 */
+	public FPLUserHistory getCurrentUserHistory()
+			  throws XFPLUnavailableException
+	{
+		try
+		{
+			JsonCurrentUser user = fplClient.getCurrentUser();
+			JsonUserHistory history = fplClient.getUserHistory(user.getPlayer().getEntry());
+
+			UserHistoryMapper mapper = new UserHistoryMapper();
+
+			return mapper.mapUserHistory(history);
+		}
+		catch(IOException ex)
+		{
+			throw new XFPLUnavailableException();
+		}
+		catch(JsonSyntaxException ex)
+		{
+			throw new XFPLAPIResponseException();
+		}
 	}
 
 	private JsonStaticData getStaticData()

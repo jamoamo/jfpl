@@ -29,4 +29,7 @@ interface IFPLClient
 	
 	List<JsonFixture> getFixturesForGameweek(int gameweekNr)
 			  throws IOException;
+
+	JsonUserHistory getUserHistory(int id)
+			  throws IOException;
 }

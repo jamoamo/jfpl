@@ -6,6 +6,7 @@
 package com.github.jamoamo.jfpl;
 
 import com.github.jamoamo.jfpl.model.FPLUser;
+import com.github.jamoamo.jfpl.model.FPLUserHistory;
 
 /**
  *
@@ -21,6 +22,7 @@ public class TestApp
 		fpl.login(creds);
 		FPLUser user = fpl.getCurrentUser();
 		System.out.println(user.getTeamName());
-		fpl.getPlayers();
+		FPLUserHistory h = fpl.getCurrentUserHistory();
+		h.getGameweekHistory();
 	}
 }

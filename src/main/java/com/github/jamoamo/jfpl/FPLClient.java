@@ -41,6 +41,7 @@ class FPLClient implements IFPLClient
 	private static final String URL_USER_TEAM = URL_FPL_API + "my-team/";
 	private static final String URL_USER = URL_FPL_API + "entry/";
 	private static final String URL_SEPARATOR = "/";
+	private static final String URL_HISTORY = "/history/";
 	private static final int LOGIN_PARAM_COUNT = 4;
 
 	private final CookieStore cookieStore;
@@ -173,5 +174,13 @@ class FPLClient implements IFPLClient
 		{
 			httpGet.releaseConnection();
 		}
+	}
+
+	@Override
+	public JsonUserHistory getUserHistory(int id)
+			  throws IOException
+	{
+		JsonUserHistory history = getRequest(URL_USER + id + URL_HISTORY, JsonUserHistory.class);
+		return history;
 	}
 }
