@@ -26,8 +26,8 @@ class GameweekMapper
 							 jsonGameweek.getId(), 
 							 jsonGameweek.getName(), 
 							 ldt, 
-							 jsonGameweek.isCurrent(), 
-							 jsonGameweek.isNext(), 
+							 jsonGameweek.isIsCurrent(), 
+							 jsonGameweek.isIsNext(), 
 							 jsonGameweek.isFinished());
 		return gameweek;
 	}
