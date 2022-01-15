@@ -29,9 +29,9 @@ public class GameweekMapperTest
 	{
 		JsonGameweek jsonGameweek = new JsonGameweek();
 		jsonGameweek.setId(4);
-		jsonGameweek.setCurrent(false);
+		jsonGameweek.setIsCurrent(false);
 		jsonGameweek.setFinished(true);
-		jsonGameweek.setNext(false);
+		jsonGameweek.setIsNext(false);
 		jsonGameweek.setName("Gameweek 4");
 		jsonGameweek.setDeadlineTime("2020-09-03T11:30:05Z");
 		GameweekMapper instance = new GameweekMapper();
@@ -44,8 +44,8 @@ public class GameweekMapperTest
 		assertEquals(11, result.getDeadlineTime().getHour());
 		assertEquals(30, result.getDeadlineTime().getMinute());
 		assertEquals(5, result.getDeadlineTime().getSecond());
-		assertEquals(jsonGameweek.isCurrent(), result.isCurrent());
-		assertEquals(jsonGameweek.isNext(), result.isNext());
+		assertEquals(jsonGameweek.isIsCurrent(), result.isCurrent());
+		assertEquals(jsonGameweek.isIsNext(), result.isNext());
 		assertEquals(jsonGameweek.isFinished(), result.isFinished());
 	}
 	

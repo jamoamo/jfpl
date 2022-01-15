@@ -16,8 +16,8 @@ class JsonGameweek
 	private String deadlineTime;
 	private int averageEntryScore;
 	private int highestScoringEntry;
-	private boolean current;
-	private boolean next;
+	private boolean isCurrent;
+	private boolean isNext;
 	private boolean finished;
 
 	public int getId()
@@ -70,24 +70,24 @@ class JsonGameweek
 		this.highestScoringEntry = highestScoringEntry;
 	}
 
-	public boolean isCurrent()
+	public boolean isIsCurrent()
 	{
-		return current;
+		return isCurrent;
 	}
 
-	public void setCurrent(boolean isCurrent)
+	public void setIsCurrent(boolean isCurrent)
 	{
-		this.current = isCurrent;
+		this.isCurrent = isCurrent;
 	}
 
-	public boolean isNext()
+	public boolean isIsNext()
 	{
-		return next;
+		return isNext;
 	}
 
-	public void setNext(boolean isNext)
+	public void setIsNext(boolean isNext)
 	{
-		this.next = isNext;
+		this.isNext = isNext;
 	}
 
 	public boolean isFinished()
