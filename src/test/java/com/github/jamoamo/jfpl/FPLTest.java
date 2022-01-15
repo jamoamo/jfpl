@@ -334,7 +334,7 @@ public class FPLTest
 		gw.setId(id);
 		gw.setName(name);
 		gw.setDeadlineTime(deadline);
-		gw.setCurrent(isCurrent);
+		gw.setIsCurrent(isCurrent);
 		return gw;
 	}
 
