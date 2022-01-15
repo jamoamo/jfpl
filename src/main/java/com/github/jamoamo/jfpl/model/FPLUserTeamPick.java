@@ -6,7 +6,8 @@
 package com.github.jamoamo.jfpl.model;
 
 /**
- *	A pick selected for an FPL team.
+ * A pick selected for an FPL team.
+ *
  * @author James Amoore
  */
 public class FPLUserTeamPick
@@ -15,12 +16,13 @@ public class FPLUserTeamPick
 	private final FPLPlayer player;
 	private final double sellingPrice;
 	private final double purchasingPrice;
-	
+
 	/**
 	 * Creates a new instance.
-	 * @param position The player's position in the team.
-	 * @param player The player
-	 * @param sellingPrice The player's selling price
+	 *
+	 * @param position        The player's position in the team.
+	 * @param player          The player
+	 * @param sellingPrice    The player's selling price
 	 * @param purchasingPrice The price the player was purchased for.
 	 */
 	public FPLUserTeamPick(int position, FPLPlayer player, double sellingPrice, double purchasingPrice)
@@ -30,7 +32,7 @@ public class FPLUserTeamPick
 		this.sellingPrice = sellingPrice;
 		this.purchasingPrice = purchasingPrice;
 	}
-	
+
 	/**
 	 * @return The player's position in the FPL team
 	 */
@@ -46,9 +48,9 @@ public class FPLUserTeamPick
 	{
 		return player;
 	}
-	
+
 	/**
-	 * @return the price the player can be sold for 
+	 * @return the price the player can be sold for
 	 */
 	public double getSellingPrice()
 	{
@@ -56,7 +58,7 @@ public class FPLUserTeamPick
 	}
 
 	/**
-	 * @return the price the player was purchased for. 
+	 * @return the price the player was purchased for.
 	 */
 	public double getPurchasingPrice()
 	{

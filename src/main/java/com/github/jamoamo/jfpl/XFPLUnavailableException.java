@@ -7,7 +7,7 @@ package com.github.jamoamo.jfpl;
 
 /**
  * An exception that is thrown when there is a failure connecting to the FPL host.
- * 
+ *
  * @author James Amoore
  */
 public class XFPLUnavailableException extends RuntimeException
@@ -15,5 +15,5 @@ public class XFPLUnavailableException extends RuntimeException
 	XFPLUnavailableException()
 	{
 		super("Unable to connect to FPL.");
-	}	
+	}
 }

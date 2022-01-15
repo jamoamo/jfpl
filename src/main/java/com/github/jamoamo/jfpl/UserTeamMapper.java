@@ -23,18 +23,18 @@ import java.util.stream.Collectors;
 class UserTeamMapper
 {
 	private static final double FACTOR_OF_TEN = 10.0;
-	
+
 	FPLUserTeam mapUserTeam(JsonCurrentUserTeam team, Map<Integer, FPLPlayer> playerMap)
 	{
 		List<FPLUserTeamPick> picks = mapPicks(team.getPicks(), playerMap);
 		List<FPLTeamChip> chips = mapChips(team.getChips());
-		
+
 		FPLPlayer captain = mapCaptain(team, playerMap);
-		
+
 		FPLPlayer viceCaptain = mapViceCaptain(team, playerMap);
-		
+
 		FPLUserTeam userTeam = new FPLUserTeam(picks, chips, captain, viceCaptain);
-		
+
 		return userTeam;
 	}
 
@@ -74,23 +74,24 @@ class UserTeamMapper
 	private static FPLUserTeamPick mapPick(JsonTeamPicks pick, Map<Integer, FPLPlayer> playerMap)
 	{
 		return new FPLUserTeamPick(
-				  pick.getPosition(), 
-				  playerMap.get(pick.getElement()), pick.getSellingPrice()/FACTOR_OF_TEN, pick.getPurchasePrice()/FACTOR_OF_TEN);
+				  pick.getPosition(),
+				  playerMap.get(pick.getElement()), pick.getSellingPrice() / FACTOR_OF_TEN,
+				  pick.getPurchasePrice() / FACTOR_OF_TEN);
 	}
 
 	private List<FPLTeamChip> mapChips(JsonTeamChip[] chips)
 	{
 		return Arrays.stream(chips)
-				  .map(chip -> 
-							 new FPLTeamChip(mapChip(chip.getName()), 
-									mapChipStatus(chip.getStatusForEntry()),
-									Arrays.stream(chip.getPlayedByEntry()).boxed().toArray(Integer[]::new),
-									chip.getNumber(),
-									chip.getStartEvent(),
-									chip.getStopEvent())
+				  .map(chip ->
+							 new FPLTeamChip(mapChip(chip.getName()),
+												  mapChipStatus(chip.getStatusForEntry()),
+												  Arrays.stream(chip.getPlayedByEntry()).boxed().toArray(Integer[]::new),
+												  chip.getNumber(),
+												  chip.getStartEvent(),
+												  chip.getStopEvent())
 				  ).collect(Collectors.toList());
 	}
-	
+
 	protected FPLChip mapChip(String chipName)
 	{
 		if(null == chipName)
@@ -118,7 +119,7 @@ class UserTeamMapper
 		{
 			throw new XFPLMappingException("Missing chip status");
 		}
-		else 
+		else
 		{
 			switch(statusForEntry)
 			{

@@ -11,5 +11,5 @@ package com.github.jamoamo.jfpl;
  */
 class JsonUserLeagues
 {
-	
+
 }

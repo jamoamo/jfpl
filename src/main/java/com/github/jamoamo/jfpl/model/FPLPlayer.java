@@ -40,10 +40,10 @@ public class FPLPlayer
 	 * @param ict           The players influence creativity and threat stats
 	 * @param setPieces     The players likelihood of taking set pieces.
 	 */
-	public FPLPlayer(int id, String firstName, String lastName, String webName, 
+	public FPLPlayer(int id, String firstName, String lastName, String webName,
 						  FPLTeam team, FPLPosition position,
-						  FPLPlayingChance playingChance, FPLPlayerStats playerStats, 
-						  FPLPlayerTransfers transfers, FPLPlayerICT ict, 
+						  FPLPlayingChance playingChance, FPLPlayerStats playerStats,
+						  FPLPlayerTransfers transfers, FPLPlayerICT ict,
 						  FPLPlayerSetPieces setPieces)
 	{
 		this.id = id;

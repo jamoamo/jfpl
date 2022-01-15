@@ -7,6 +7,7 @@ package com.github.jamoamo.jfpl;
 
 /**
  * An error that occurs when mapping the FPL API response to the internal models.
+ *
  * @author James Amoore
  */
 public class XFPLMappingException extends RuntimeException
@@ -15,7 +16,7 @@ public class XFPLMappingException extends RuntimeException
 	{
 		super(message);
 	}
-	
+
 	XFPLMappingException(Exception cause)
 	{
 		super(cause);

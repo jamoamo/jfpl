@@ -15,10 +15,10 @@ public class XFPLLoginException extends Exception
 	{
 		super("Login failed!");
 	}
-	
+
 	XFPLLoginException(Exception ex)
 	{
 		super(ex);
 	}
-	
+
 }

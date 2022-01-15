@@ -7,7 +7,7 @@ package com.github.jamoamo.jfpl;
 
 /**
  * An error thrown when a resource on the FPL API cannot be found.
- * 
+ *
  * @author James Amoore
  */
 public class XFPLResourceNotFound extends Exception

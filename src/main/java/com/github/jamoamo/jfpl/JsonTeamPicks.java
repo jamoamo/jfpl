@@ -88,6 +88,5 @@ class JsonTeamPicks
 	{
 		this.isViceCaptain = isViceCaptain;
 	}
-	
-	
+
 }

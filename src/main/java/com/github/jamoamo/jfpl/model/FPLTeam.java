@@ -7,6 +7,7 @@ package com.github.jamoamo.jfpl.model;
 
 /**
  * A Premier league team.
+ *
  * @author James Amoore
  */
 public class FPLTeam
@@ -14,11 +15,12 @@ public class FPLTeam
 	private int id;
 	private String name;
 	private String shortName;
-	
+
 	/**
 	 * Creates a new instance.
-	 * @param id The team id
-	 * @param name The team name
+	 *
+	 * @param id        The team id
+	 * @param name      The team name
 	 * @param shortName The short name for the team
 	 */
 	public FPLTeam(int id, String name, String shortName)
@@ -37,7 +39,7 @@ public class FPLTeam
 	}
 
 	/**
-	 * @return the team name 
+	 * @return the team name
 	 */
 	public String getName()
 	{
@@ -45,7 +47,7 @@ public class FPLTeam
 	}
 
 	/**
-	 * @return the short name for the team 
+	 * @return the short name for the team
 	 */
 	public String getShortName()
 	{

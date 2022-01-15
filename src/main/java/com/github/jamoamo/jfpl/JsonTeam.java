@@ -44,6 +44,5 @@ class JsonTeam
 	{
 		this.shortName = shortName;
 	}
-	
-	
+
 }

@@ -23,11 +23,11 @@ class GameweekMapper
 		LocalDateTime ldt = LocalDateTime.parse(jsonGameweek.getDeadlineTime(), FORMATTER);
 		FPLGameweek gameweek =
 				  new FPLGameweek(
-							 jsonGameweek.getId(), 
-							 jsonGameweek.getName(), 
-							 ldt, 
-							 jsonGameweek.isCurrent(), 
-							 jsonGameweek.isNext(), 
+							 jsonGameweek.getId(),
+							 jsonGameweek.getName(),
+							 ldt,
+							 jsonGameweek.isCurrent(),
+							 jsonGameweek.isNext(),
 							 jsonGameweek.isFinished());
 		return gameweek;
 	}

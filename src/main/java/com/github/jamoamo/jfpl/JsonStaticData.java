@@ -16,17 +16,17 @@ class JsonStaticData
 	private List<JsonTeam> teams;
 	private List<JsonPlayer> elements;
 	private List<JsonGameweek> events;
-	
+
 	JsonStaticData()
 	{
-		
+
 	}
-	
+
 	public List<JsonTeam> getTeams()
 	{
 		return teams;
 	}
-	
+
 	public void setTeams(List<JsonTeam> teams)
 	{
 		this.teams = teams;

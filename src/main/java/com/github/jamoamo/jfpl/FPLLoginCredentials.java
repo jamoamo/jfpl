@@ -7,6 +7,7 @@ package com.github.jamoamo.jfpl;
 
 /**
  * Class that wraps FPL username and password.
+ *
  * @author James Amoore
  */
 public class FPLLoginCredentials
@@ -16,7 +17,7 @@ public class FPLLoginCredentials
 
 	/**
 	 * Create a FPLLoginCredentials using the username and password.
-	 * 
+	 *
 	 * @param username The user's username on FPL
 	 * @param password The user's password on FPL
 	 */
@@ -25,7 +26,7 @@ public class FPLLoginCredentials
 		this.username = username;
 		this.password = password;
 	}
-	
+
 	/**
 	 * @return the Username.
 	 */
@@ -40,5 +41,5 @@ public class FPLLoginCredentials
 	protected final String getPassword()
 	{
 		return password;
-	}	
+	}
 }

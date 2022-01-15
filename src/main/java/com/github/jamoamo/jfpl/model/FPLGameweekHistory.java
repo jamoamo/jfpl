@@ -25,7 +25,7 @@ package com.github.jamoamo.jfpl.model;
 
 /**
  * A user's game week performance.
- * 
+ *
  * @author James Amoore
  */
 public class FPLGameweekHistory
@@ -41,23 +41,25 @@ public class FPLGameweekHistory
 	private final int gameweekTransfers;
 	private final int gameweekTransfersCost;
 	private final int pointsOnBench;
-	
+
 	/**
 	 * Creates a new instance.
-	 * 
-	 * @param gameweek The game week.
-	 * @param gameweekPoints The number of points scored in the game week.
-	 * @param cumulativePoints The overall number of points up to and including this game week.
-	 * @param gameweekRank The user's rank in the game week.
-	 * @param gameweekRankSorted The user's sorted rank in the game week.
-	 * @param overallRank The user's overall rank after the game week.
-	 * @param bank The amount in the user's bank.
-	 * @param value The value of the user's team.
-	 * @param gameweekTransfers the number of transfers made in the game week.
+	 *
+	 * @param gameweek              The game week.
+	 * @param gameweekPoints        The number of points scored in the game week.
+	 * @param cumulativePoints      The overall number of points up to and including this game week.
+	 * @param gameweekRank          The user's rank in the game week.
+	 * @param gameweekRankSorted    The user's sorted rank in the game week.
+	 * @param overallRank           The user's overall rank after the game week.
+	 * @param bank                  The amount in the user's bank.
+	 * @param value                 The value of the user's team.
+	 * @param gameweekTransfers     the number of transfers made in the game week.
 	 * @param gameweekTransfersCost the cost of the transfers in the game week.
-	 * @param pointsOnBench the number of points left on the bench.
+	 * @param pointsOnBench         the number of points left on the bench.
 	 */
-	public FPLGameweekHistory(int gameweek, int gameweekPoints, int cumulativePoints, int gameweekRank, int gameweekRankSorted, int overallRank, double bank, double value, int gameweekTransfers, int gameweekTransfersCost, int pointsOnBench)
+	public FPLGameweekHistory(int gameweek, int gameweekPoints, int cumulativePoints, int gameweekRank,
+									  int gameweekRankSorted, int overallRank, double bank, double value, int gameweekTransfers,
+									  int gameweekTransfersCost, int pointsOnBench)
 	{
 		this.gameweek = gameweek;
 		this.gameweekPoints = gameweekPoints;

@@ -7,7 +7,7 @@ package com.github.jamoamo.jfpl.model;
 
 /**
  * Represents a users summary for a gameweek.
- * 
+ *
  * @author James Amoore
  */
 public class FPLGameweekSummary
@@ -18,8 +18,9 @@ public class FPLGameweekSummary
 
 	/**
 	 * Creates a new game-week summary.
-	 * @param gameweek the game-week nr the summary pertains to
-	 * @param points The number of points the user gained in the game-week.
+	 *
+	 * @param gameweek     the game-week nr the summary pertains to
+	 * @param points       The number of points the user gained in the game-week.
 	 * @param gameweekRank The rank the user placed in the game-week
 	 */
 	public FPLGameweekSummary(int gameweek, int points, int gameweekRank)
@@ -28,7 +29,7 @@ public class FPLGameweekSummary
 		this.points = points;
 		this.gameweekRank = gameweekRank;
 	}
-	
+
 	/**
 	 * @return the game-week the summary pertains to.
 	 */
@@ -46,7 +47,7 @@ public class FPLGameweekSummary
 	}
 
 	/**
-	 * @return The rank the user placed in the game-week. 
+	 * @return The rank the user placed in the game-week.
 	 */
 	public int getGameweekRank()
 	{
