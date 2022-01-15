@@ -12,9 +12,9 @@ package com.github.jamoamo.jfpl;
 class JsonCurrentUserTeam
 {
 	private JsonTeamPicks[] picks;
-	
+
 	private JsonTeamChip[] chips;
-	
+
 	private JsonTeamTransfers transfers;
 
 	public JsonTeamPicks[] getPicks()

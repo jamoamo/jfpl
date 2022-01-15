@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * An FPL user's team.
+ *
  * @author James Amoore
  */
 public class FPLUserTeam
@@ -19,12 +20,13 @@ public class FPLUserTeam
 	private final List<FPLTeamChip> chips = new ArrayList<>();
 	private final FPLPlayer captain;
 	private final FPLPlayer viceCaptain;
-	
+
 	/**
 	 * Creates a new instance.
-	 * @param picks The players that make up the user's team
-	 * @param chips The FPL chips for the team
-	 * @param captain The team captain
+	 *
+	 * @param picks       The players that make up the user's team
+	 * @param chips       The FPL chips for the team
+	 * @param captain     The team captain
 	 * @param viceCaptain The team vice-captain
 	 */
 	public FPLUserTeam(List<FPLUserTeamPick> picks, List<FPLTeamChip> chips, FPLPlayer captain, FPLPlayer viceCaptain)
@@ -44,7 +46,7 @@ public class FPLUserTeam
 	}
 
 	/**
-	 * @return The team captain 
+	 * @return The team captain
 	 */
 	public FPLPlayer getCaptain()
 	{
@@ -52,13 +54,13 @@ public class FPLUserTeam
 	}
 
 	/**
-	 * @return The team vice captain 
+	 * @return The team vice captain
 	 */
 	public FPLPlayer getViceCaptain()
 	{
 		return viceCaptain;
 	}
-	
+
 	/**
 	 * @return The chips available to the team.
 	 */

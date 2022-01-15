@@ -11,7 +11,7 @@ package com.github.jamoamo.jfpl;
  */
 class JsonCurrentUserPlayer
 {
-	private int entry; 
+	private int entry;
 
 	public int getEntry()
 	{
@@ -22,6 +22,5 @@ class JsonCurrentUserPlayer
 	{
 		this.entry = entry;
 	}
-	
-	
+
 }

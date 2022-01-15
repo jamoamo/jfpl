@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 class UserHistoryMapper
 {
 	private static final double FACTOR_TEN = 10.0;
-	
+
 	protected FPLUserHistory mapUserHistory(JsonUserHistory userHistory)
 	{
 		List<FPLGameweekHistory> gameweekHistory = mapGameweekHistory(userHistory.getCurrent());
@@ -46,11 +46,18 @@ class UserHistoryMapper
 
 	protected List<FPLGameweekHistory> mapGameweekHistory(List<JsonGameweekHistory> current)
 	{
-		return current.stream().map(jgh -> new FPLGameweekHistory(jgh.getEvent(), jgh.getPoints(), jgh.getTotalPoints(), jgh.getRank(), jgh.getRankSort(), jgh.getOverallRank(), jgh.getBank() / FACTOR_TEN, jgh.getValue() / FACTOR_TEN, jgh.getEventTransfers(), jgh.getEventTransfersCost(), jgh.getPointsOnBench())).collect(Collectors.toList());
+		return current.stream().map(
+				  jgh -> new FPLGameweekHistory(jgh.getEvent(), jgh.getPoints(), jgh.getTotalPoints(),
+															 jgh.getRank(), jgh.getRankSort(), jgh.getOverallRank(),
+															 jgh.getBank() / FACTOR_TEN,
+															 jgh.getValue() / FACTOR_TEN, jgh.getEventTransfers(),
+															 jgh.getEventTransfersCost(), jgh.getPointsOnBench())).
+				  collect(Collectors.toList());
 	}
 
 	protected List<FPLPastSeason> mapPastSeasons(List<JsonPastSeasonHistory> past)
 	{
-		return past.stream().map(jpsh -> new FPLPastSeason(jpsh.getSeasonName(), jpsh.getTotalPoints(), jpsh.getRank())).collect(Collectors.toList());
+		return past.stream().map(jpsh -> new FPLPastSeason(jpsh.getSeasonName(), jpsh.getTotalPoints(), jpsh.getRank())).
+				  collect(Collectors.toList());
 	}
 }

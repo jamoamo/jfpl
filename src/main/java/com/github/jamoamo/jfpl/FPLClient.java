@@ -82,7 +82,7 @@ class FPLClient implements IFPLClient
 			httpPost.releaseConnection();
 		}
 	}
-	
+
 	private boolean loginResponseWasSucess(CloseableHttpResponse response)
 	{
 		Header[] headers = response.getAllHeaders();
@@ -92,7 +92,7 @@ class FPLClient implements IFPLClient
 			{
 				String locationValue = header.getValue();
 				Pattern p = Pattern.compile(
-				 "https[:]//fantasy[.]premierleague[.]com/a/login[?]state[=]success[;]?");
+						  "https[:]//fantasy[.]premierleague[.]com/a/login[?]state[=]success[;]?");
 				return p.matcher(locationValue).matches();
 			}
 		}
@@ -156,11 +156,11 @@ class FPLClient implements IFPLClient
 		{
 			CloseableHttpResponse response = this.httpClient.execute(httpGet);
 
-			if(response.getStatusLine().getStatusCode() 
-					  != HttpStatus.SC_OK)
+			if(response.getStatusLine().getStatusCode() !=
+					   HttpStatus.SC_OK)
 			{
-				throw new RuntimeException("API Exception: " 
-						  + response.getStatusLine().getStatusCode());
+				throw new RuntimeException("API Exception: " +
+						   response.getStatusLine().getStatusCode());
 			}
 			is = response.getEntity().getContent();
 			Gson gson = new GsonBuilder()

@@ -77,6 +77,5 @@ class JsonTeamTransfers
 	{
 		this.value = value;
 	}
-	
-	
+
 }

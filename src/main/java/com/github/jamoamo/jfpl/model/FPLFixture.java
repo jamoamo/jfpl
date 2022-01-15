@@ -8,8 +8,8 @@ package com.github.jamoamo.jfpl.model;
 import java.time.LocalDateTime;
 
 /**
- *	Represents A fixture in FPL.
- * 
+ * Represents A fixture in FPL.
+ *
  * @author James Amoore
  */
 public final class FPLFixture
@@ -21,19 +21,20 @@ public final class FPLFixture
 	private final FPLTeam awayTeam;
 	private final int homeDifficulty;
 	private final int awayDifficulty;
-	
+
 	/**
 	 * Creates a new instance.
 	 *
-	 * @param id The fixture id in FPL
-	 * @param gameweek the game-week nr in which the fixture takes place
-	 * @param dateTime The Date and time of the fixture
-	 * @param homeTeam The team playing at home
-	 * @param awayTeam The team playing away from home
+	 * @param id             The fixture id in FPL
+	 * @param gameweek       the game-week nr in which the fixture takes place
+	 * @param dateTime       The Date and time of the fixture
+	 * @param homeTeam       The team playing at home
+	 * @param awayTeam       The team playing away from home
 	 * @param homeDifficulty The difficulty of playing the home team
 	 * @param awayDifficulty The difficulty of playing the away team
 	 */
-	public FPLFixture(int id, int gameweek, LocalDateTime dateTime, FPLTeam homeTeam, FPLTeam awayTeam, int homeDifficulty, int awayDifficulty)
+	public FPLFixture(int id, int gameweek, LocalDateTime dateTime, FPLTeam homeTeam, FPLTeam awayTeam,
+							int homeDifficulty, int awayDifficulty)
 	{
 		this.id = id;
 		this.gameweek = gameweek;
@@ -43,7 +44,7 @@ public final class FPLFixture
 		this.homeDifficulty = homeDifficulty;
 		this.awayDifficulty = awayDifficulty;
 	}
-	
+
 	/**
 	 * @return the fixture id.
 	 */
@@ -77,7 +78,7 @@ public final class FPLFixture
 	}
 
 	/**
-	 * @return the fixture date and time. 
+	 * @return the fixture date and time.
 	 */
 	public LocalDateTime getDateTime()
 	{
@@ -85,7 +86,8 @@ public final class FPLFixture
 	}
 
 	/**
-	 * The difficulty of the home team on a scale of 1-5 where 1 is easy and 5 is difficult. 
+	 * The difficulty of the home team on a scale of 1-5 where 1 is easy and 5 is difficult.
+	 *
 	 * @return the home difficulty.
 	 */
 	public int getHomeDifficulty()
@@ -94,13 +96,13 @@ public final class FPLFixture
 	}
 
 	/**
-	 * The difficulty of the away team on a scale of 1-5 where 1 is easy and 5 is difficult. 
+	 * The difficulty of the away team on a scale of 1-5 where 1 is easy and 5 is difficult.
+	 *
 	 * @return the home difficulty.
 	 */
 	public int getAwayDifficulty()
 	{
 		return awayDifficulty;
 	}
-	
-	
+
 }

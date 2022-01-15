@@ -714,5 +714,5 @@ class JsonPlayer
 	public void setSelectedByPercent(double selectedByPercent)
 	{
 		this.selectedByPercent = selectedByPercent;
-	}	
+	}
 }

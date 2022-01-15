@@ -24,8 +24,8 @@
 package com.github.jamoamo.jfpl.model;
 
 /**
- * A past FPL season for the user. 
- * 
+ * A past FPL season for the user.
+ *
  * @author James Amoore
  */
 public final class FPLPastSeason
@@ -33,13 +33,13 @@ public final class FPLPastSeason
 	private final String season;
 	private final int points;
 	private final int rank;
-	
+
 	/**
 	 * Creates a new instance.
-	 * 
+	 *
 	 * @param season The past season e.g. 2008/09.
 	 * @param points The number of points scored in the season.
-	 * @param rank The rank achieved in the season.
+	 * @param rank   The rank achieved in the season.
 	 */
 	public FPLPastSeason(String season, int points, int rank)
 	{

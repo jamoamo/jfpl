@@ -83,8 +83,6 @@ class JsonUser
 	{
 		this.playerRegionName = playerRegionName;
 	}
-	
-	
 
 	public int getSummaryOverallPoints()
 	{

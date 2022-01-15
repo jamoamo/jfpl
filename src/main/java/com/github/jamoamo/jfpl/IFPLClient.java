@@ -10,23 +10,24 @@ import java.util.List;
 
 interface IFPLClient
 {
-	boolean login(FPLLoginCredentials creds) throws IOException;
-	
+	boolean login(FPLLoginCredentials creds)
+			  throws IOException;
+
 	JsonCurrentUser getCurrentUser()
 			  throws IOException;
-	
+
 	JsonCurrentUserTeam getCurrentUserTeam(int id)
 			  throws IOException;
-	
+
 	JsonUser getUser(int id)
 			  throws IOException;
-	
+
 	JsonStaticData getStaticData()
 			  throws IOException;
-	
+
 	List<JsonFixture> getFixtures()
 			  throws IOException;
-	
+
 	List<JsonFixture> getFixturesForGameweek(int gameweekNr)
 			  throws IOException;
 

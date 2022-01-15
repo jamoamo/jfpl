@@ -4,12 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
-   <parent>
-      <groupId>com.github.jamoamo</groupId>
-      <artifactId>pom-parent-library</artifactId>
-      <version>1.0</version>
-   </parent>
-
    <groupId>com.github.jamoamo</groupId>
    <artifactId>jfpl</artifactId>
    <version>0.1-SNAPSHOT</version>
@@ -119,31 +113,52 @@
             <version>3.8.1</version>
          </plugin>
          <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-javadoc-plugin</artifactId>
-               <version>3.3.1</version>
-               <executions>
-                  <execution>
-                     <id>attach-javadocs</id>
-                     <goals>
-                        <goal>jar</goal>
-                     </goals>
-                  </execution>
-               </executions>
-            </plugin>
-            <plugin>
-               <artifactId>maven-source-plugin</artifactId>
-               <version>3.2.1</version>
-               <executions>
-                  <execution>
-                     <id>attach-source</id>
-                     <phase>compile</phase>
-                     <goals>
-                        <goal>jar</goal>
-                     </goals>
-                  </execution>
-               </executions>
-            </plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.3.1</version>
+            <executions>
+               <execution>
+                  <id>attach-javadocs</id>
+                  <goals>
+                     <goal>jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.2.1</version>
+            <executions>
+               <execution>
+                  <id>attach-source</id>
+                  <phase>compile</phase>
+                  <goals>
+                     <goal>jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>3.1.2</version>
+            <configuration>
+               <configLocation>.checkstyle/checkstyle_rules.xml</configLocation>
+               <encoding>UTF-8</encoding>
+               <consoleOutput>true</consoleOutput>
+               <failsOnError>true</failsOnError>
+               <linkXRef>false</linkXRef>
+            </configuration>
+            <executions>
+               <execution>
+                  <id>validate</id>
+                  <phase>validate</phase>
+                  <goals>
+                     <goal>check</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
       </plugins>
    </build>
 

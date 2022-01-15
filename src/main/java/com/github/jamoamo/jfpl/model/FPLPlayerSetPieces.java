@@ -6,8 +6,8 @@
 package com.github.jamoamo.jfpl.model;
 
 /**
- *	Represents a players set piece order.
- * 
+ * Represents a players set piece order.
+ *
  * @author James Amoore
  */
 public class FPLPlayerSetPieces
@@ -15,13 +15,13 @@ public class FPLPlayerSetPieces
 	private final int cornersAndIndirectFreeKickOrder;
 	private final int directFreeKickOrder;
 	private final int penaltyOrder;
-	
+
 	/**
 	 * Creates a new instance.
-	 * 
+	 *
 	 * @param cornersAndIndirectFreeKickOrder player's order for corners and indirect free kicks
-	 * @param directFreeKickOrder player's order for direct free kicks
-	 * @param penaltyOrder player's order for penalties
+	 * @param directFreeKickOrder             player's order for direct free kicks
+	 * @param penaltyOrder                    player's order for penalties
 	 */
 	public FPLPlayerSetPieces(int cornersAndIndirectFreeKickOrder, int directFreeKickOrder, int penaltyOrder)
 	{
@@ -31,7 +31,7 @@ public class FPLPlayerSetPieces
 	}
 
 	/**
-	 * @return the player's corner and indirect free kick order 
+	 * @return the player's corner and indirect free kick order
 	 */
 	public int getCornersAndIndirectFreeKickOrder()
 	{
@@ -39,7 +39,7 @@ public class FPLPlayerSetPieces
 	}
 
 	/**
-	 * @return the player's direct free kick order 
+	 * @return the player's direct free kick order
 	 */
 	public int getDirectFreeKickOrder()
 	{
@@ -47,7 +47,7 @@ public class FPLPlayerSetPieces
 	}
 
 	/**
-	 * @return the player's penalty order 
+	 * @return the player's penalty order
 	 */
 	public int getPenaltyOrder()
 	{

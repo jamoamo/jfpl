@@ -7,7 +7,7 @@ package com.github.jamoamo.jfpl.model;
 
 /**
  * Region information.
- * 
+ *
  * @author James Amoore
  */
 public class FPLRegion
@@ -16,12 +16,13 @@ public class FPLRegion
 	private final String regionName;
 	private final String isoCodeLong;
 	private final String isoCodeShort;
-	
+
 	/**
 	 * Creates a new instance.
-	 * @param playerRegionId The region id
-	 * @param playerRegionName The region name
-	 * @param playerRegionIsoCodeLong The region long ISO code
+	 *
+	 * @param playerRegionId           The region id
+	 * @param playerRegionName         The region name
+	 * @param playerRegionIsoCodeLong  The region long ISO code
 	 * @param playerRegionIsoCodeShort The region short ISO code
 	 */
 	public FPLRegion(int playerRegionId, String playerRegionName, String playerRegionIsoCodeLong,
@@ -34,7 +35,7 @@ public class FPLRegion
 	}
 
 	/**
-	 * @return the region id 
+	 * @return the region id
 	 */
 	public int getRegionId()
 	{
@@ -42,7 +43,7 @@ public class FPLRegion
 	}
 
 	/**
-	 * @return the regsion name 
+	 * @return the regsion name
 	 */
 	public String getRegionName()
 	{
@@ -50,7 +51,7 @@ public class FPLRegion
 	}
 
 	/**
-	 * @return the region long ISO code 
+	 * @return the region long ISO code
 	 */
 	public String getIsoCodeLong()
 	{

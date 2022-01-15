@@ -6,7 +6,6 @@
 package com.github.jamoamo.jfpl;
 
 /**
- *
  * @author James Amoore
  */
 class JsonFixture
@@ -20,10 +19,10 @@ class JsonFixture
 	private String kickoffTime;
 	private int teamHDifficulty;
 	private int teamADifficulty;
-	
+
 	JsonFixture()
 	{
-		
+
 	}
 
 	public int getEvent()

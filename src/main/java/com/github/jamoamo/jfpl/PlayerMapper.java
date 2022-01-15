@@ -55,11 +55,11 @@ class PlayerMapper
 		return player;
 	}
 
-	private FPLPlayingChance mapPlayingChance(JsonPlayer jsonPlayer)
+	private FPLPlayingChance mapPlayingChance(JsonPlayer player)
 	{
 		FPLPlayingChance playingChance = new FPLPlayingChance(
-				  jsonPlayer.getChanceOfPlayingThisRound() == null ? FULL_CHANCE : jsonPlayer.getChanceOfPlayingThisRound(),
-				  jsonPlayer.getChanceOfPlayingNextRound() == null ? FULL_CHANCE : jsonPlayer.getChanceOfPlayingNextRound());
+				  player.getChanceOfPlayingThisRound() == null ? FULL_CHANCE : player.getChanceOfPlayingThisRound(),
+				  player.getChanceOfPlayingNextRound() == null ? FULL_CHANCE : player.getChanceOfPlayingNextRound());
 		return playingChance;
 	}
 

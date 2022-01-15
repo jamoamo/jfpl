@@ -11,5 +11,5 @@ package com.github.jamoamo.jfpl.model;
  */
 class FPLUserLeagues
 {
-	
+
 }

@@ -7,6 +7,7 @@ package com.github.jamoamo.jfpl.model;
 
 /**
  * An FPL User.
+ *
  * @author James Amoore
  */
 public class FPLUser
@@ -21,21 +22,22 @@ public class FPLUser
 
 	/**
 	 * Creates a new instance.
-	 * @param id the user's id
-	 * @param teamName The name of the user's team
+	 *
+	 * @param id              the user's id
+	 * @param teamName        The name of the user's team
 	 * @param playerFirstName The user's first name
-	 * @param playerLastName The user's last name
-	 * @param favouriteTeam The user's favourite team
-	 * @param region The region the user lives in
-	 * @param bank The team's bank value at the last deadline
+	 * @param playerLastName  The user's last name
+	 * @param favouriteTeam   The user's favourite team
+	 * @param region          The region the user lives in
+	 * @param bank            The team's bank value at the last deadline
 	 */
-	public FPLUser(int id, 
-					String teamName, 
-					String playerFirstName, 
-					String playerLastName, 
-					FPLTeam favouriteTeam, 
-					FPLRegion region,
-					double bank)
+	public FPLUser(int id,
+						String teamName,
+						String playerFirstName,
+						String playerLastName,
+						FPLTeam favouriteTeam,
+						FPLRegion region,
+						double bank)
 	{
 		this.id = id;
 		this.teamName = teamName;
@@ -55,7 +57,7 @@ public class FPLUser
 	}
 
 	/**
-	 * @return The user's team name 
+	 * @return The user's team name
 	 */
 	public String getTeamName()
 	{
@@ -63,7 +65,7 @@ public class FPLUser
 	}
 
 	/**
-	 * @return The user's first name 
+	 * @return The user's first name
 	 */
 	public String getPlayerFirstName()
 	{
@@ -71,7 +73,7 @@ public class FPLUser
 	}
 
 	/**
-	 * @return The user's last name 
+	 * @return The user's last name
 	 */
 	public String getPlayerLastName()
 	{
@@ -79,7 +81,7 @@ public class FPLUser
 	}
 
 	/**
-	 * @return The user's favourite team 
+	 * @return The user's favourite team
 	 */
 	public FPLTeam getFavouriteTeam()
 	{
@@ -87,13 +89,13 @@ public class FPLUser
 	}
 
 	/**
-	 * @return The user's region 
+	 * @return The user's region
 	 */
 	public FPLRegion getRegion()
 	{
 		return this.region;
 	}
-	
+
 	/**
 	 * @return The teams bank amount at the last deadline.
 	 */
