@@ -36,6 +36,7 @@ class JsonGameweek
 	private int highestScoringEntry;
 	private boolean isCurrent;
 	private boolean isNext;
+	private boolean isPrevious;
 	private boolean finished;
 
 	public int getId()
@@ -106,6 +107,16 @@ class JsonGameweek
 	public void setIsNext(boolean isNext)
 	{
 		this.isNext = isNext;
+	}
+
+	public boolean isIsPrevious()
+	{
+		return isPrevious;
+	}
+
+	public void setIsPrevious(boolean isPrevious)
+	{
+		this.isPrevious = isPrevious;
 	}
 
 	public boolean isFinished()
