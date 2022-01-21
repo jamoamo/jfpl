@@ -37,6 +37,7 @@ public final class FPLGameweek
 	private final LocalDateTime deadlineTime;
 	private final boolean current;
 	private final boolean next;
+	private final boolean previous;
 	private final boolean finished;
 
 	/**
@@ -47,9 +48,11 @@ public final class FPLGameweek
 	 * @param deadlineTime The deadline by which FPL picks for the gameweek should be made.
 	 * @param isCurrent    Whether the gameweek is the current gameweek.
 	 * @param isNext       Whether the gameweek is the next gameweek.
+	 * @param isPrevious   Whether the gameweek is the previous gameweek
 	 * @param isFinished   Whether the gameweek has completed.
 	 */
 	public FPLGameweek(int id, String name, LocalDateTime deadlineTime, boolean isCurrent, boolean isNext,
+							 boolean isPrevious,
 							 boolean isFinished)
 	{
 		this.id = id;
@@ -57,6 +60,7 @@ public final class FPLGameweek
 		this.deadlineTime = LocalDateTime.from(deadlineTime);
 		this.current = isCurrent;
 		this.next = isNext;
+		this.previous = isPrevious;
 		this.finished = isFinished;
 	}
 
@@ -98,6 +102,14 @@ public final class FPLGameweek
 	public boolean isNext()
 	{
 		return next;
+	}
+
+	/**
+	 * @return a boolean value indicating if the game-week is the previous game-week.
+	 */
+	public boolean isPrevious()
+	{
+		return previous;
 	}
 
 	/**

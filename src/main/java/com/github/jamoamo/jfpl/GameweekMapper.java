@@ -46,6 +46,7 @@ class GameweekMapper
 							 ldt, 
 							 jsonGameweek.isIsCurrent(), 
 							 jsonGameweek.isIsNext(), 
+							 jsonGameweek.isIsPrevious(),
 							 jsonGameweek.isFinished());
 		return gameweek;
 	}
