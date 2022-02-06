@@ -1,3 +1,4 @@
+![Maven Central](https://img.shields.io/maven-central/v/io.github.jamoamo/jfpl?style=for-the-badge)
 # jFPL
 A Java Wrapper for the unofficial fpl api (fantasy.premierleague.com/api)
 
