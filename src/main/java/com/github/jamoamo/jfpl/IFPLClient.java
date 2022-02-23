@@ -51,4 +51,6 @@ interface IFPLClient
 
 	JsonUserHistory getUserHistory(int id)
 			  throws IOException;
+	
+	boolean isLoggedIn();
 }

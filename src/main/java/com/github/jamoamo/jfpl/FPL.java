@@ -82,6 +82,16 @@ public final class FPL
 			throw new XFPLLoginException();
 		}
 	}
+	
+	/**
+	 * Indicates if the client is logged into FPL.
+	 * 
+	 * @return {@code true} if logged in else {@code false}
+	 */
+	public boolean isLoggedIn()
+	{
+		return this.fplClient.isLoggedIn();
+	}
 
 	/**
 	 * Returns the current user. Requires that the user be logged in using the
