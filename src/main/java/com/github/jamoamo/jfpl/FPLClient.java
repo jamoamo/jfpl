@@ -64,7 +64,10 @@ class FPLClient implements IFPLClient
 
 	private final CookieStore cookieStore;
 	private final CloseableHttpClient httpClient;
-
+	
+	//TODO this is crude, rather detect login cookie on client
+	private boolean loggedIn = false;
+	
 	FPLClient()
 	{
 		cookieStore = new BasicCookieStore();
@@ -93,12 +96,19 @@ class FPLClient implements IFPLClient
 			httpPost.setEntity(new UrlEncodedFormEntity(params));
 
 			CloseableHttpResponse response = httpClient.execute(httpPost);
-			return loginResponseWasSucess(response);
+			this.loggedIn = loginResponseWasSucess(response);
+			return this.loggedIn;
 		}
 		finally
 		{
 			httpPost.releaseConnection();
 		}
+	}
+	
+	@Override
+	public boolean isLoggedIn()
+	{
+		return this.loggedIn;
 	}
 
 	private boolean loginResponseWasSucess(CloseableHttpResponse response)

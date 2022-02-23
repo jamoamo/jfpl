@@ -97,6 +97,12 @@ class TestClient implements IFPLClient
 	{
 		return true;
 	}
+	
+	@Override
+	public boolean isLoggedIn()
+	{
+		return true;
+	}
 
 	@Override
 	public JsonCurrentUserTeam getCurrentUserTeam(int id)
