@@ -23,39 +23,56 @@
  */
 package com.github.jamoamo.jfpl;
 
-import com.github.jamoamo.jfpl.model.FPLGameweekHistory;
-import com.github.jamoamo.jfpl.model.FPLPastSeason;
-import com.github.jamoamo.jfpl.model.FPLUserHistory;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
  * @author James Amoore
  */
-class UserHistoryMapper
+class JsonEntryGameweek
 {
-	
+	private String activeChip;
+	private List<JsonAutomaticSub> automaticSubs;
+	private JsonGameweekHistory entryHistory;
+	private List<JsonGameweekEntryPick> picks;
 
-	protected FPLUserHistory mapUserHistory(JsonUserHistory userHistory)
+	public String getActiveChip()
 	{
-		List<FPLGameweekHistory> gameweekHistory = mapGameweekHistory(userHistory.getCurrent());
-		List<FPLPastSeason> pastSeasons = mapPastSeasons(userHistory.getPast());
-		return new FPLUserHistory(gameweekHistory, pastSeasons);
+		return activeChip;
 	}
 
-	protected List<FPLGameweekHistory> mapGameweekHistory(List<JsonGameweekHistory> current)
+	public void setActiveChip(String activeChip)
 	{
-		GameweekHistoryMapper mapper = new GameweekHistoryMapper();
-		
-		return current.stream().map(
-				  jgh -> mapper.mapGameweekHistory(jgh)).
-				  collect(Collectors.toList());
+		this.activeChip = activeChip;
 	}
 
-	protected List<FPLPastSeason> mapPastSeasons(List<JsonPastSeasonHistory> past)
+	public List<JsonAutomaticSub> getAutomaticSubs()
 	{
-		return past.stream().map(jpsh -> new FPLPastSeason(jpsh.getSeasonName(), jpsh.getTotalPoints(), jpsh.getRank())).
-				  collect(Collectors.toList());
+		return automaticSubs;
+	}
+
+	public void setAutomaticSubs(List<JsonAutomaticSub> automaticSubs)
+	{
+		this.automaticSubs = automaticSubs;
+	}
+
+	public JsonGameweekHistory getEntryHistory()
+	{
+		return entryHistory;
+	}
+
+	public void setEntryHistory(JsonGameweekHistory entryHistory)
+	{
+		this.entryHistory = entryHistory;
+	}
+
+	public List<JsonGameweekEntryPick> getPicks()
+	{
+		return picks;
+	}
+
+	public void setPicks(List<JsonGameweekEntryPick> picks)
+	{
+		this.picks = picks;
 	}
 }

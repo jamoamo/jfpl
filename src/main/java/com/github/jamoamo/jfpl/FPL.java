@@ -23,6 +23,7 @@
  */
 package com.github.jamoamo.jfpl;
 
+import com.github.jamoamo.jfpl.model.FPLEntryGameweek;
 import com.github.jamoamo.jfpl.model.FPLPlayer;
 import com.github.jamoamo.jfpl.model.FPLFixture;
 import com.github.jamoamo.jfpl.model.FPLGameweek;
@@ -268,6 +269,30 @@ public final class FPL
 			UserHistoryMapper mapper = new UserHistoryMapper();
 
 			return mapper.mapUserHistory(history);
+		}
+		catch(IOException ex)
+		{
+			throw new XFPLUnavailableException();
+		}
+		catch(JsonSyntaxException ex)
+		{
+			throw new XFPLAPIResponseException();
+		}
+	}
+	
+	/**
+	 * Get the Entry game week for the provided entry and game week.
+	 * @param entry The entry.
+	 * @param gameweek The game week.
+	 * @return The entry game week.
+	 */
+	public FPLEntryGameweek getEntryGameweek(int entry, int gameweek)
+	{
+		try
+		{
+			JsonEntryGameweek entryGameweek = fplClient.getEntryGameweek(entry, gameweek);
+			EntryGameweekMapper mapper = new EntryGameweekMapper();
+			return mapper.mapEntryGameweek(entryGameweek, getPlayerMap());
 		}
 		catch(IOException ex)
 		{

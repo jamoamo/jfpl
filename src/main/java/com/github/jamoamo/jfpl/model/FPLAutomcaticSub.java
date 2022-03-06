@@ -21,41 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.jamoamo.jfpl;
-
-import com.github.jamoamo.jfpl.model.FPLGameweekHistory;
-import com.github.jamoamo.jfpl.model.FPLPastSeason;
-import com.github.jamoamo.jfpl.model.FPLUserHistory;
-import java.util.List;
-import java.util.stream.Collectors;
+package com.github.jamoamo.jfpl.model;
 
 /**
- *
+ * A sub automatically made during a game week when one of the players in the first 11 didn't play.
  * @author James Amoore
  */
-class UserHistoryMapper
+public final class FPLAutomcaticSub
 {
+	private final FPLPlayer playerIn;
+	private final FPLPlayer playerOut;
 	
-
-	protected FPLUserHistory mapUserHistory(JsonUserHistory userHistory)
+	/**
+	 * Creates a new instance.
+	 * 
+	 * @param playerIn The player brought in.
+	 * @param playerOut The player taken out.
+	 */
+	public FPLAutomcaticSub(FPLPlayer playerIn, FPLPlayer playerOut)
 	{
-		List<FPLGameweekHistory> gameweekHistory = mapGameweekHistory(userHistory.getCurrent());
-		List<FPLPastSeason> pastSeasons = mapPastSeasons(userHistory.getPast());
-		return new FPLUserHistory(gameweekHistory, pastSeasons);
+		this.playerIn = playerIn;
+		this.playerOut = playerOut;
 	}
 
-	protected List<FPLGameweekHistory> mapGameweekHistory(List<JsonGameweekHistory> current)
+	/**
+	 * Returns the player brought in.
+	 * 
+	 * @return the player brought in.
+	 */
+	public FPLPlayer getPlayerIn()
 	{
-		GameweekHistoryMapper mapper = new GameweekHistoryMapper();
-		
-		return current.stream().map(
-				  jgh -> mapper.mapGameweekHistory(jgh)).
-				  collect(Collectors.toList());
+		return playerIn;
 	}
-
-	protected List<FPLPastSeason> mapPastSeasons(List<JsonPastSeasonHistory> past)
+	
+	/**
+	 * Returns the player brought out.
+	 * 
+	 * @return the player brought out.
+	 */
+	public FPLPlayer getPlayerOut()
 	{
-		return past.stream().map(jpsh -> new FPLPastSeason(jpsh.getSeasonName(), jpsh.getTotalPoints(), jpsh.getRank())).
-				  collect(Collectors.toList());
+		return playerOut;
 	}
 }
