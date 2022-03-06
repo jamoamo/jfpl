@@ -117,5 +117,12 @@ class TestClient implements IFPLClient
 	{
 		throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
 	}
+
+	@Override
+	public JsonEntryGameweek getEntryGameweek(int entity, int event)
+			  throws IOException
+	{
+		throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+	}
 	
 }

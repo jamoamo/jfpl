@@ -23,39 +23,65 @@
  */
 package com.github.jamoamo.jfpl;
 
-import com.github.jamoamo.jfpl.model.FPLGameweekHistory;
-import com.github.jamoamo.jfpl.model.FPLPastSeason;
-import com.github.jamoamo.jfpl.model.FPLUserHistory;
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  *
  * @author James Amoore
  */
-class UserHistoryMapper
+class JsonGameweekEntryPick
 {
-	
+	private int element;
+	private int position;
+	private int multiplier;
+	private boolean isCaptain;
+	private boolean isViceCaptain;
 
-	protected FPLUserHistory mapUserHistory(JsonUserHistory userHistory)
+	public int getElement()
 	{
-		List<FPLGameweekHistory> gameweekHistory = mapGameweekHistory(userHistory.getCurrent());
-		List<FPLPastSeason> pastSeasons = mapPastSeasons(userHistory.getPast());
-		return new FPLUserHistory(gameweekHistory, pastSeasons);
+		return element;
 	}
 
-	protected List<FPLGameweekHistory> mapGameweekHistory(List<JsonGameweekHistory> current)
+	public void setElement(int element)
 	{
-		GameweekHistoryMapper mapper = new GameweekHistoryMapper();
-		
-		return current.stream().map(
-				  jgh -> mapper.mapGameweekHistory(jgh)).
-				  collect(Collectors.toList());
+		this.element = element;
 	}
 
-	protected List<FPLPastSeason> mapPastSeasons(List<JsonPastSeasonHistory> past)
+	public int getPosition()
 	{
-		return past.stream().map(jpsh -> new FPLPastSeason(jpsh.getSeasonName(), jpsh.getTotalPoints(), jpsh.getRank())).
-				  collect(Collectors.toList());
+		return position;
+	}
+
+	public void setPosition(int position)
+	{
+		this.position = position;
+	}
+
+	public int getMultiplier()
+	{
+		return multiplier;
+	}
+
+	public void setMultiplier(int multiplier)
+	{
+		this.multiplier = multiplier;
+	}
+
+	public boolean isIsCaptain()
+	{
+		return isCaptain;
+	}
+
+	public void setIsCaptain(boolean isCaptain)
+	{
+		this.isCaptain = isCaptain;
+	}
+
+	public boolean isIsViceCaptain()
+	{
+		return isViceCaptain;
+	}
+
+	public void setIsViceCaptain(boolean isViceCaptain)
+	{
+		this.isViceCaptain = isViceCaptain;
 	}
 }

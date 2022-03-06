@@ -60,6 +60,7 @@ class FPLClient implements IFPLClient
 	private static final String URL_USER = URL_FPL_API + "entry/";
 	private static final String URL_SEPARATOR = "/";
 	private static final String URL_HISTORY = "/history/";
+	private static final String URL_ENTRY_GAMEWEEK = URL_FPL_API + "/entry/%d/event/%d/picks/";
 	private static final int LOGIN_PARAM_COUNT = 4;
 
 	private final CookieStore cookieStore;
@@ -210,5 +211,14 @@ class FPLClient implements IFPLClient
 	{
 		JsonUserHistory history = getRequest(URL_USER + id + URL_HISTORY, JsonUserHistory.class);
 		return history;
+	}
+
+	@Override
+	public JsonEntryGameweek getEntryGameweek(int entity, int event)
+			  throws IOException
+	{
+		JsonEntryGameweek entryGameweek = getRequest(String.format(URL_ENTRY_GAMEWEEK,entity,event), 
+																	JsonEntryGameweek.class);
+		return entryGameweek;
 	}
 }

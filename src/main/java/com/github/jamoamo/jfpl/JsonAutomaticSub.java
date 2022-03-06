@@ -23,39 +23,54 @@
  */
 package com.github.jamoamo.jfpl;
 
-import com.github.jamoamo.jfpl.model.FPLGameweekHistory;
-import com.github.jamoamo.jfpl.model.FPLPastSeason;
-import com.github.jamoamo.jfpl.model.FPLUserHistory;
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  *
  * @author James Amoore
  */
-class UserHistoryMapper
+class JsonAutomaticSub
 {
-	
+	private int entry;
+	private int elementIn;
+	private int elementOut;
+	private int event;
 
-	protected FPLUserHistory mapUserHistory(JsonUserHistory userHistory)
+	public int getEntry()
 	{
-		List<FPLGameweekHistory> gameweekHistory = mapGameweekHistory(userHistory.getCurrent());
-		List<FPLPastSeason> pastSeasons = mapPastSeasons(userHistory.getPast());
-		return new FPLUserHistory(gameweekHistory, pastSeasons);
+		return entry;
 	}
 
-	protected List<FPLGameweekHistory> mapGameweekHistory(List<JsonGameweekHistory> current)
+	public void setEntry(int entry)
 	{
-		GameweekHistoryMapper mapper = new GameweekHistoryMapper();
-		
-		return current.stream().map(
-				  jgh -> mapper.mapGameweekHistory(jgh)).
-				  collect(Collectors.toList());
+		this.entry = entry;
 	}
 
-	protected List<FPLPastSeason> mapPastSeasons(List<JsonPastSeasonHistory> past)
+	public int getElementIn()
 	{
-		return past.stream().map(jpsh -> new FPLPastSeason(jpsh.getSeasonName(), jpsh.getTotalPoints(), jpsh.getRank())).
-				  collect(Collectors.toList());
+		return elementIn;
+	}
+
+	public void setElementIn(int elementIn)
+	{
+		this.elementIn = elementIn;
+	}
+
+	public int getElementOut()
+	{
+		return elementOut;
+	}
+
+	public void setElementOut(int elementOut)
+	{
+		this.elementOut = elementOut;
+	}
+
+	public int getEvent()
+	{
+		return event;
+	}
+
+	public void setEvent(int event)
+	{
+		this.event = event;
 	}
 }

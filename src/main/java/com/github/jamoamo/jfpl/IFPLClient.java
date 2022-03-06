@@ -53,4 +53,7 @@ interface IFPLClient
 			  throws IOException;
 	
 	boolean isLoggedIn();
+	
+	JsonEntryGameweek getEntryGameweek(int entity, int event) 
+			  throws IOException;
 }

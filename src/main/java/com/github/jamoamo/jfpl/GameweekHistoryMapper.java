@@ -24,38 +24,23 @@
 package com.github.jamoamo.jfpl;
 
 import com.github.jamoamo.jfpl.model.FPLGameweekHistory;
-import com.github.jamoamo.jfpl.model.FPLPastSeason;
-import com.github.jamoamo.jfpl.model.FPLUserHistory;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
  * @author James Amoore
  */
-class UserHistoryMapper
+class GameweekHistoryMapper
 {
+	private static final double FACTOR_TEN = 10.0;
 	
-
-	protected FPLUserHistory mapUserHistory(JsonUserHistory userHistory)
+	public FPLGameweekHistory mapGameweekHistory(JsonGameweekHistory jsonHistory)
 	{
-		List<FPLGameweekHistory> gameweekHistory = mapGameweekHistory(userHistory.getCurrent());
-		List<FPLPastSeason> pastSeasons = mapPastSeasons(userHistory.getPast());
-		return new FPLUserHistory(gameweekHistory, pastSeasons);
+		return new FPLGameweekHistory(jsonHistory.getEvent(), jsonHistory.getPoints(), jsonHistory.getTotalPoints(),
+															 jsonHistory.getRank(), jsonHistory.getRankSort(), 
+															 jsonHistory.getOverallRank(),
+															 jsonHistory.getBank() / FACTOR_TEN,
+															 jsonHistory.getValue() / FACTOR_TEN, jsonHistory.getEventTransfers(),
+															 jsonHistory.getEventTransfersCost(), jsonHistory.getPointsOnBench());
 	}
-
-	protected List<FPLGameweekHistory> mapGameweekHistory(List<JsonGameweekHistory> current)
-	{
-		GameweekHistoryMapper mapper = new GameweekHistoryMapper();
-		
-		return current.stream().map(
-				  jgh -> mapper.mapGameweekHistory(jgh)).
-				  collect(Collectors.toList());
-	}
-
-	protected List<FPLPastSeason> mapPastSeasons(List<JsonPastSeasonHistory> past)
-	{
-		return past.stream().map(jpsh -> new FPLPastSeason(jpsh.getSeasonName(), jpsh.getTotalPoints(), jpsh.getRank())).
-				  collect(Collectors.toList());
-	}
+	
 }
