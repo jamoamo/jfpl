@@ -26,6 +26,9 @@ package com.github.jamoamo.jfpl;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -48,9 +51,13 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 class FPLClient implements IFPLClient
 {
+	private static final Logger LOGGER = LogManager.getLogger(FPLClient.class);
+	
 	private static final String URL_FPL_API = "https://fantasy.premierleague.com/api/";
 	private static final String URL_BOOTSTAP_STATIC = URL_FPL_API + "bootstrap-static/";
 	private static final String URL_FIXTURES = URL_FPL_API + "fixtures/";
@@ -183,26 +190,40 @@ class FPLClient implements IFPLClient
 		InputStream is = null;
 		try
 		{
+			LOGGER.info(String.format("Request to url [%s]",url));
 			CloseableHttpResponse response = this.httpClient.execute(httpGet);
-
+			LOGGER.info(String.format("Response: %s",response.getStatusLine().getStatusCode()));
+			
 			if(response.getStatusLine().getStatusCode() !=
 					   HttpStatus.SC_OK)
 			{
 				throw new RuntimeException("API Exception: " +
 						   response.getStatusLine().getStatusCode());
 			}
-			is = response.getEntity().getContent();
-			Gson gson = new GsonBuilder()
-					  .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-					  .create();
-			T responseObject = gson.fromJson(
-					  new InputStreamReader(is, Charset.forName("utf-8")), returnObjectClass);
-			return responseObject;
+			return processResponse(response, returnObjectClass);
+		}
+		catch(IOException | JsonParseException ex)
+		{
+			LOGGER.error("Request failed", ex);
+			throw ex;
 		}
 		finally
 		{
 			httpGet.releaseConnection();
 		}
+	}
+
+	private <T> T processResponse(CloseableHttpResponse response, Class<T> returnObjectClass)
+			  throws JsonIOException, JsonSyntaxException, UnsupportedOperationException, IOException
+	{
+		InputStream is;
+		is = response.getEntity().getContent();
+		Gson gson = new GsonBuilder()
+				  .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+				  .create();
+		T responseObject = gson.fromJson(
+				  new InputStreamReader(is, Charset.forName("utf-8")), returnObjectClass);
+		return responseObject;
 	}
 
 	@Override
