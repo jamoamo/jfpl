@@ -6,7 +6,7 @@
 
    <groupId>io.github.jamoamo</groupId>
    <artifactId>jfpl</artifactId>
-   <version>0.2-SNAPSHOT</version>
+   <version>0.2</version>
 
    <name>jfpl</name>
    <description>A lightweight unofficial Java wrapper for FPL (fantasy.premierleague.com)</description>
