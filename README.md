@@ -8,3 +8,4 @@ Functionality currently supported:
 * Retrieve the list of players
 * Retrieve the list of teams
 * Retrieve the list of fixtures
+* Retrieve a users history
