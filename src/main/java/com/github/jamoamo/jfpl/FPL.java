@@ -264,11 +264,36 @@ public final class FPL
 		try
 		{
 			JsonCurrentUser user = fplClient.getCurrentUser();
-			JsonUserHistory history = fplClient.getUserHistory(user.getPlayer().getEntry());
 
+			FPLUserHistory userHistory = getUserHistory(user.getPlayer().getEntry());
+
+			return userHistory;
+		}
+		catch(IOException ex)
+		{
+			throw new XFPLUnavailableException();
+		}
+		catch(JsonSyntaxException ex)
+		{
+			throw new XFPLAPIResponseException();
+		}
+	}
+	
+	/**
+	 * Get history of the user with the provided entry id.
+	 *
+	 * @param userEntryId The entry id of the user.
+	 * @return a history for the provided user
+	 *
+	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 */
+	public FPLUserHistory getUserHistory(int userEntryId)
+	{
+		try
+		{
+			JsonUserHistory userHistory = fplClient.getUserHistory(userEntryId);
 			UserHistoryMapper mapper = new UserHistoryMapper();
-
-			return mapper.mapUserHistory(history);
+			return mapper.mapUserHistory(userHistory);
 		}
 		catch(IOException ex)
 		{
