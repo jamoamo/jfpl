@@ -31,7 +31,6 @@ import com.github.jamoamo.jfpl.model.FPLTeam;
 import com.github.jamoamo.jfpl.model.FPLUser;
 import com.github.jamoamo.jfpl.model.FPLUserHistory;
 import com.github.jamoamo.jfpl.model.FPLUserTeam;
-import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -73,7 +72,7 @@ public final class FPL
 		{
 			loginSuccess = this.fplClient.login(creds);
 		}
-		catch(IOException ex)
+		catch(XClientException ex)
 		{
 			throw new XFPLLoginException(ex);
 		}
@@ -220,11 +219,11 @@ public final class FPL
 					  .map(f -> mapper.mapFixture(f, getTeamMap())).collect(Collectors.toList());
 			return fixtures;
 		}
-		catch(IOException ex)
+		catch(XConnectionException ex)
 		{
 			throw new XFPLUnavailableException();
 		}
-		catch(JsonSyntaxException ex)
+		catch(XResponseMappingException ex)
 		{
 			throw new XFPLAPIResponseException();
 		}
@@ -269,11 +268,11 @@ public final class FPL
 
 			return userHistory;
 		}
-		catch(IOException ex)
+		catch(XConnectionException ex)
 		{
 			throw new XFPLUnavailableException();
 		}
-		catch(JsonSyntaxException ex)
+		catch(XResponseMappingException ex)
 		{
 			throw new XFPLAPIResponseException();
 		}
@@ -295,11 +294,11 @@ public final class FPL
 			UserHistoryMapper mapper = new UserHistoryMapper();
 			return mapper.mapUserHistory(userHistory);
 		}
-		catch(IOException ex)
+		catch(XConnectionException ex)
 		{
 			throw new XFPLUnavailableException();
 		}
-		catch(JsonSyntaxException ex)
+		catch(XResponseMappingException ex)
 		{
 			throw new XFPLAPIResponseException();
 		}
@@ -319,11 +318,11 @@ public final class FPL
 			EntryGameweekMapper mapper = new EntryGameweekMapper();
 			return mapper.mapEntryGameweek(entryGameweek, getPlayerMap());
 		}
-		catch(IOException ex)
+		catch(XConnectionException ex)
 		{
 			throw new XFPLUnavailableException();
 		}
-		catch(JsonSyntaxException ex)
+		catch(XResponseMappingException ex)
 		{
 			throw new XFPLAPIResponseException();
 		}
@@ -343,11 +342,11 @@ public final class FPL
 			this.cachedData.storeStaticData(data);
 			return data;
 		}
-		catch(IOException ex)
+		catch(XConnectionException ex)
 		{
 			throw new XFPLUnavailableException();
 		}
-		catch(JsonSyntaxException ex)
+		catch(XResponseMappingException ex)
 		{
 			throw new XFPLAPIResponseException();
 		}

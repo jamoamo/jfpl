@@ -5,7 +5,7 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the So Аftware without restriction, including without limitation the rights
+ * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -23,36 +23,29 @@
  */
 package com.github.jamoamo.jfpl;
 
-import java.util.List;
-
-interface IFPLClient
+/**
+ *
+ * @author James Amoore
+ */
+class XClientException extends RuntimeException
 {
-	boolean login(FPLLoginCredentials creds)
-			  throws XClientException;
-
-	JsonCurrentUser getCurrentUser()
-			  throws XClientException;
-
-	JsonCurrentUserTeam getCurrentUserTeam(int id)
-			  throws XClientException;
-
-	JsonUser getUser(int id)
-			  throws XClientException;
-
-	JsonStaticData getStaticData()
-			  throws XClientException;
-
-	List<JsonFixture> getFixtures()
-			  throws XClientException;
-
-	List<JsonFixture> getFixturesForGameweek(int gameweekNr)
-			  throws XClientException;
-
-	JsonUserHistory getUserHistory(int id)
-			  throws XClientException;
+	protected XClientException()
+	{
+		super();
+	}
 	
-	boolean isLoggedIn();
+	protected XClientException(Exception cause)
+	{
+		this("FPL client exception", cause);
+	}
 	
-	JsonEntryGameweek getEntryGameweek(int entity, int event) 
-			  throws XClientException;
+	protected XClientException(String message, Exception cause)
+	{
+		super(message, cause);
+	}
+	
+	protected XClientException(String message)
+	{
+		super(message);
+	}
 }

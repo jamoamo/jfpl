@@ -5,7 +5,7 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the So Аftware without restriction, including without limitation the rights
+ * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -23,36 +23,31 @@
  */
 package com.github.jamoamo.jfpl;
 
-import java.util.List;
+import org.apache.http.StatusLine;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-interface IFPLClient
+/**
+ *
+ * @author James Amoore
+ */
+public class HttpConnectionTest
 {
-	boolean login(FPLLoginCredentials creds)
-			  throws XClientException;
+	@Test
+	public void testHandleResponseStatus_200()
+	{
+		HttpConnection client = new HttpConnection();
+		
+		CloseableHttpResponse response = Mockito.mock(CloseableHttpResponse.class);
+		StatusLine statusLine = Mockito.mock(StatusLine.class);
+		Mockito.when(statusLine.getStatusCode()).thenReturn(200);
+		Mockito.when(response.getStatusLine()).thenReturn(statusLine);
+		Assertions.assertDoesNotThrow(() -> client.handleResponseStatus(response));
+		
+	}
 
-	JsonCurrentUser getCurrentUser()
-			  throws XClientException;
-
-	JsonCurrentUserTeam getCurrentUserTeam(int id)
-			  throws XClientException;
-
-	JsonUser getUser(int id)
-			  throws XClientException;
-
-	JsonStaticData getStaticData()
-			  throws XClientException;
-
-	List<JsonFixture> getFixtures()
-			  throws XClientException;
-
-	List<JsonFixture> getFixturesForGameweek(int gameweekNr)
-			  throws XClientException;
-
-	JsonUserHistory getUserHistory(int id)
-			  throws XClientException;
 	
-	boolean isLoggedIn();
 	
-	JsonEntryGameweek getEntryGameweek(int entity, int event) 
-			  throws XClientException;
 }

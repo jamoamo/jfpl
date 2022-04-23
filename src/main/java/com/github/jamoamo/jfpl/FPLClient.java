@@ -23,41 +23,18 @@
  */
 package com.github.jamoamo.jfpl;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSyntaxException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.apache.http.Header;
-import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.CookieStore;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 class FPLClient implements IFPLClient
 {
-	private static final Logger LOGGER = LogManager.getLogger(FPLClient.class);
-	
 	private static final String URL_FPL_API = "https://fantasy.premierleague.com/api/";
 	private static final String URL_BOOTSTAP_STATIC = URL_FPL_API + "bootstrap-static/";
 	private static final String URL_FIXTURES = URL_FPL_API + "fixtures/";
@@ -70,25 +47,16 @@ class FPLClient implements IFPLClient
 	private static final String URL_ENTRY_GAMEWEEK = URL_FPL_API + "/entry/%d/event/%d/picks/";
 	private static final int LOGIN_PARAM_COUNT = 4;
 
-	private final CookieStore cookieStore;
-	private final CloseableHttpClient httpClient;
-	
-	//TODO this is crude, rather detect login cookie on client
-	private boolean loggedIn = false;
-	
+	private final HttpConnection request;
+
 	FPLClient()
 	{
-		cookieStore = new BasicCookieStore();
-		httpClient = HttpClientBuilder.create()
-				  .setDefaultRequestConfig(RequestConfig.custom()
-							 .setCookieSpec(CookieSpecs.STANDARD).build())
-				  .setDefaultCookieStore(cookieStore)
-				  .build();
+		request = new HttpConnection();
 	}
 
 	@Override
 	public boolean login(FPLLoginCredentials credentials)
-			  throws IOException
+			  throws XClientException
 	{
 		HttpPost httpPost = new HttpPost(URL_LOGIN);
 
@@ -101,24 +69,15 @@ class FPLClient implements IFPLClient
 			params.add(new BasicNameValuePair("app", "plfpl-web"));
 			params.add(new BasicNameValuePair("redirect_uri", "https://fantasy.premierleague.com/a/login"));
 
-			httpPost.setEntity(new UrlEncodedFormEntity(params));
-
-			CloseableHttpResponse response = httpClient.execute(httpPost);
-			this.loggedIn = loginResponseWasSucess(response);
-			return this.loggedIn;
+			request.execute(URL_LOGIN, params, (response) -> loginResponseWasSucess(response));
 		}
 		finally
 		{
 			httpPost.releaseConnection();
 		}
+		return true;
 	}
 	
-	@Override
-	public boolean isLoggedIn()
-	{
-		return this.loggedIn;
-	}
-
 	private boolean loginResponseWasSucess(CloseableHttpResponse response)
 	{
 		Header[] headers = response.getAllHeaders();
@@ -136,109 +95,72 @@ class FPLClient implements IFPLClient
 	}
 
 	@Override
-	public JsonCurrentUser getCurrentUser()
-			  throws IOException
+	public boolean isLoggedIn()
 	{
-		JsonCurrentUser user = getRequest(URL_CURRENT_USER, JsonCurrentUser.class);
+		return request.isLoggedIn();
+	}
+
+	@Override
+	public JsonCurrentUser getCurrentUser()
+			  throws XClientException
+	{
+		JsonCurrentUser user = request.getRequest(URL_CURRENT_USER, JsonCurrentUser.class);
 		return user;
 	}
 
 	@Override
 	public JsonCurrentUserTeam getCurrentUserTeam(int id)
-			  throws IOException
+			  throws XClientException
 	{
-		JsonCurrentUserTeam team = getRequest(URL_USER_TEAM + id + URL_SEPARATOR, JsonCurrentUserTeam.class);
+		JsonCurrentUserTeam team = request.getRequest(URL_USER_TEAM + id + URL_SEPARATOR, JsonCurrentUserTeam.class);
 		return team;
 	}
 
 	@Override
 	public JsonUser getUser(int userId)
-			  throws IOException
+			  throws XClientException
 	{
-		JsonUser user = getRequest(URL_USER + userId + URL_SEPARATOR, JsonUser.class);
+		JsonUser user = request.getRequest(URL_USER + userId + URL_SEPARATOR, JsonUser.class);
 		return user;
 	}
 
 	@Override
 	public JsonStaticData getStaticData()
-			  throws IOException
+			  throws XClientException
 	{
-		JsonStaticData data = getRequest(URL_BOOTSTAP_STATIC, JsonStaticData.class);
+		JsonStaticData data = request.getRequest(URL_BOOTSTAP_STATIC, JsonStaticData.class);
 		return data;
 	}
 
 	@Override
 	public List<JsonFixture> getFixtures()
-			  throws IOException
+			  throws XClientException
 	{
-		JsonFixture[] data = getRequest(URL_FIXTURES, JsonFixture[].class);
+		JsonFixture[] data = request.getRequest(URL_FIXTURES, JsonFixture[].class);
 		return Arrays.asList(data);
 	}
 
 	@Override
 	public List<JsonFixture> getFixturesForGameweek(int gameweekNr)
-			  throws IOException
+			  throws XClientException
 	{
-		JsonFixture[] data = getRequest(URL_FIXTURES + "?event=" + gameweekNr, JsonFixture[].class);
+		JsonFixture[] data = request.getRequest(URL_FIXTURES + "?event=" + gameweekNr, JsonFixture[].class);
 		return Arrays.asList(data);
-	}
-
-	private <T> T getRequest(String url, Class<T> returnObjectClass)
-			  throws IOException
-	{
-		HttpGet httpGet = new HttpGet(url);
-		InputStream is = null;
-		try
-		{
-			LOGGER.info(String.format("Request to url [%s]",url));
-			CloseableHttpResponse response = this.httpClient.execute(httpGet);
-			LOGGER.info(String.format("Response: %s",response.getStatusLine().getStatusCode()));
-			
-			if(response.getStatusLine().getStatusCode() !=
-					   HttpStatus.SC_OK)
-			{
-				throw new RuntimeException("API Exception: " +
-						   response.getStatusLine().getStatusCode());
-			}
-			return processResponse(response, returnObjectClass);
-		}
-		catch(IOException | JsonParseException ex)
-		{
-			LOGGER.error("Request failed", ex);
-			throw ex;
-		}
-		finally
-		{
-			httpGet.releaseConnection();
-		}
-	}
-
-	private <T> T processResponse(CloseableHttpResponse response, Class<T> returnObjectClass)
-			  throws JsonIOException, JsonSyntaxException, UnsupportedOperationException, IOException
-	{
-		InputStream is;
-		is = response.getEntity().getContent();
-		Gson gson = new GsonBuilder()
-				  .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-				  .create();
-		T responseObject = gson.fromJson(
-				  new InputStreamReader(is, Charset.forName("utf-8")), returnObjectClass);
-		return responseObject;
 	}
 
 	@Override
 	public JsonUserHistory getUserHistory(int id)
-			  throws IOException
+			  throws XClientException
 	{
-		JsonUserHistory history = getRequest(URL_USER + id + URL_HISTORY, JsonUserHistory.class);
+		JsonUserHistory history = request.getRequest(URL_USER + id + URL_HISTORY, JsonUserHistory.class);
 		return history;
 	}
 
 	@Override
 	public JsonEntryGameweek getEntryGameweek(int entity, int event)
-			  throws IOException
+			  throws XClientException
 	{
-		JsonEntryGameweek entryGameweek = getRequest(String.format(URL_ENTRY_GAMEWEEK,entity,event), 
+		JsonEntryGameweek entryGameweek = request.getRequest(String.format(URL_ENTRY_GAMEWEEK, entity, event),
 																	JsonEntryGameweek.class);
 		return entryGameweek;
 	}

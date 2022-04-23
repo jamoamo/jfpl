@@ -42,58 +42,57 @@ class TestClient implements IFPLClient
 	
 	@Override
 	public JsonStaticData getStaticData()
-			  throws IOException
+			  throws XClientException
+	{
+		checkExceptions();
+		return data;
+	}
+
+	private void checkExceptions()
+			  throws JsonSyntaxException, XConnectionException
 	{
 		if(throwIOException)
 		{
-			throw new IOException();
+			throw new XConnectionException(new IOException());
 		}
 		else if(throwAPIException)
 		{
-			throw new JsonSyntaxException("Syntax exception");
+			throw new XResponseMappingException(new JsonSyntaxException("Syntax exception"));
 		}
-		return data;
 	}
 
 	@Override
 	public List<JsonFixture> getFixtures()
-			  throws IOException
+			  throws XClientException
 	{
-		if(throwIOException)
-		{
-			throw new IOException();
-		}
-		else if(throwAPIException)
-		{
-			throw new JsonSyntaxException("Syntax exception");
-		}
+		checkExceptions();
 		return fixtures;
 	}
 
 	@Override
 	public List<JsonFixture> getFixturesForGameweek(int gameweekNr)
-			  throws IOException
+			  throws XClientException
 	{
 		return fixtures.stream().filter(f -> f.getEvent() == gameweekNr).collect(Collectors.toList());
 	}
 
 	@Override
 	public JsonCurrentUser getCurrentUser()
-			  throws IOException
+			  throws XClientException
 	{
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public JsonUser getUser(int id)
-			  throws IOException
+			  throws XClientException
 	{
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public boolean login(FPLLoginCredentials creds)
-			  throws IOException
+			  throws XClientException
 	{
 		return true;
 	}
@@ -106,21 +105,21 @@ class TestClient implements IFPLClient
 
 	@Override
 	public JsonCurrentUserTeam getCurrentUserTeam(int id)
-			  throws IOException
+			  throws XClientException
 	{
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public JsonUserHistory getUserHistory(int id)
-			  throws IOException
+			  throws XClientException
 	{
 		throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
 	}
 
 	@Override
 	public JsonEntryGameweek getEntryGameweek(int entity, int event)
-			  throws IOException
+			  throws XClientException
 	{
 		throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
 	}
