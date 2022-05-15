@@ -31,6 +31,7 @@ import com.github.jamoamo.jfpl.model.FPLGameweekPick;
 import com.github.jamoamo.jfpl.model.FPLPlayer;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -54,7 +55,7 @@ final class EntryGameweekMapper
 	private List<FPLAutomcaticSub> mapAutomaticSubs(List<JsonAutomaticSub> subs, Map<Integer, FPLPlayer> playerMap)
 	{
 		return subs.stream().map(jas -> new FPLAutomcaticSub(playerMap.get(jas.getElementIn()), playerMap.get(jas.
-																		getElementOut()))).toList();
+																		getElementOut()))).collect(Collectors.toList());
 	}
 	
 	private FPLChip mapChip(String chipName)
@@ -83,6 +84,6 @@ final class EntryGameweekMapper
 	{
 		return gameweekPicks.stream().map(jgep -> new FPLGameweekPick(playerMap.get(jgep.getElement()), jgep.
 																							 getPosition(), jgep.isIsCaptain(), jgep.
-																							 isIsViceCaptain())).toList();
+																							 isIsViceCaptain())).collect(Collectors.toList());
 	}
 }
