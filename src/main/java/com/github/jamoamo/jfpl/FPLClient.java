@@ -69,7 +69,7 @@ class FPLClient implements IFPLClient
 			params.add(new BasicNameValuePair("app", "plfpl-web"));
 			params.add(new BasicNameValuePair("redirect_uri", "https://fantasy.premierleague.com/a/login"));
 
-			request.execute(URL_LOGIN, params, (response) -> loginResponseWasSucess(response));
+			request.execute(URL_LOGIN, params, response -> loginResponseWasSucess(response));
 		}
 		finally
 		{
