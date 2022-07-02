@@ -48,13 +48,13 @@ class FPLClient implements IFPLClient
 	private static final int LOGIN_PARAM_COUNT = 4;
 
 	private final HttpConnection request;
-	
-	private final String api_url;
+
+	private final String apiUrl;
 
 	FPLClient()
 	{
 		request = new HttpConnection();
-		api_url = System.getProperty("jfpl.fpl_api_url", URL_FPL_API);
+		apiUrl = System.getProperty("jfpl.fpl_api_url", URL_FPL_API);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ class FPLClient implements IFPLClient
 		}
 		return true;
 	}
-	
+
 	private boolean loginResponseWasSucess(CloseableHttpResponse response)
 	{
 		Header[] headers = response.getAllHeaders();
@@ -107,7 +107,7 @@ class FPLClient implements IFPLClient
 	public JsonCurrentUser getCurrentUser()
 			  throws XClientException
 	{
-		JsonCurrentUser user = request.getRequest(String.format(URL_CURRENT_USER, api_url), JsonCurrentUser.class);
+		JsonCurrentUser user = request.getRequest(String.format(URL_CURRENT_USER, apiUrl), JsonCurrentUser.class);
 		return user;
 	}
 
@@ -115,7 +115,8 @@ class FPLClient implements IFPLClient
 	public JsonCurrentUserTeam getCurrentUserTeam(int id)
 			  throws XClientException
 	{
-		JsonCurrentUserTeam team = request.getRequest(String.format(URL_USER_TEAM + id + URL_SEPARATOR, api_url), JsonCurrentUserTeam.class);
+		JsonCurrentUserTeam team = request.getRequest(String.format(URL_USER_TEAM + id + URL_SEPARATOR, apiUrl),
+																	 JsonCurrentUserTeam.class);
 		return team;
 	}
 
@@ -123,7 +124,7 @@ class FPLClient implements IFPLClient
 	public JsonUser getUser(int userId)
 			  throws XClientException
 	{
-		JsonUser user = request.getRequest(String.format(URL_USER + userId + URL_SEPARATOR, api_url), JsonUser.class);
+		JsonUser user = request.getRequest(String.format(URL_USER + userId + URL_SEPARATOR, apiUrl), JsonUser.class);
 		return user;
 	}
 
@@ -131,7 +132,7 @@ class FPLClient implements IFPLClient
 	public JsonStaticData getStaticData()
 			  throws XClientException
 	{
-		JsonStaticData data = request.getRequest(String.format(URL_BOOTSTAP_STATIC, api_url), JsonStaticData.class);
+		JsonStaticData data = request.getRequest(String.format(URL_BOOTSTAP_STATIC, apiUrl), JsonStaticData.class);
 		return data;
 	}
 
@@ -139,7 +140,7 @@ class FPLClient implements IFPLClient
 	public List<JsonFixture> getFixtures()
 			  throws XClientException
 	{
-		JsonFixture[] data = request.getRequest(String.format(URL_FIXTURES, api_url), JsonFixture[].class);
+		JsonFixture[] data = request.getRequest(String.format(URL_FIXTURES, apiUrl), JsonFixture[].class);
 		return Arrays.asList(data);
 	}
 
@@ -147,7 +148,8 @@ class FPLClient implements IFPLClient
 	public List<JsonFixture> getFixturesForGameweek(int gameweekNr)
 			  throws XClientException
 	{
-		JsonFixture[] data = request.getRequest(String.format(URL_FIXTURES + "?event=" + gameweekNr, api_url), JsonFixture[].class);
+		JsonFixture[] data = request.getRequest(String.format(URL_FIXTURES + "?event=" + gameweekNr, apiUrl),
+															 JsonFixture[].class);
 		return Arrays.asList(data);
 	}
 
@@ -155,7 +157,8 @@ class FPLClient implements IFPLClient
 	public JsonUserHistory getUserHistory(int id)
 			  throws XClientException
 	{
-		JsonUserHistory history = request.getRequest(String.format(URL_USER + id + URL_HISTORY, api_url), JsonUserHistory.class);
+		JsonUserHistory history = request.getRequest(String.format(URL_USER + id + URL_HISTORY, apiUrl),
+																	JsonUserHistory.class);
 		return history;
 	}
 
@@ -163,8 +166,8 @@ class FPLClient implements IFPLClient
 	public JsonEntryGameweek getEntryGameweek(int entity, int event)
 			  throws XClientException
 	{
-		JsonEntryGameweek entryGameweek = request.getRequest(String.format(URL_ENTRY_GAMEWEEK, api_url, entity, event),
-																	JsonEntryGameweek.class);
+		JsonEntryGameweek entryGameweek = request.getRequest(String.format(URL_ENTRY_GAMEWEEK, apiUrl, entity, event),
+																			  JsonEntryGameweek.class);
 		return entryGameweek;
 	}
 }
