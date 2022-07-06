@@ -41,6 +41,7 @@ import java.util.stream.Collectors;
  */
 public final class FPL
 {
+	
 	private final IFPLClient fplClient;
 	private final FPLDataCache cachedData = new FPLDataCache();
 
@@ -227,6 +228,10 @@ public final class FPL
 		{
 			throw new XFPLAPIResponseException();
 		}
+		catch(XResourceNotFound xrnf)
+		{
+			throw new XFPLResourceNotFound();
+		}
 	}
 
 	/**
@@ -276,6 +281,10 @@ public final class FPL
 		{
 			throw new XFPLAPIResponseException();
 		}
+		catch(XResourceNotFound xrnf)
+		{
+			throw new XFPLResourceNotFound();
+		}
 	}
 	
 	/**
@@ -302,6 +311,10 @@ public final class FPL
 		{
 			throw new XFPLAPIResponseException();
 		}
+		catch(XResourceNotFound xrnf)
+		{
+			throw new XFPLResourceNotFound();
+		}
 	}
 	
 	/**
@@ -326,6 +339,10 @@ public final class FPL
 		{
 			throw new XFPLAPIResponseException();
 		}
+		catch(XResourceNotFound xrnf)
+		{
+			throw new XFPLResourceNotFound();
+		}
 	}
 
 	private JsonStaticData getStaticData()
@@ -349,6 +366,10 @@ public final class FPL
 		catch(XResponseMappingException ex)
 		{
 			throw new XFPLAPIResponseException();
+		}
+		catch(XResourceNotFound xrnf)
+		{
+			throw new XFPLResourceNotFound();
 		}
 	}
 

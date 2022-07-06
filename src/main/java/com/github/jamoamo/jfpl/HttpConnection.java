@@ -140,6 +140,8 @@ class HttpConnection
 				throw new XNotAllowed(response.getStatusLine().getReasonPhrase());
 			case HttpStatus.SC_UNAUTHORIZED:
 				throw new XNotAuthorised();
+			case HttpStatus.SC_NOT_FOUND:
+				throw new XResourceNotFound();
 			default:
 				throw new XAPIException("API Exception. Response Code: " + response.getStatusLine().getStatusCode());
 		}
