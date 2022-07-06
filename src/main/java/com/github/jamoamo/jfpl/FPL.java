@@ -39,6 +39,7 @@ import java.util.stream.Collectors;
 /**
  * Starting point for accessing the unofficial FPL API.
  */
+@SuppressWarnings("checkstyle:classFanOutComplexity")
 public final class FPL
 {
 	

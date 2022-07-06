@@ -29,7 +29,7 @@ package com.github.jamoamo.jfpl;
  */
 class XResourceNotFound extends XClientException
 {
-	public XResourceNotFound()
+	XResourceNotFound()
 	{
 		super("Requested resource was not found.");
 	}
