@@ -43,7 +43,7 @@ class FPLClient implements IFPLClient
 	private static final String URL_USER_TEAM = "%smy-team/";
 	private static final String URL_USER = "%sentry/";
 	private static final String URL_SEPARATOR = "/";
-	private static final String URL_HISTORY = "/%shistory/";
+	private static final String URL_HISTORY = "/history/";
 	private static final String URL_ENTRY_GAMEWEEK = "%sentry/%d/event/%d/picks/";
 	private static final int LOGIN_PARAM_COUNT = 4;
 

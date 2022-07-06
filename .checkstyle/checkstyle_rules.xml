@@ -28,8 +28,14 @@ THE SOFTWARE.
 
 <module name="Checker">
    <property name="tabWidth" value="3"/>
+   <module name="SuppressWarningsFilter"/>
    <module name="TreeWalker">
       
+      <module name="SuppressWarningsHolder"/>
+
+      <module name="SuppressWarnings">
+        <property name="id" value="checkstyle:suppresswarnings"/>
+      </module>
       <!-- 
          Block Checks: 
          https://checkstyle.sourceforge.io/config_blocks.html
