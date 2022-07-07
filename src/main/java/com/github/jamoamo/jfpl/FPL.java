@@ -27,6 +27,7 @@ import com.github.jamoamo.jfpl.model.FPLEntryGameweek;
 import com.github.jamoamo.jfpl.model.FPLPlayer;
 import com.github.jamoamo.jfpl.model.FPLFixture;
 import com.github.jamoamo.jfpl.model.FPLGameweek;
+import com.github.jamoamo.jfpl.model.FPLPlayerType;
 import com.github.jamoamo.jfpl.model.FPLTeam;
 import com.github.jamoamo.jfpl.model.FPLUser;
 import com.github.jamoamo.jfpl.model.FPLUserHistory;
@@ -42,7 +43,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("checkstyle:classFanOutComplexity")
 public final class FPL
 {
-	
+
 	private final IFPLClient fplClient;
 	private final FPLDataCache cachedData = new FPLDataCache();
 
@@ -84,10 +85,10 @@ public final class FPL
 			throw new XFPLLoginException();
 		}
 	}
-	
+
 	/**
 	 * Indicates if the client is logged into FPL.
-	 * 
+	 *
 	 * @return {@code true} if logged in else {@code false}
 	 */
 	public boolean isLoggedIn()
@@ -287,11 +288,12 @@ public final class FPL
 			throw new XFPLResourceNotFound();
 		}
 	}
-	
+
 	/**
 	 * Get history of the user with the provided entry id.
 	 *
 	 * @param userEntryId The entry id of the user.
+	 *
 	 * @return a history for the provided user
 	 *
 	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
@@ -317,11 +319,13 @@ public final class FPL
 			throw new XFPLResourceNotFound();
 		}
 	}
-	
+
 	/**
 	 * Get the Entry game week for the provided entry and game week.
-	 * @param entry The entry.
+	 *
+	 * @param entry    The entry.
 	 * @param gameweek The game week.
+	 *
 	 * @return The entry game week.
 	 */
 	public FPLEntryGameweek getEntryGameweek(int entry, int gameweek)
@@ -331,6 +335,38 @@ public final class FPL
 			JsonEntryGameweek entryGameweek = fplClient.getEntryGameweek(entry, gameweek);
 			EntryGameweekMapper mapper = new EntryGameweekMapper();
 			return mapper.mapEntryGameweek(entryGameweek, getPlayerMap());
+		}
+		catch(XConnectionException ex)
+		{
+			throw new XFPLUnavailableException();
+		}
+		catch(XResponseMappingException ex)
+		{
+			throw new XFPLAPIResponseException();
+		}
+		catch(XResourceNotFound xrnf)
+		{
+			throw new XFPLResourceNotFound();
+		}
+	}
+
+	/**
+	 * Get the FPL player types.
+	 * 
+	 * @return the list of player types.
+	 */
+	public List<FPLPlayerType> getPlayerTypes()
+			  throws XFPLAPIResponseException, XFPLUnavailableException
+	{
+		try
+		{
+			JsonStaticData data = getStaticData();
+			PlayerTypeMapper mapper = new PlayerTypeMapper();
+
+			List<FPLPlayerType> playerTypes =
+					  data.getElementTypes().stream().map(elemType -> mapper.mapPlayerType(elemType)).toList();
+
+			return playerTypes;
 		}
 		catch(XConnectionException ex)
 		{

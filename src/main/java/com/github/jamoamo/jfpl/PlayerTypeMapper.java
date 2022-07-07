@@ -5,7 +5,7 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the So Аftware without restriction, including without limitation the rights
+ * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -23,61 +23,18 @@
  */
 package com.github.jamoamo.jfpl;
 
-import java.util.List;
+import com.github.jamoamo.jfpl.model.FPLPlayerType;
 
 /**
  *
  * @author James Amoore
  */
-class JsonStaticData
+class PlayerTypeMapper
 {
-	private List<JsonTeam> teams;
-	private List<JsonPlayer> elements;
-	private List<JsonGameweek> events;
-	private List<JsonElementType> elementTypes;
-
-	JsonStaticData()
+	FPLPlayerType mapPlayerType(JsonElementType elementType)
 	{
-
-	}
-
-	public List<JsonTeam> getTeams()
-	{
-		return teams;
-	}
-
-	public void setTeams(List<JsonTeam> teams)
-	{
-		this.teams = teams;
-	}
-
-	public List<JsonPlayer> getElements()
-	{
-		return elements;
-	}
-
-	public void setElements(List<JsonPlayer> elements)
-	{
-		this.elements = elements;
-	}
-
-	public List<JsonGameweek> getEvents()
-	{
-		return events;
-	}
-
-	public void setEvents(List<JsonGameweek> events)
-	{
-		this.events = events;
-	}
-
-	public List<JsonElementType> getElementTypes()
-	{
-		return elementTypes;
-	}
-
-	public void setElementTypes(List<JsonElementType> elementTypes)
-	{
-		this.elementTypes = elementTypes;
+		return new FPLPlayerType(elementType.getId(), elementType.getSingularName(), elementType.getSingularNameShort(),
+										 elementType.getPluralName(), elementType.getPluralNameShort(), elementType.
+										 getSquadSelect(), elementType.getSquadMinPlay(), elementType.getSquadMaxPlay());
 	}
 }
