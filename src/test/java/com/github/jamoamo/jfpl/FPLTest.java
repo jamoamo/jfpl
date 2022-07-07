@@ -26,6 +26,7 @@ package com.github.jamoamo.jfpl;
 import com.github.jamoamo.jfpl.model.FPLFixture;
 import com.github.jamoamo.jfpl.model.FPLGameweek;
 import com.github.jamoamo.jfpl.model.FPLPlayer;
+import com.github.jamoamo.jfpl.model.FPLPlayerType;
 import com.github.jamoamo.jfpl.model.FPLPosition;
 import com.github.jamoamo.jfpl.model.FPLTeam;
 import java.time.Month;
@@ -324,6 +325,72 @@ public class FPLTest
 		
 		FPL instance = new FPL(testClient);
 		assertThrows(XFPLAPIResponseException.class, () -> instance.getTeams());
+	}
+	
+	@Test
+	public void testGetPlayerTypes()
+	{
+		List<JsonElementType> elementTypes = new ArrayList<>();
+		elementTypes.add(createElementType(1, "Goalkeeper", "GKP", "Goalkeepers", "GKP", 2, 1, 1));
+		elementTypes.add(createElementType(2, "Defender", "DEF", "Defenders", "DEF", 5, 3, 5));
+		elementTypes.add(createElementType(3, "Midfielder", "MID", "Midfielders", "MID", 5, 3, 5));
+		elementTypes.add(createElementType(4, "Forward", "FOR", "Forwards", "FOR", 3, 1, 3));
+		TestClient testClient = new TestClient();
+		testClient.data.setElementTypes(elementTypes);
+		
+		FPL instance = new FPL(testClient);
+		List<FPLPlayerType> playerTypes = instance.getPlayerTypes();
+		assertEquals(4, playerTypes.size());
+		
+		assertEquals(1, playerTypes.get(0).getId());
+		assertEquals("Goalkeeper", playerTypes.get(0).getName());
+		assertEquals("GKP", playerTypes.get(0).getNameShort());
+		assertEquals("Goalkeepers", playerTypes.get(0).getPlural());
+		assertEquals("GKP", playerTypes.get(0).getPluralShort());
+		assertEquals(2, playerTypes.get(0).getNumInSquad());
+		assertEquals(1, playerTypes.get(0).getMinPlay());
+		assertEquals(1, playerTypes.get(0).getMaxPlay());
+		
+		assertEquals(2, playerTypes.get(1).getId());
+		assertEquals("Defender", playerTypes.get(1).getName());
+		assertEquals("DEF", playerTypes.get(1).getNameShort());
+		assertEquals("Defenders", playerTypes.get(1).getPlural());
+		assertEquals("DEF", playerTypes.get(1).getPluralShort());
+		assertEquals(5, playerTypes.get(1).getNumInSquad());
+		assertEquals(3, playerTypes.get(1).getMinPlay());
+		assertEquals(5, playerTypes.get(1).getMaxPlay());
+		
+		assertEquals(3, playerTypes.get(2).getId());
+		assertEquals("Midfielder", playerTypes.get(2).getName());
+		assertEquals("MID", playerTypes.get(2).getNameShort());
+		assertEquals("Midfielders", playerTypes.get(2).getPlural());
+		assertEquals("MID", playerTypes.get(2).getPluralShort());
+		assertEquals(5, playerTypes.get(2).getNumInSquad());
+		assertEquals(3, playerTypes.get(2).getMinPlay());
+		assertEquals(5, playerTypes.get(2).getMaxPlay());
+		
+		assertEquals(4, playerTypes.get(3).getId());
+		assertEquals("Forward", playerTypes.get(3).getName());
+		assertEquals("FOR", playerTypes.get(3).getNameShort());
+		assertEquals("Forwards", playerTypes.get(3).getPlural());
+		assertEquals("FOR", playerTypes.get(3).getPluralShort());
+		assertEquals(3, playerTypes.get(3).getNumInSquad());
+		assertEquals(1, playerTypes.get(3).getMinPlay());
+		assertEquals(3, playerTypes.get(3).getMaxPlay());
+	}
+	
+	private JsonElementType createElementType(int id, String name, String shortName, String plural, String pluralShort, int number, int minPlay, int maxPlay)
+	{
+		JsonElementType type = new JsonElementType();
+		type.setId(id);
+		type.setSingularName(name);
+		type.setSingularNameShort(shortName);
+		type.setPluralName(plural);
+		type.setPluralNameShort(pluralShort);
+		type.setSquadSelect(number);
+		type.setSquadMaxPlay(maxPlay);
+		type.setSquadMinPlay(minPlay);
+		return type;
 	}
 	
 	private JsonTeam createTeam(int id, String name, String shortName)

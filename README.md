@@ -9,3 +9,5 @@ Functionality currently supported:
 * Retrieve the list of teams
 * Retrieve the list of fixtures
 * Retrieve a users history
+* Retrieve gameweek information for an user and gameweek
+* Retrieve FPL player types
