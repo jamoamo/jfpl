@@ -364,7 +364,8 @@ public final class FPL
 			PlayerTypeMapper mapper = new PlayerTypeMapper();
 
 			List<FPLPlayerType> playerTypes =
-					  data.getElementTypes().stream().map(elemType -> mapper.mapPlayerType(elemType)).toList();
+					  data.getElementTypes().stream().map(elemType -> mapper.mapPlayerType(elemType))
+							.collect(Collectors.toList());
 
 			return playerTypes;
 		}
