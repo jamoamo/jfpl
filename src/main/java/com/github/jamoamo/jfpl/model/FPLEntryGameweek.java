@@ -23,6 +23,8 @@
  */
 package com.github.jamoamo.jfpl.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,8 +36,8 @@ public class FPLEntryGameweek
 {
 	private final FPLGameweekHistory gameweekHistory;
 	private final FPLChip chipUsed;
-	private final List<FPLAutomcaticSub> automaticSubstitutions;
-	private final List<FPLGameweekPick> gameweekPicks;
+	private final List<FPLAutomcaticSub> automaticSubstitutions = new ArrayList<>();
+	private final List<FPLGameweekPick> gameweekPicks = new ArrayList<>();
 	
 	/**
 	 * Creates a new instance.
@@ -52,8 +54,8 @@ public class FPLEntryGameweek
 	{
 		this.gameweekHistory = gwHistory;
 		this.chipUsed = chipUsed;
-		this.automaticSubstitutions = gwSubs;
-		this.gameweekPicks = picks;
+		this.automaticSubstitutions.addAll(gwSubs);
+		this.gameweekPicks.addAll(picks);
 	}
 
 	/**
@@ -80,7 +82,7 @@ public class FPLEntryGameweek
 	 */
 	public List<FPLAutomcaticSub> getAutomaticSubstitutions()
 	{
-		return automaticSubstitutions;
+		return Collections.unmodifiableList(automaticSubstitutions);
 	}
 
 	/**
@@ -89,6 +91,6 @@ public class FPLEntryGameweek
 	 */
 	public List<FPLGameweekPick> getGameweekPicks()
 	{
-		return gameweekPicks;
+		return Collections.unmodifiableList(gameweekPicks);
 	}
 }
