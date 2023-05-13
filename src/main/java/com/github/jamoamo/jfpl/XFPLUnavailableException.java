@@ -34,4 +34,9 @@ public class XFPLUnavailableException extends RuntimeException
 	{
 		super("Unable to connect to FPL.");
 	}
+	
+	XFPLUnavailableException(String message)
+	{
+		super("Unable to connect to FPL. Connection failed due to: " + message);
+	}
 }

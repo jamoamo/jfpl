@@ -37,6 +37,9 @@ public class FPLUser
 	private final FPLTeam favouriteTeam;
 	private final FPLRegion region;
 	private final double lastDeadlineBank;
+	private final int overallPoints;
+	private final int overallRank;
+	private final int eventStarted;
 
 	/**
 	 * Creates a new instance.
@@ -48,6 +51,9 @@ public class FPLUser
 	 * @param favouriteTeam   The user's favourite team
 	 * @param region          The region the user lives in
 	 * @param bank            The team's bank value at the last deadline
+	 * @param overallPoints	  The number of points for the team in the current season.
+	 * @param overallRank	  The team's rank in the current season.
+	 * @param eventStarted	  The event in which the team started.
 	 */
 	public FPLUser(int id,
 						String teamName,
@@ -55,7 +61,10 @@ public class FPLUser
 						String playerLastName,
 						FPLTeam favouriteTeam,
 						FPLRegion region,
-						double bank)
+						double bank,
+						int overallPoints,
+						int overallRank,
+						int eventStarted)
 	{
 		this.id = id;
 		this.teamName = teamName;
@@ -64,6 +73,9 @@ public class FPLUser
 		this.favouriteTeam = favouriteTeam;
 		this.region = region;
 		this.lastDeadlineBank = bank;
+		this.overallPoints = overallPoints;
+		this.overallRank = overallRank;
+		this.eventStarted = eventStarted;
 	}
 
 	/**
@@ -120,5 +132,29 @@ public class FPLUser
 	public double getLastDeadlineBank()
 	{
 		return this.lastDeadlineBank;
+	}
+
+	/**
+	 * @return the teams overall points
+	 */
+	public int getOverallPoints()
+	{
+		return overallPoints;
+	}
+
+	/**
+	 * @return the teams rank
+	 */
+	public int getOverallRank()
+	{
+		return overallRank;
+	}
+	
+	/**
+	 * @return the event in which the team started
+	 */
+	public int getEventStarted()
+	{
+		return eventStarted;
 	}
 }
