@@ -113,10 +113,31 @@ public final class FPL
 		{
 			return null;
 		}
-		JsonUser user = this.fplClient.getUser(current.getPlayer().getEntry());
+		return getUser(current.getPlayer().getEntry());
+	}
 
-		UserMapper userMapper = new UserMapper();
-		return userMapper.mapUser(user, getTeamMap());
+	/**
+	 * returns the user with the provided id.
+	 *
+	 * @param id the id of the user to return
+	 *
+	 * @return the user
+	 *
+	 * @throws Exception if an error occurs
+	 */
+	public FPLUser getUser(int id)
+			  throws Exception
+	{
+		try
+		{
+			JsonUser user = this.fplClient.getUser(id);
+			UserMapper userMapper = new UserMapper();
+			return userMapper.mapUser(user, getTeamMap());
+		}
+		catch(XServiceUnavailable unavailable)
+		{
+			throw new XFPLUnavailableException(unavailable.getMessage());
+		}
 	}
 
 	private JsonCurrentUser getCurrentUserData()
@@ -352,7 +373,7 @@ public final class FPL
 
 	/**
 	 * Get the FPL player types.
-	 * 
+	 *
 	 * @return the list of player types.
 	 */
 	public List<FPLPlayerType> getPlayerTypes()
@@ -365,7 +386,7 @@ public final class FPL
 
 			List<FPLPlayerType> playerTypes =
 					  data.getElementTypes().stream().map(elemType -> mapper.mapPlayerType(elemType))
-							.collect(Collectors.toList());
+								 .collect(Collectors.toList());
 
 			return playerTypes;
 		}

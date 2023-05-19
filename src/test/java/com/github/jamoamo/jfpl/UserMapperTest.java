@@ -73,5 +73,8 @@ public class UserMapperTest
 		assertEquals(user.getPlayerRegionId(), fplUser.getRegion().getRegionId());
 		assertEquals(user.getPlayerRegionIsoCodeLong(), fplUser.getRegion().getIsoCodeLong());
 		assertEquals(user.getPlayerRegionIsoCodeShort(), fplUser.getRegion().getIsoCodeShort());
+		assertEquals(user.getSummaryOverallPoints(), fplUser.getOverallPoints());
+		assertEquals(user.getSummaryOverallRank(), fplUser.getOverallRank());
+		assertEquals(user.getStartedEvent(), fplUser.getEventStarted());
 	}
 }
