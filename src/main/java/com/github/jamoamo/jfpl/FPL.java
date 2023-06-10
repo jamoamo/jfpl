@@ -123,10 +123,10 @@ public final class FPL
 	 *
 	 * @return the user
 	 *
-	 * @throws Exception if an error occurs
+	 * @throws XFPLUnavailableException if an error occurs
 	 */
 	public FPLUser getUser(int id)
-			  throws Exception
+			  throws XFPLUnavailableException
 	{
 		try
 		{
