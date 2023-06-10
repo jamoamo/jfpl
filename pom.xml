@@ -5,7 +5,7 @@
 
    <groupId>io.github.jamoamo</groupId>
    <artifactId>jfpl</artifactId>
-   <version>0.5-SNAPSHOT</version>
+   <version>0.5</version>
 
    <packaging>jar</packaging>
 
@@ -32,7 +32,7 @@
       <connection>scm:git:https://github.com/jamoamo/jfpl.git</connection>
       <developerConnection>scm:git:https://github.com/jamoamo/jfpl.git</developerConnection>
       <url>https://github.com/jamoamo/jfpl</url>
-     <tag>HEAD</tag>
+     <tag>v-0.5</tag>
    </scm>
 
    <properties>
