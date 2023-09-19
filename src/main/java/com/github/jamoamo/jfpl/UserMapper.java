@@ -48,7 +48,8 @@ class UserMapper
 				  user.getLastDeadlineBank() / FACTOR_OF_TEN,
 				  user.getSummaryOverallPoints(),
 				  user.getSummaryOverallRank(),
-				  user.getStartedEvent()
+				  user.getStartedEvent(),
+				  user.getSummaryEventPoints()
 		);
 	}
 
