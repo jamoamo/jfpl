@@ -76,5 +76,6 @@ public class UserMapperTest
 		assertEquals(user.getSummaryOverallPoints(), fplUser.getOverallPoints());
 		assertEquals(user.getSummaryOverallRank(), fplUser.getOverallRank());
 		assertEquals(user.getStartedEvent(), fplUser.getEventStarted());
+		assertEquals(user.getSummaryEventPoints(), fplUser.getGameweekPoints());
 	}
 }

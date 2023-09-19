@@ -36,9 +36,7 @@ public class TestApp
 			  throws Exception
 	{
 		FPL fpl = new FPL();
-		FPLLoginCredentials creds = new FPLLoginCredentials(args[0], args[1]);
-		fpl.login(creds);
-		FPLUser user = fpl.getCurrentUser();
+		FPLUser user = fpl.getUser(25518);
 		System.out.println(user.getTeamName());
 		FPLUserHistory h = fpl.getCurrentUserHistory();
 		h.getGameweekHistory();
