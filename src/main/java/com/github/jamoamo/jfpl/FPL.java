@@ -85,6 +85,16 @@ public final class FPL
 			throw new XFPLLoginException();
 		}
 	}
+	
+	/**
+	 * Returns the total number of players playing FPL.
+	 * 
+	 * @return total number of players.
+	 */
+	public int getTotalPlayers()
+	{
+		return getStaticData().getTotalPlayers();
+	}
 
 	/**
 	 * Indicates if the client is logged into FPL.

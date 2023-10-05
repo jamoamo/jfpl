@@ -77,5 +77,8 @@ public class UserMapperTest
 		assertEquals(user.getSummaryOverallRank(), fplUser.getOverallRank());
 		assertEquals(user.getStartedEvent(), fplUser.getEventStarted());
 		assertEquals(user.getSummaryEventPoints(), fplUser.getGameweekPoints());
+		assertEquals(user.getLastDeadlineValue()/10.0, fplUser.getLastDeadlineValue());
+		assertEquals(user.getLastDeadlineBank()/10.0, fplUser.getLastDeadlineBank());
+		assertEquals(user.getCurrentEvent(), fplUser.getCurrentEvent());
 	}
 }
