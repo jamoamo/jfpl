@@ -379,6 +379,18 @@ public class FPLTest
 		assertEquals(3, playerTypes.get(3).getMaxPlay());
 	}
 	
+	@Test
+	public void test_getTotalPlayers()
+	{
+		int players = 10054935;
+		TestClient testClient = new TestClient();
+		testClient.data.setTotalPlayers(players);
+		
+		FPL instance = new FPL(testClient);
+		int totalPlayers = instance.getTotalPlayers();
+		assertEquals(players, totalPlayers);
+	}
+	
 	private JsonElementType createElementType(int id, String name, String shortName, String plural, String pluralShort, int number, int minPlay, int maxPlay)
 	{
 		JsonElementType type = new JsonElementType();

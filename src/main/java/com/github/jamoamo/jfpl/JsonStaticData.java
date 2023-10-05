@@ -35,6 +35,7 @@ class JsonStaticData
 	private List<JsonPlayer> elements;
 	private List<JsonGameweek> events;
 	private List<JsonElementType> elementTypes;
+	private int totalPlayers;
 
 	JsonStaticData()
 	{
@@ -43,7 +44,7 @@ class JsonStaticData
 
 	public List<JsonTeam> getTeams()
 	{
-		return teams;
+		return this.teams;
 	}
 
 	public void setTeams(List<JsonTeam> teams)
@@ -53,7 +54,7 @@ class JsonStaticData
 
 	public List<JsonPlayer> getElements()
 	{
-		return elements;
+		return this.elements;
 	}
 
 	public void setElements(List<JsonPlayer> elements)
@@ -63,7 +64,7 @@ class JsonStaticData
 
 	public List<JsonGameweek> getEvents()
 	{
-		return events;
+		return this.events;
 	}
 
 	public void setEvents(List<JsonGameweek> events)
@@ -73,11 +74,21 @@ class JsonStaticData
 
 	public List<JsonElementType> getElementTypes()
 	{
-		return elementTypes;
+		return this.elementTypes;
 	}
 
 	public void setElementTypes(List<JsonElementType> elementTypes)
 	{
 		this.elementTypes = elementTypes;
+	}
+
+	public int getTotalPlayers()
+	{
+		return this.totalPlayers;
+	}
+
+	public void setTotalPlayers(int totalPlayers)
+	{
+		this.totalPlayers = totalPlayers;
 	}
 }

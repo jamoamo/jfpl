@@ -11,3 +11,4 @@ Functionality currently supported:
 * Retrieve a users history
 * Retrieve gameweek information for an user and gameweek
 * Retrieve FPL player types
+* Retrieve total number of FPL players
