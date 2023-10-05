@@ -41,6 +41,8 @@ public class FPLUser
 	private final int overallRank;
 	private final int gameweekPoints;
 	private final int eventStarted;
+	private final double lastDeadlineValue;
+	private final int currentEvent;
 
 	/**
 	 * Creates a new instance.
@@ -56,6 +58,8 @@ public class FPLUser
 	 * @param overallRank	  The team's rank in the current season.
 	 * @param eventStarted	  The event in which the team started.
 	 * @param gameweekPoints	  The number of points scored in the most recent gameweek.
+	 * @param lastDeadlineValue  The value of the team at the last deadline
+	 * @param currentEvent	  The current gameweek number
 	 */
 	public FPLUser(int id,
 						String teamName,
@@ -67,7 +71,9 @@ public class FPLUser
 						int overallPoints,
 						int overallRank,
 						int eventStarted,
-						int gameweekPoints)
+						int gameweekPoints,
+						double lastDeadlineValue,
+						int currentEvent)
 	{
 		this.id = id;
 		this.teamName = teamName;
@@ -80,6 +86,8 @@ public class FPLUser
 		this.overallRank = overallRank;
 		this.eventStarted = eventStarted;
 		this.gameweekPoints = gameweekPoints;
+		this.lastDeadlineValue = lastDeadlineValue;
+		this.currentEvent = currentEvent;
 	}
 
 	/**
@@ -169,4 +177,22 @@ public class FPLUser
 	{
 		return this.gameweekPoints;
 	}
+
+	/**
+	 * @return the value of the team at the last deadline.
+	 */
+	public double getLastDeadlineValue()
+	{
+		return lastDeadlineValue;
+	}
+
+	/**
+	 * @return the current gameweek
+	 */
+	public int getCurrentEvent()
+	{
+		return currentEvent;
+	}
+	
+	
 }
