@@ -55,7 +55,7 @@
       </dependency>
       <dependency>
          <groupId>org.junit.jupiter</groupId>
-         <artifactId>junit-jupiter-api</artifactId>
+         <artifactId>junit-jupiter</artifactId>
          <version>5.10.0</version>
          <scope>test</scope>
          <type>jar</type>
@@ -139,7 +139,7 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-clean-plugin</artifactId>
-               <version>3.3.1</version>
+               <version>3.3.2</version>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
@@ -159,14 +159,7 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-surefire-plugin</artifactId>
-               <version>3.1.2</version>
-               <dependencies>
-                  <dependency>
-                     <groupId>org.junit.jupiter</groupId>
-                     <artifactId>junit-jupiter-engine</artifactId>
-                     <version>5.10.0</version>
-                  </dependency>
-               </dependencies>
+               <version>3.2.1</version>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
@@ -228,7 +221,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
-            <version>3.3.0</version>
+            <version>3.3.1</version>
             <configuration>
                <configLocation>.checkstyle/checkstyle_rules.xml</configLocation>
                <encoding>UTF-8</encoding>
