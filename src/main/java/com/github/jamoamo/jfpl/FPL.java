@@ -31,7 +31,6 @@ import com.github.jamoamo.jfpl.model.FPLPlayerType;
 import com.github.jamoamo.jfpl.model.FPLTeam;
 import com.github.jamoamo.jfpl.model.FPLUser;
 import com.github.jamoamo.jfpl.model.FPLUserHistory;
-import com.github.jamoamo.jfpl.model.FPLUserTeam;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -56,7 +55,6 @@ public final class FPL
 	private final FPLDataCache cachedData = new FPLDataCache();
 
 	private final UserMapper userMapper = new UserMapper();
-	private final UserTeamMapper userTeamMapper = new UserTeamMapper();
 	private final PlayerMapper playerMapper = new PlayerMapper();
 	private final GameweekMapper gameweekMapper = new GameweekMapper();
 	private final FixtureMapper fixtureMapper = new FixtureMapper();
@@ -79,71 +77,13 @@ public final class FPL
 	}
 
 	/**
-	 * Login to FPL with the provided FPL credentials.
-	 *
-	 * @param creds The FPLLoginCredentials object containing the username and password
-	 *
-	 * @throws XFPLLoginException if something went wrong during authentication
-	 */
-	public void login(final FPLLoginCredentials creds)
-			  throws XFPLLoginException
-	{
-		boolean loginSuccess = false;
-		try
-		{
-			loginSuccess = this.fplClient.login(creds);
-		}
-		catch(XClientException ex)
-		{
-			throw new XFPLLoginException(ex);
-		}
-
-		if(!loginSuccess)
-		{
-			throw new XFPLLoginException();
-		}
-	}
-	
-	/**
 	 * Returns the total number of players playing FPL.
-	 * 
+	 *
 	 * @return total number of players.
 	 */
 	public int getTotalPlayers()
 	{
 		return getStaticData().getTotalPlayers();
-	}
-
-	/**
-	 * Indicates if the client is logged into FPL.
-	 *
-	 * @return {@code true} if logged in else {@code false}
-	 */
-	public boolean isLoggedIn()
-	{
-		return this.fplClient.isLoggedIn();
-	}
-
-	/**
-	 * Returns the current user. Requires that the user be logged in using the
-	 * {@link FPL#login(com.github.jamoamo.jfpl.FPLLoginCredentials)} method
-	 *
-	 * @return an object representing the current logged in user
-	 *
-	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
-	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
-	 * @throws XFPLResourceNotFound     if the current user could not be found.
-	 * @see FPL#login(com.github.jamoamo.jfpl.FPLLoginCredentials)
-	 */
-	public FPLUser getCurrentUser()
-			  throws XFPLUnavailableException, XFPLAPIResponseException, XFPLResourceNotFound
-	{
-		JsonCurrentUser current = getCurrentUserData();
-		if(current == null)
-		{
-			return null;
-		}
-		return getUser(current.getPlayer().getEntry());
 	}
 
 	/**
@@ -165,44 +105,6 @@ public final class FPL
 			JsonUser user = this.fplClient.getUser(id);
 			return userMapper.mapUser(user, getTeamMap());
 		});
-	}
-
-	private JsonCurrentUser getCurrentUserData()
-	{
-		JsonCurrentUser current = this.cachedData.getCurrentUser();
-
-		if(current == null)
-		{
-			LOGGER.debug("Current user cache miss, fetching from FPL");
-			current = translated(() -> this.fplClient.getCurrentUser());
-			cachedData.storeCurrentUser(current);
-		}
-		else
-		{
-			LOGGER.debug("Current user cache hit");
-		}
-		return current;
-	}
-
-	/**
-	 * @return the team of the current logged-in user
-	 *
-	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
-	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
-	 * @throws XFPLResourceNotFound     if the current user's team could not be found.
-	 */
-	public FPLUserTeam getCurrentUserTeam()
-			  throws XFPLUnavailableException, XFPLAPIResponseException, XFPLResourceNotFound
-	{
-		JsonCurrentUser current = getCurrentUserData();
-		if(current == null)
-		{
-			return null;
-		}
-		JsonCurrentUserTeam team =
-				  translated(() -> this.fplClient.getCurrentUserTeam(current.getPlayer().getEntry()));
-
-		return userTeamMapper.mapUserTeam(team, getPlayerMap());
 	}
 
 	/**
@@ -285,25 +187,6 @@ public final class FPL
 			  throws XFPLAPIResponseException, XFPLUnavailableException, XFPLResourceNotFound
 	{
 		return new ArrayList<>(getTeamMap().values());
-	}
-
-	/**
-	 * get the current user's history.
-	 *
-	 * @return a history of the current user
-	 *
-	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
-	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
-	 * @throws XFPLResourceNotFound     if the current user's history could not be found.
-	 */
-	public FPLUserHistory getCurrentUserHistory()
-			  throws XFPLUnavailableException, XFPLAPIResponseException, XFPLResourceNotFound
-	{
-		return translated(() ->
-		{
-			JsonCurrentUser user = fplClient.getCurrentUser();
-			return getUserHistory(user.getPlayer().getEntry());
-		});
 	}
 
 	/**

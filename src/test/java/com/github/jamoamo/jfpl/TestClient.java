@@ -37,16 +37,12 @@ class TestClient implements IFPLClient
 {
 	JsonStaticData data = new JsonStaticData();
 	List<JsonFixture> fixtures = new ArrayList<>();
-	JsonCurrentUser currentUser;
 	JsonUser user;
-	JsonCurrentUserTeam currentUserTeam;
 	JsonUserHistory userHistory;
 	JsonEntryGameweek entryGameweek;
 	boolean throwIOException = false;
 	boolean throwAPIException = false;
 	boolean throwResourceNotFound = false;
-	boolean loginSuccess = true;
-	boolean loggedIn = false;
 
 	@Override
 	public JsonStaticData getStaticData()
@@ -90,42 +86,11 @@ class TestClient implements IFPLClient
 	}
 
 	@Override
-	public JsonCurrentUser getCurrentUser()
-			  throws XClientException
-	{
-		checkExceptions();
-		return currentUser;
-	}
-
-	@Override
 	public JsonUser getUser(int id)
 			  throws XClientException
 	{
 		checkExceptions();
 		return user;
-	}
-
-	@Override
-	public boolean login(FPLLoginCredentials creds)
-			  throws XClientException
-	{
-		checkExceptions();
-		loggedIn = loginSuccess;
-		return loginSuccess;
-	}
-
-	@Override
-	public boolean isLoggedIn()
-	{
-		return loggedIn;
-	}
-
-	@Override
-	public JsonCurrentUserTeam getCurrentUserTeam(int id)
-			  throws XClientException
-	{
-		checkExceptions();
-		return currentUserTeam;
 	}
 
 	@Override

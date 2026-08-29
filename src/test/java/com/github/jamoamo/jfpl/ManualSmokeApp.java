@@ -24,7 +24,6 @@
 package com.github.jamoamo.jfpl;
 
 import com.github.jamoamo.jfpl.model.FPLUser;
-import com.github.jamoamo.jfpl.model.FPLUserHistory;
 
 /**
  * Manual smoke script that hits the real FPL API. Not a JUnit test — it has no {@code @Test}
@@ -45,7 +44,5 @@ public final class ManualSmokeApp
 		FPL fpl = new FPL();
 		FPLUser user = fpl.getUser(25518);
 		System.out.println(user.getTeamName());
-		FPLUserHistory h = fpl.getCurrentUserHistory();
-		h.getGameweekHistory();
 	}
 }

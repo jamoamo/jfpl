@@ -30,18 +30,12 @@ import java.util.Map;
 class FPLDataCache
 {
 	private JsonStaticData staticData;
-	private JsonCurrentUser currentUser;
 	private Map<Integer, FPLTeam> teamMap;
 	private Map<Integer, FPLPlayer> playerMap;
 
 	JsonStaticData getStaticData()
 	{
 		return this.staticData;
-	}
-
-	JsonCurrentUser getCurrentUser()
-	{
-		return this.currentUser;
 	}
 
 	Map<Integer, FPLTeam> getTeamMap()
@@ -60,11 +54,6 @@ class FPLDataCache
 		// team/player maps are derived from static data, so they're stale as soon as it changes
 		this.teamMap = null;
 		this.playerMap = null;
-	}
-
-	void storeCurrentUser(JsonCurrentUser user)
-	{
-		this.currentUser = user;
 	}
 
 	void storeTeamMap(Map<Integer, FPLTeam> teamMap)

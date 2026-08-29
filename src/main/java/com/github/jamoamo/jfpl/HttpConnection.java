@@ -33,20 +33,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.List;
-import java.util.function.Function;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
-import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.config.RequestConfig;
-import org.apache.hc.client5.http.cookie.BasicCookieStore;
-import org.apache.hc.client5.http.cookie.CookieStore;
 import org.apache.hc.client5.http.cookie.StandardCookieSpec;
-import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.core5.http.HttpStatus;
-import org.apache.hc.core5.http.NameValuePair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -62,42 +55,14 @@ class HttpConnection
 			  .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 			  .create();
 
-	private final CookieStore cookieStore;
 	private final CloseableHttpClient httpClient;
-
-	private boolean loggedIn;
 
 	HttpConnection()
 	{
-		cookieStore = new BasicCookieStore();
 		httpClient = HttpClientBuilder.create()
 				  .setDefaultRequestConfig(RequestConfig.custom()
 							 .setCookieSpec(StandardCookieSpec.RELAXED).build())
-				  .setDefaultCookieStore(cookieStore)
 				  .build();
-	}
-
-	public boolean execute(String url, List<NameValuePair> params, Function<CloseableHttpResponse, Boolean> validator)
-	{
-		HttpPost httpPost = new HttpPost(url);
-		httpPost.setEntity(new UrlEncodedFormEntity(params));
-
-		try(CloseableHttpResponse response = httpClient.execute(httpPost))
-		{
-			boolean success = validator.apply(response);
-			this.loggedIn = success;
-			return success;
-		}
-		catch(IOException ex)
-		{
-			LOGGER.error(MSG_REQUEST_FAILED, ex);
-			throw new XConnectionException(ex);
-		}
-	}
-
-	public boolean isLoggedIn()
-	{
-		return this.loggedIn;
 	}
 
 	public <T> T getRequest(String url, Class<T> returnObjectClass)
