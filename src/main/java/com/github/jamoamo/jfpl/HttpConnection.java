@@ -35,18 +35,18 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.function.Function;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.CookieStore;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.cookie.BasicCookieStore;
+import org.apache.hc.client5.http.cookie.CookieStore;
+import org.apache.hc.client5.http.cookie.StandardCookieSpec;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.NameValuePair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -57,93 +57,95 @@ import org.apache.logging.log4j.Logger;
 class HttpConnection
 {
 	private static final Logger LOGGER = LogManager.getLogger(FPLClient.class);
-	
+	private static final String MSG_REQUEST_FAILED = "Request failed";
+	private static final Gson GSON = new GsonBuilder()
+			  .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+			  .create();
+
 	private final CookieStore cookieStore;
 	private final CloseableHttpClient httpClient;
-	
+
 	private boolean loggedIn;
-	
+
 	HttpConnection()
 	{
 		cookieStore = new BasicCookieStore();
 		httpClient = HttpClientBuilder.create()
 				  .setDefaultRequestConfig(RequestConfig.custom()
-							 .setCookieSpec(CookieSpecs.STANDARD).build())
+							 .setCookieSpec(StandardCookieSpec.RELAXED).build())
 				  .setDefaultCookieStore(cookieStore)
 				  .build();
 	}
-	
+
 	public boolean execute(String url, List<NameValuePair> params, Function<CloseableHttpResponse, Boolean> validator)
 	{
 		HttpPost httpPost = new HttpPost(url);
+		httpPost.setEntity(new UrlEncodedFormEntity(params));
 
-		try
+		try(CloseableHttpResponse response = httpClient.execute(httpPost))
 		{
-			httpPost.setEntity(new UrlEncodedFormEntity(params));
-
-			CloseableHttpResponse response = httpClient.execute(httpPost);
-			return validator.apply(response);
+			boolean success = validator.apply(response);
+			this.loggedIn = success;
+			return success;
 		}
 		catch(IOException ex)
 		{
+			LOGGER.error(MSG_REQUEST_FAILED, ex);
 			throw new XConnectionException(ex);
 		}
-		finally
-		{
-			httpPost.releaseConnection();
-		}
 	}
-	
+
 	public boolean isLoggedIn()
 	{
 		return this.loggedIn;
 	}
-	
+
 	public <T> T getRequest(String url, Class<T> returnObjectClass)
 			  throws XClientException
 	{
 		HttpGet httpGet = new HttpGet(url);
-		InputStream is = null;
 		try
 		{
 			LOGGER.info(String.format("Request to url [%s]", url));
-			CloseableHttpResponse response = this.httpClient.execute(httpGet);
-			LOGGER.info(String.format("Response: %s", response.getStatusLine().getStatusCode()));
+			try(CloseableHttpResponse response = this.httpClient.execute(httpGet))
+			{
+				LOGGER.info(String.format("Response: %s", response.getCode()));
 
-			handleResponseStatus(response);
-			return processResponse(response, returnObjectClass);
+				handleResponseStatus(response);
+				return processResponse(response, returnObjectClass);
+			}
 		}
 		catch(IOException ex)
 		{
-			LOGGER.error("Request failed", ex);
+			LOGGER.error(MSG_REQUEST_FAILED, ex);
 			throw new XConnectionException(ex);
-		}
-		finally
-		{
-			httpGet.releaseConnection();
 		}
 	}
 
 	protected void handleResponseStatus(CloseableHttpResponse response)
 			  throws XClientException
 	{
-		if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
+		int statusCode = response.getCode();
+		if(statusCode == HttpStatus.SC_OK)
 		{
 			return;
 		}
 
-		switch(response.getStatusLine().getStatusCode())
+		LOGGER.warn(String.format("FPL API returned an error status [%d: %s]",
+				  statusCode, response.getReasonPhrase()));
+
+		switch(statusCode)
 		{
 			case HttpStatus.SC_SERVICE_UNAVAILABLE:
-				throw new XServiceUnavailable(response.getStatusLine().getReasonPhrase());
+				throw new XServiceUnavailable(response.getReasonPhrase());
 			case HttpStatus.SC_FORBIDDEN:
-				throw new XNotAllowed(response.getStatusLine().getReasonPhrase());
+				throw new XNotAllowed(response.getReasonPhrase());
 			case HttpStatus.SC_UNAUTHORIZED:
 				throw new XNotAuthorised();
 			case HttpStatus.SC_NOT_FOUND:
 				throw new XResourceNotFound();
 			default:
-				throw new XAPIException("API Exception. Response Code: " + response.getStatusLine().getStatusCode());
+				throw new XAPIException("API Exception. Response Code: " + statusCode);
 		}
 	}
 
@@ -154,15 +156,13 @@ class HttpConnection
 		{
 			InputStream is;
 			is = response.getEntity().getContent();
-			Gson gson = new GsonBuilder()
-					  .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-					  .create();
-			T responseObject = gson.fromJson(
+			T responseObject = GSON.fromJson(
 					  new InputStreamReader(is, Charset.forName("utf-8")), returnObjectClass);
 			return responseObject;
 		}
 		catch(JsonParseException ex)
 		{
+			LOGGER.warn("Failed to parse response body", ex);
 			throw new XResponseMappingException(ex);
 		}
 	}

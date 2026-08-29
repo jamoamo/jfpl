@@ -21,46 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.jamoamo.jfpl.model;
+package com.github.jamoamo.jfpl;
 
 /**
- * A sub automatically made during a game week when one of the players in the first 11 didn't play.
+ * Common root of every exception this library can throw from its public API. Catch this type to
+ * handle any jFPL failure without needing to enumerate each specific subtype.
+ *
  * @author James Amoore
  */
-public final class FPLAutomcaticSub
+public class XFPLException extends RuntimeException
 {
-	private final FPLPlayer playerIn;
-	private final FPLPlayer playerOut;
-	
-	/**
-	 * Creates a new instance.
-	 * 
-	 * @param playerIn The player brought in.
-	 * @param playerOut The player taken out.
-	 */
-	public FPLAutomcaticSub(FPLPlayer playerIn, FPLPlayer playerOut)
+	protected XFPLException(String message)
 	{
-		this.playerIn = playerIn;
-		this.playerOut = playerOut;
+		super(message);
 	}
 
-	/**
-	 * Returns the player brought in.
-	 * 
-	 * @return the player brought in.
-	 */
-	public FPLPlayer getPlayerIn()
+	protected XFPLException(String message, Throwable cause)
 	{
-		return playerIn;
-	}
-	
-	/**
-	 * Returns the player brought out.
-	 * 
-	 * @return the player brought out.
-	 */
-	public FPLPlayer getPlayerOut()
-	{
-		return playerOut;
+		super(message, cause);
 	}
 }

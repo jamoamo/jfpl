@@ -23,8 +23,7 @@
  */
 package com.github.jamoamo.jfpl;
 
-import org.apache.http.StatusLine;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -39,15 +38,52 @@ public class HttpConnectionTest
 	public void testHandleResponseStatus_200()
 	{
 		HttpConnection client = new HttpConnection();
-		
+
 		CloseableHttpResponse response = Mockito.mock(CloseableHttpResponse.class);
-		StatusLine statusLine = Mockito.mock(StatusLine.class);
-		Mockito.when(statusLine.getStatusCode()).thenReturn(200);
-		Mockito.when(response.getStatusLine()).thenReturn(statusLine);
+		Mockito.when(response.getCode()).thenReturn(200);
 		Assertions.assertDoesNotThrow(() -> client.handleResponseStatus(response));
-		
+
 	}
 
-	
-	
+	@Test
+	public void testHandleResponseStatus_401()
+	{
+		assertThrowsForStatus(401, XNotAuthorised.class);
+	}
+
+	@Test
+	public void testHandleResponseStatus_403()
+	{
+		assertThrowsForStatus(403, XNotAllowed.class);
+	}
+
+	@Test
+	public void testHandleResponseStatus_404()
+	{
+		assertThrowsForStatus(404, XResourceNotFound.class);
+	}
+
+	@Test
+	public void testHandleResponseStatus_503()
+	{
+		assertThrowsForStatus(503, XServiceUnavailable.class);
+	}
+
+	@Test
+	public void testHandleResponseStatus_unmappedStatus()
+	{
+		assertThrowsForStatus(500, XAPIException.class);
+	}
+
+	private void assertThrowsForStatus(int statusCode, Class<? extends XClientException> expectedException)
+	{
+		HttpConnection client = new HttpConnection();
+
+		CloseableHttpResponse response = Mockito.mock(CloseableHttpResponse.class);
+		Mockito.when(response.getCode()).thenReturn(statusCode);
+		Mockito.when(response.getReasonPhrase()).thenReturn("Reason for " + statusCode);
+
+		Assertions.assertThrows(expectedException, () -> client.handleResponseStatus(response));
+	}
+
 }

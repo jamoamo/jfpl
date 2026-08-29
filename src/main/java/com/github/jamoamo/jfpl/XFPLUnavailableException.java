@@ -5,7 +5,7 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the So Аftware without restriction, including without limitation the rights
+ * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -28,15 +28,22 @@ package com.github.jamoamo.jfpl;
  *
  * @author James Amoore
  */
-public class XFPLUnavailableException extends RuntimeException
+public class XFPLUnavailableException extends XFPLException
 {
+	private static final String MSG_PREFIX = "Unable to connect to FPL. Connection failed due to: ";
+
 	XFPLUnavailableException()
 	{
 		super("Unable to connect to FPL.");
 	}
-	
+
 	XFPLUnavailableException(String message)
 	{
-		super("Unable to connect to FPL. Connection failed due to: " + message);
+		super(MSG_PREFIX + message);
+	}
+
+	XFPLUnavailableException(String message, Throwable cause)
+	{
+		super(MSG_PREFIX + message, cause);
 	}
 }

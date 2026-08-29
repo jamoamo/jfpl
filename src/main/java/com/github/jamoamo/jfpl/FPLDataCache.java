@@ -5,7 +5,7 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the So Аftware without restriction, including without limitation the rights
+ * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -23,10 +23,16 @@
  */
 package com.github.jamoamo.jfpl;
 
+import com.github.jamoamo.jfpl.model.FPLPlayer;
+import com.github.jamoamo.jfpl.model.FPLTeam;
+import java.util.Map;
+
 class FPLDataCache
 {
 	private JsonStaticData staticData;
 	private JsonCurrentUser currentUser;
+	private Map<Integer, FPLTeam> teamMap;
+	private Map<Integer, FPLPlayer> playerMap;
 
 	JsonStaticData getStaticData()
 	{
@@ -38,13 +44,36 @@ class FPLDataCache
 		return this.currentUser;
 	}
 
+	Map<Integer, FPLTeam> getTeamMap()
+	{
+		return this.teamMap;
+	}
+
+	Map<Integer, FPLPlayer> getPlayerMap()
+	{
+		return this.playerMap;
+	}
+
 	void storeStaticData(JsonStaticData staticData)
 	{
 		this.staticData = staticData;
+		// team/player maps are derived from static data, so they're stale as soon as it changes
+		this.teamMap = null;
+		this.playerMap = null;
 	}
 
 	void storeCurrentUser(JsonCurrentUser user)
 	{
 		this.currentUser = user;
+	}
+
+	void storeTeamMap(Map<Integer, FPLTeam> teamMap)
+	{
+		this.teamMap = teamMap;
+	}
+
+	void storePlayerMap(Map<Integer, FPLPlayer> playerMap)
+	{
+		this.playerMap = playerMap;
 	}
 }

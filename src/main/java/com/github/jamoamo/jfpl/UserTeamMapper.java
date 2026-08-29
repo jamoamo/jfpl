@@ -5,7 +5,7 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the So Аftware without restriction, including without limitation the rights
+ * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -32,6 +32,7 @@ import com.github.jamoamo.jfpl.model.FPLUserTeamPick;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -41,6 +42,7 @@ import java.util.stream.Collectors;
 class UserTeamMapper
 {
 	private static final double FACTOR_OF_TEN = 10.0;
+	private static final String MSG_SUFFIX_IN_TEAM = " in team.";
 
 	FPLUserTeam mapUserTeam(JsonCurrentUserTeam team, Map<Integer, FPLPlayer> playerMap)
 	{
@@ -59,27 +61,30 @@ class UserTeamMapper
 	private FPLPlayer mapCaptain(JsonCurrentUserTeam team, Map<Integer, FPLPlayer> playerMap)
 			  throws XFPLMappingException
 	{
-		List<JsonTeamPicks> captainList = Arrays.stream(team.getPicks())
-				  .filter(p -> p.isIsCaptain()).collect(Collectors.toList());
-		if(captainList.size() > 1)
-		{
-			throw new XFPLMappingException("More than one captain in team.");
-		}
-		FPLPlayer captain = playerMap.get(captainList.get(0).getElement());
-		return captain;
+		return findUniquePick(team, p -> p.isIsCaptain(), playerMap, "captain");
 	}
 
 	private FPLPlayer mapViceCaptain(JsonCurrentUserTeam team, Map<Integer, FPLPlayer> playerMap)
 			  throws XFPLMappingException
 	{
-		List<JsonTeamPicks> viceCaptainList = Arrays.stream(team.getPicks())
-				  .filter(p -> p.isIsViceCaptain()).collect(Collectors.toList());
-		if(viceCaptainList.size() > 1)
+		return findUniquePick(team, p -> p.isIsViceCaptain(), playerMap, "vice captain");
+	}
+
+	private FPLPlayer findUniquePick(JsonCurrentUserTeam team, Predicate<JsonTeamPicks> matcher,
+			  Map<Integer, FPLPlayer> playerMap, String roleName)
+			  throws XFPLMappingException
+	{
+		List<JsonTeamPicks> matches = Arrays.stream(team.getPicks())
+				  .filter(matcher).collect(Collectors.toList());
+		if(matches.isEmpty())
 		{
-			throw new XFPLMappingException("More than one vice captain in team.");
+			throw new XFPLMappingException("No " + roleName + MSG_SUFFIX_IN_TEAM);
 		}
-		FPLPlayer viceCaptain = playerMap.get(viceCaptainList.get(0).getElement());
-		return viceCaptain;
+		if(matches.size() > 1)
+		{
+			throw new XFPLMappingException("More than one " + roleName + MSG_SUFFIX_IN_TEAM);
+		}
+		return playerMap.get(matches.get(0).getElement());
 	}
 
 	private List<FPLUserTeamPick> mapPicks(JsonTeamPicks[] jsonPicks, Map<Integer, FPLPlayer> playerMap)
@@ -110,6 +115,9 @@ class UserTeamMapper
 				  ).collect(Collectors.toList());
 	}
 
+	// The string literals below are the exact values returned by the undocumented FPL API's chip "name"
+	// field, discovered by observation rather than published documentation. FPL has added chip types
+	// over time, so this switch (and the FPLChip enum) may need a new case if a new chip is introduced.
 	protected FPLChip mapChip(String chipName)
 	{
 		if(null == chipName)

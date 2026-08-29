@@ -5,7 +5,7 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the So Аftware without restriction, including without limitation the rights
+ * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -37,9 +37,17 @@ class TestClient implements IFPLClient
 {
 	JsonStaticData data = new JsonStaticData();
 	List<JsonFixture> fixtures = new ArrayList<>();
+	JsonCurrentUser currentUser;
+	JsonUser user;
+	JsonCurrentUserTeam currentUserTeam;
+	JsonUserHistory userHistory;
+	JsonEntryGameweek entryGameweek;
 	boolean throwIOException = false;
 	boolean throwAPIException = false;
-	
+	boolean throwResourceNotFound = false;
+	boolean loginSuccess = true;
+	boolean loggedIn = false;
+
 	@Override
 	public JsonStaticData getStaticData()
 			  throws XClientException
@@ -59,6 +67,10 @@ class TestClient implements IFPLClient
 		{
 			throw new XResponseMappingException(new JsonSyntaxException("Syntax exception"));
 		}
+		else if(throwResourceNotFound)
+		{
+			throw new XResourceNotFound();
+		}
 	}
 
 	@Override
@@ -73,6 +85,7 @@ class TestClient implements IFPLClient
 	public List<JsonFixture> getFixturesForGameweek(int gameweekNr)
 			  throws XClientException
 	{
+		checkExceptions();
 		return fixtures.stream().filter(f -> f.getEvent() == gameweekNr).collect(Collectors.toList());
 	}
 
@@ -80,48 +93,55 @@ class TestClient implements IFPLClient
 	public JsonCurrentUser getCurrentUser()
 			  throws XClientException
 	{
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		checkExceptions();
+		return currentUser;
 	}
 
 	@Override
 	public JsonUser getUser(int id)
 			  throws XClientException
 	{
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		checkExceptions();
+		return user;
 	}
 
 	@Override
 	public boolean login(FPLLoginCredentials creds)
 			  throws XClientException
 	{
-		return true;
+		checkExceptions();
+		loggedIn = loginSuccess;
+		return loginSuccess;
 	}
-	
+
 	@Override
 	public boolean isLoggedIn()
 	{
-		return true;
+		return loggedIn;
 	}
 
 	@Override
 	public JsonCurrentUserTeam getCurrentUserTeam(int id)
 			  throws XClientException
 	{
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		checkExceptions();
+		return currentUserTeam;
 	}
 
 	@Override
 	public JsonUserHistory getUserHistory(int id)
 			  throws XClientException
 	{
-		throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+		checkExceptions();
+		return userHistory;
 	}
 
 	@Override
 	public JsonEntryGameweek getEntryGameweek(int entity, int event)
 			  throws XClientException
 	{
-		throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+		checkExceptions();
+		return entryGameweek;
 	}
-	
+
 }
