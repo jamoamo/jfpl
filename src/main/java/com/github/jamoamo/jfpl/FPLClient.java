@@ -23,14 +23,8 @@
  */
 package com.github.jamoamo.jfpl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Pattern;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
-import org.apache.hc.core5.http.Header;
-import org.apache.hc.core5.http.NameValuePair;
-import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,14 +35,10 @@ class FPLClient implements IFPLClient
 	private static final String URL_FPL_API = "https://fantasy.premierleague.com/api/";
 	private static final String URL_BOOTSTAP_STATIC = "%sbootstrap-static/";
 	private static final String URL_FIXTURES = "%sfixtures/";
-	private static final String URL_LOGIN = "https://users.premierleague.com/accounts/login/";
-	private static final String URL_CURRENT_USER = "%sme/";
-	private static final String URL_USER_TEAM = "%smy-team/";
 	private static final String URL_USER = "%sentry/";
 	private static final String URL_SEPARATOR = "/";
 	private static final String URL_HISTORY = "/history/";
 	private static final String URL_ENTRY_GAMEWEEK = "%sentry/%d/event/%d/picks/";
-	private static final int LOGIN_PARAM_COUNT = 4;
 
 	private final HttpConnection request;
 
@@ -69,65 +59,6 @@ class FPLClient implements IFPLClient
 	{
 		request = new HttpConnection();
 		this.apiUrl = apiUrl;
-	}
-
-	@Override
-	public boolean login(FPLLoginCredentials credentials)
-			  throws XClientException
-	{
-		List<NameValuePair> params = new ArrayList<>(LOGIN_PARAM_COUNT);
-		params.add(new BasicNameValuePair("login", credentials.getUsername()));
-
-		params.add(new BasicNameValuePair("password", credentials.getPassword()));
-		params.add(new BasicNameValuePair("app", "plfpl-web"));
-		params.add(new BasicNameValuePair("redirect_uri", "https://fantasy.premierleague.com/a/login"));
-
-		return request.execute(URL_LOGIN, params, response -> loginResponseWasSucess(response));
-	}
-
-	private boolean loginResponseWasSucess(CloseableHttpResponse response)
-	{
-		Header[] headers = response.getHeaders();
-		for(Header header : headers)
-		{
-			if(header.getName().equalsIgnoreCase("location"))
-			{
-				String locationValue = header.getValue();
-				Pattern p = Pattern.compile(
-						  "https[:]//fantasy[.]premierleague[.]com/a/login[?]state[=]success[;]?");
-				boolean success = p.matcher(locationValue).matches();
-				if(!success)
-				{
-					LOGGER.warn(String.format("Login failed. Redirected to: %s", locationValue));
-				}
-				return success;
-			}
-		}
-		LOGGER.warn("Login failed. No location header was present on the login response.");
-		return false;
-	}
-
-	@Override
-	public boolean isLoggedIn()
-	{
-		return request.isLoggedIn();
-	}
-
-	@Override
-	public JsonCurrentUser getCurrentUser()
-			  throws XClientException
-	{
-		JsonCurrentUser user = request.getRequest(String.format(URL_CURRENT_USER, apiUrl), JsonCurrentUser.class);
-		return user;
-	}
-
-	@Override
-	public JsonCurrentUserTeam getCurrentUserTeam(int id)
-			  throws XClientException
-	{
-		JsonCurrentUserTeam team = request.getRequest(String.format(URL_USER_TEAM + id + URL_SEPARATOR, apiUrl),
-																	 JsonCurrentUserTeam.class);
-		return team;
 	}
 
 	@Override

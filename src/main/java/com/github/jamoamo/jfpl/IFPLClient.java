@@ -27,15 +27,6 @@ import java.util.List;
 
 interface IFPLClient
 {
-	boolean login(FPLLoginCredentials creds)
-			  throws XClientException;
-
-	JsonCurrentUser getCurrentUser()
-			  throws XClientException;
-
-	JsonCurrentUserTeam getCurrentUserTeam(int id)
-			  throws XClientException;
-
 	JsonUser getUser(int id)
 			  throws XClientException;
 
@@ -50,9 +41,7 @@ interface IFPLClient
 
 	JsonUserHistory getUserHistory(int id)
 			  throws XClientException;
-	
-	boolean isLoggedIn();
-	
-	JsonEntryGameweek getEntryGameweek(int entity, int event) 
+
+	JsonEntryGameweek getEntryGameweek(int entity, int event)
 			  throws XClientException;
 }
