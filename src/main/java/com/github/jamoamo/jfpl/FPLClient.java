@@ -5,7 +5,7 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the So Аftware without restriction, including without limitation the rights
+ * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -27,14 +27,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
-import org.apache.http.Header;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 class FPLClient implements IFPLClient
 {
+	private static final Logger LOGGER = LogManager.getLogger(FPLClient.class);
+
 	private static final String URL_FPL_API = "https://fantasy.premierleague.com/api/";
 	private static final String URL_BOOTSTAP_STATIC = "%sbootstrap-static/";
 	private static final String URL_FIXTURES = "%sfixtures/";
@@ -53,37 +56,38 @@ class FPLClient implements IFPLClient
 
 	FPLClient()
 	{
+		this(URL_FPL_API);
+	}
+
+	/**
+	 * Test-only constructor allowing the API base URL to be overridden, e.g. to point at a mock server.
+	 * Not exposed publicly so that untrusted code cannot redirect API calls at runtime.
+	 *
+	 * @param apiUrl the base URL to use for API requests
+	 */
+	FPLClient(String apiUrl)
+	{
 		request = new HttpConnection();
-		apiUrl = System.getProperty("jfpl.fpl_api_url", URL_FPL_API);
+		this.apiUrl = apiUrl;
 	}
 
 	@Override
 	public boolean login(FPLLoginCredentials credentials)
 			  throws XClientException
 	{
-		HttpPost httpPost = new HttpPost(URL_LOGIN);
+		List<NameValuePair> params = new ArrayList<>(LOGIN_PARAM_COUNT);
+		params.add(new BasicNameValuePair("login", credentials.getUsername()));
 
-		try
-		{
-			List<NameValuePair> params = new ArrayList<>(LOGIN_PARAM_COUNT);
-			params.add(new BasicNameValuePair("login", credentials.getUsername()));
+		params.add(new BasicNameValuePair("password", credentials.getPassword()));
+		params.add(new BasicNameValuePair("app", "plfpl-web"));
+		params.add(new BasicNameValuePair("redirect_uri", "https://fantasy.premierleague.com/a/login"));
 
-			params.add(new BasicNameValuePair("password", credentials.getPassword()));
-			params.add(new BasicNameValuePair("app", "plfpl-web"));
-			params.add(new BasicNameValuePair("redirect_uri", "https://fantasy.premierleague.com/a/login"));
-
-			request.execute(URL_LOGIN, params, response -> loginResponseWasSucess(response));
-		}
-		finally
-		{
-			httpPost.releaseConnection();
-		}
-		return true;
+		return request.execute(URL_LOGIN, params, response -> loginResponseWasSucess(response));
 	}
 
 	private boolean loginResponseWasSucess(CloseableHttpResponse response)
 	{
-		Header[] headers = response.getAllHeaders();
+		Header[] headers = response.getHeaders();
 		for(Header header : headers)
 		{
 			if(header.getName().equalsIgnoreCase("location"))
@@ -91,9 +95,15 @@ class FPLClient implements IFPLClient
 				String locationValue = header.getValue();
 				Pattern p = Pattern.compile(
 						  "https[:]//fantasy[.]premierleague[.]com/a/login[?]state[=]success[;]?");
-				return p.matcher(locationValue).matches();
+				boolean success = p.matcher(locationValue).matches();
+				if(!success)
+				{
+					LOGGER.warn(String.format("Login failed. Redirected to: %s", locationValue));
+				}
+				return success;
 			}
 		}
+		LOGGER.warn("Login failed. No location header was present on the login response.");
 		return false;
 	}
 

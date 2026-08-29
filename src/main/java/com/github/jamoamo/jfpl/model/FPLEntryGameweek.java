@@ -36,7 +36,7 @@ public class FPLEntryGameweek
 {
 	private final FPLGameweekHistory gameweekHistory;
 	private final FPLChip chipUsed;
-	private final List<FPLAutomcaticSub> automaticSubstitutions = new ArrayList<>();
+	private final List<FPLAutomaticSub> automaticSubstitutions = new ArrayList<>();
 	private final List<FPLGameweekPick> gameweekPicks = new ArrayList<>();
 	
 	/**
@@ -49,7 +49,7 @@ public class FPLEntryGameweek
 	 */
 	public FPLEntryGameweek(FPLGameweekHistory gwHistory, 
 									FPLChip chipUsed, 
-									List<FPLAutomcaticSub> gwSubs, 
+									List<FPLAutomaticSub> gwSubs, 
 									List<FPLGameweekPick> picks)
 	{
 		this.gameweekHistory = gwHistory;
@@ -80,7 +80,7 @@ public class FPLEntryGameweek
 	 * Automatic substitutes made in the game week.
 	 * @return the automatic substitutes.
 	 */
-	public List<FPLAutomcaticSub> getAutomaticSubstitutions()
+	public List<FPLAutomaticSub> getAutomaticSubstitutions()
 	{
 		return Collections.unmodifiableList(automaticSubstitutions);
 	}

@@ -27,7 +27,7 @@ package com.github.jamoamo.jfpl;
  *
  * @author James Amoore
  */
-public class XNotAllowed extends XAPIException
+class XNotAllowed extends XAPIException
 {
 	XNotAllowed(String reasonPhrase)
 	{

@@ -23,7 +23,7 @@
  */
 package com.github.jamoamo.jfpl;
 
-import com.github.jamoamo.jfpl.model.FPLAutomcaticSub;
+import com.github.jamoamo.jfpl.model.FPLAutomaticSub;
 import com.github.jamoamo.jfpl.model.FPLChip;
 import com.github.jamoamo.jfpl.model.FPLEntryGameweek;
 import com.github.jamoamo.jfpl.model.FPLGameweekHistory;
@@ -52,9 +52,9 @@ final class EntryGameweekMapper
 		return gwMapper.mapGameweekHistory(jsonGameweekHistory);
 	}
 	
-	private List<FPLAutomcaticSub> mapAutomaticSubs(List<JsonAutomaticSub> subs, Map<Integer, FPLPlayer> playerMap)
+	private List<FPLAutomaticSub> mapAutomaticSubs(List<JsonAutomaticSub> subs, Map<Integer, FPLPlayer> playerMap)
 	{
-		return subs.stream().map(jas -> new FPLAutomcaticSub(playerMap.get(jas.getElementIn()), playerMap.get(jas.
+		return subs.stream().map(jas -> new FPLAutomaticSub(playerMap.get(jas.getElementIn()), playerMap.get(jas.
 																		getElementOut()))).collect(Collectors.toList());
 	}
 	

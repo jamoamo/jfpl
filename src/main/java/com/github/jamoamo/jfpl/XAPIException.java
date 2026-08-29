@@ -27,7 +27,7 @@ package com.github.jamoamo.jfpl;
  *
  * @author James Amoore
  */
-public class XAPIException extends XClientException
+class XAPIException extends XClientException
 {
 	protected XAPIException(String message)
 	{

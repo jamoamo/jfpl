@@ -5,7 +5,7 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the So Аftware without restriction, including without limitation the rights
+ * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -32,20 +32,38 @@ import com.github.jamoamo.jfpl.model.FPLTeam;
 import com.github.jamoamo.jfpl.model.FPLUser;
 import com.github.jamoamo.jfpl.model.FPLUserHistory;
 import com.github.jamoamo.jfpl.model.FPLUserTeam;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Starting point for accessing the unofficial FPL API.
  */
+// Fan-out is high because this facade owns translating every FPL JSON DTO into its public model
+// counterpart via a dedicated mapper per resource type; splitting it up would just move the fan-out
+// to another class rather than reduce it.
 @SuppressWarnings("checkstyle:classFanOutComplexity")
 public final class FPL
 {
+	private static final Logger LOGGER = LogManager.getLogger(FPL.class);
 
 	private final IFPLClient fplClient;
 	private final FPLDataCache cachedData = new FPLDataCache();
+
+	private final UserMapper userMapper = new UserMapper();
+	private final UserTeamMapper userTeamMapper = new UserTeamMapper();
+	private final PlayerMapper playerMapper = new PlayerMapper();
+	private final GameweekMapper gameweekMapper = new GameweekMapper();
+	private final FixtureMapper fixtureMapper = new FixtureMapper();
+	private final TeamMapper teamMapper = new TeamMapper();
+	private final UserHistoryMapper userHistoryMapper = new UserHistoryMapper();
+	private final EntryGameweekMapper entryGameweekMapper = new EntryGameweekMapper();
+	private final PlayerTypeMapper playerTypeMapper = new PlayerTypeMapper();
 
 	/**
 	 * Create a connection to FPL without logging in. Certain functionality will not be available.
@@ -112,11 +130,13 @@ public final class FPL
 	 *
 	 * @return an object representing the current logged in user
 	 *
-	 * @throws Exception if an error occurs
+	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
+	 * @throws XFPLResourceNotFound     if the current user could not be found.
 	 * @see FPL#login(com.github.jamoamo.jfpl.FPLLoginCredentials)
 	 */
 	public FPLUser getCurrentUser()
-			  throws Exception
+			  throws XFPLUnavailableException, XFPLAPIResponseException, XFPLResourceNotFound
 	{
 		JsonCurrentUser current = getCurrentUserData();
 		if(current == null)
@@ -133,36 +153,33 @@ public final class FPL
 	 *
 	 * @return the user
 	 *
-	 * @throws XFPLUnavailableException if an error occurs
+	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
+	 * @throws XFPLResourceNotFound     if the user could not be found.
 	 */
 	public FPLUser getUser(int id)
-			  throws XFPLUnavailableException
+			  throws XFPLUnavailableException, XFPLAPIResponseException, XFPLResourceNotFound
 	{
-		try
+		return translated(() ->
 		{
 			JsonUser user = this.fplClient.getUser(id);
-			UserMapper userMapper = new UserMapper();
 			return userMapper.mapUser(user, getTeamMap());
-		}
-		catch(XServiceUnavailable unavailable)
-		{
-			throw new XFPLUnavailableException(unavailable.getMessage());
-		}
+		});
 	}
 
 	private JsonCurrentUser getCurrentUserData()
-			  throws IOException
 	{
-		JsonCurrentUser current = null;
-		if(this.cachedData != null && this.cachedData.getCurrentUser() != null)
-		{
-			current = this.cachedData.getCurrentUser();
-		}
+		JsonCurrentUser current = this.cachedData.getCurrentUser();
 
 		if(current == null)
 		{
-			current = this.fplClient.getCurrentUser();
+			LOGGER.debug("Current user cache miss, fetching from FPL");
+			current = translated(() -> this.fplClient.getCurrentUser());
 			cachedData.storeCurrentUser(current);
+		}
+		else
+		{
+			LOGGER.debug("Current user cache hit");
 		}
 		return current;
 	}
@@ -170,38 +187,35 @@ public final class FPL
 	/**
 	 * @return the team of the current logged-in user
 	 *
-	 * @throws Exception if an error occurs
+	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
+	 * @throws XFPLResourceNotFound     if the current user's team could not be found.
 	 */
 	public FPLUserTeam getCurrentUserTeam()
-			  throws Exception
+			  throws XFPLUnavailableException, XFPLAPIResponseException, XFPLResourceNotFound
 	{
 		JsonCurrentUser current = getCurrentUserData();
 		if(current == null)
 		{
 			return null;
 		}
-		JsonCurrentUserTeam team = this.fplClient.getCurrentUserTeam(current.getPlayer().getEntry());
+		JsonCurrentUserTeam team =
+				  translated(() -> this.fplClient.getCurrentUserTeam(current.getPlayer().getEntry()));
 
-		UserTeamMapper mapper = new UserTeamMapper();
-		return mapper.mapUserTeam(team, getPlayerMap());
+		return userTeamMapper.mapUserTeam(team, getPlayerMap());
 	}
 
 	/**
 	 * @return a full list of players in FPL
 	 *
 	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
+	 * @throws XFPLResourceNotFound     if the player list could not be found.
 	 */
 	public List<FPLPlayer> getPlayers()
-			  throws XFPLAPIResponseException, XFPLUnavailableException
+			  throws XFPLAPIResponseException, XFPLUnavailableException, XFPLResourceNotFound
 	{
-		JsonStaticData data = getStaticData();
-		List<JsonPlayer> fplplayers = data.getElements();
-		PlayerMapper mapper = new PlayerMapper();
-		List<FPLPlayer> players =
-				  fplplayers.stream()
-							 .map(p -> mapper.mapPlayer(p, this.getTeamMap()))
-							 .collect(Collectors.toList());
-		return players;
+		return new ArrayList<>(getPlayerMap().values());
 	}
 
 	/**
@@ -211,9 +225,11 @@ public final class FPL
 	 *         the game-week of the current FPL game-week.
 	 *
 	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
+	 * @throws XFPLResourceNotFound     if the game-week list could not be found.
 	 */
 	public FPLGameweek getCurrentGameweek()
-			  throws XFPLAPIResponseException, XFPLUnavailableException
+			  throws XFPLAPIResponseException, XFPLUnavailableException, XFPLResourceNotFound
 	{
 		return getGameweeks().stream().filter(g -> g.isCurrent()).findFirst().orElse(null);
 	}
@@ -222,49 +238,38 @@ public final class FPL
 	 * @return a list of all FPL game-weeks.
 	 *
 	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
+	 * @throws XFPLResourceNotFound     if the game-week list could not be found.
 	 */
 	public List<FPLGameweek> getGameweeks()
-			  throws XFPLAPIResponseException, XFPLUnavailableException
+			  throws XFPLAPIResponseException, XFPLUnavailableException, XFPLResourceNotFound
 	{
 		JsonStaticData data = getStaticData();
-		final GameweekMapper mapper = new GameweekMapper();
 		return data.getEvents()
 				  .stream()
-				  .map(gameweek -> mapper.mapGameweek(gameweek))
+				  .map(gameweek -> gameweekMapper.mapGameweek(gameweek))
 				  .collect(Collectors.toList());
 	}
 
 	/**
 	 * Get a list of all fixtures.
 	 *
-	 * @return a list of al fixtures.
+	 * @return a list of all fixtures.
 	 *
 	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
+	 * @throws XFPLResourceNotFound     if the fixture list could not be found.
 	 */
 	public List<FPLFixture> getFixtures()
-			  throws XFPLUnavailableException
+			  throws XFPLUnavailableException, XFPLAPIResponseException, XFPLResourceNotFound
 	{
-		try
+		return translated(() ->
 		{
 			List<JsonFixture> fplFixtures = this.fplClient.getFixtures();
-			FixtureMapper mapper = new FixtureMapper();
-			List<FPLFixture> fixtures = fplFixtures
+			return fplFixtures
 					  .stream()
-					  .map(f -> mapper.mapFixture(f, getTeamMap())).collect(Collectors.toList());
-			return fixtures;
-		}
-		catch(XConnectionException ex)
-		{
-			throw new XFPLUnavailableException();
-		}
-		catch(XResponseMappingException ex)
-		{
-			throw new XFPLAPIResponseException();
-		}
-		catch(XResourceNotFound xrnf)
-		{
-			throw new XFPLResourceNotFound();
-		}
+					  .map(f -> fixtureMapper.mapFixture(f, getTeamMap())).collect(Collectors.toList());
+		});
 	}
 
 	/**
@@ -273,19 +278,13 @@ public final class FPL
 	 * @return a list of all teams.
 	 *
 	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
+	 * @throws XFPLResourceNotFound     if the team list could not be found.
 	 */
 	public List<FPLTeam> getTeams()
-			  throws XFPLAPIResponseException, XFPLUnavailableException
+			  throws XFPLAPIResponseException, XFPLUnavailableException, XFPLResourceNotFound
 	{
-		JsonStaticData data = getStaticData();
-		TeamMapper mapper = new TeamMapper();
-
-		List<FPLTeam> teams = data
-				  .getTeams()
-				  .stream()
-				  .map(t -> mapper.mapTeam(t))
-				  .collect(Collectors.toList());
-		return teams;
+		return new ArrayList<>(getTeamMap().values());
 	}
 
 	/**
@@ -294,30 +293,17 @@ public final class FPL
 	 * @return a history of the current user
 	 *
 	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
+	 * @throws XFPLResourceNotFound     if the current user's history could not be found.
 	 */
 	public FPLUserHistory getCurrentUserHistory()
-			  throws XFPLUnavailableException
+			  throws XFPLUnavailableException, XFPLAPIResponseException, XFPLResourceNotFound
 	{
-		try
+		return translated(() ->
 		{
 			JsonCurrentUser user = fplClient.getCurrentUser();
-
-			FPLUserHistory userHistory = getUserHistory(user.getPlayer().getEntry());
-
-			return userHistory;
-		}
-		catch(XConnectionException ex)
-		{
-			throw new XFPLUnavailableException();
-		}
-		catch(XResponseMappingException ex)
-		{
-			throw new XFPLAPIResponseException();
-		}
-		catch(XResourceNotFound xrnf)
-		{
-			throw new XFPLResourceNotFound();
-		}
+			return getUserHistory(user.getPlayer().getEntry());
+		});
 	}
 
 	/**
@@ -328,27 +314,17 @@ public final class FPL
 	 * @return a history for the provided user
 	 *
 	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
+	 * @throws XFPLResourceNotFound     if the user's history could not be found.
 	 */
 	public FPLUserHistory getUserHistory(int userEntryId)
+			  throws XFPLUnavailableException, XFPLAPIResponseException, XFPLResourceNotFound
 	{
-		try
+		return translated(() ->
 		{
 			JsonUserHistory userHistory = fplClient.getUserHistory(userEntryId);
-			UserHistoryMapper mapper = new UserHistoryMapper();
-			return mapper.mapUserHistory(userHistory);
-		}
-		catch(XConnectionException ex)
-		{
-			throw new XFPLUnavailableException();
-		}
-		catch(XResponseMappingException ex)
-		{
-			throw new XFPLAPIResponseException();
-		}
-		catch(XResourceNotFound xrnf)
-		{
-			throw new XFPLResourceNotFound();
-		}
+			return userHistoryMapper.mapUserHistory(userHistory);
+		});
 	}
 
 	/**
@@ -358,103 +334,114 @@ public final class FPL
 	 * @param gameweek The game week.
 	 *
 	 * @return The entry game week.
+	 *
+	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
+	 * @throws XFPLResourceNotFound     if the entry game week could not be found.
 	 */
 	public FPLEntryGameweek getEntryGameweek(int entry, int gameweek)
+			  throws XFPLUnavailableException, XFPLAPIResponseException, XFPLResourceNotFound
 	{
-		try
+		return translated(() ->
 		{
 			JsonEntryGameweek entryGameweek = fplClient.getEntryGameweek(entry, gameweek);
-			EntryGameweekMapper mapper = new EntryGameweekMapper();
-			return mapper.mapEntryGameweek(entryGameweek, getPlayerMap());
-		}
-		catch(XConnectionException ex)
-		{
-			throw new XFPLUnavailableException();
-		}
-		catch(XResponseMappingException ex)
-		{
-			throw new XFPLAPIResponseException();
-		}
-		catch(XResourceNotFound xrnf)
-		{
-			throw new XFPLResourceNotFound();
-		}
+			return entryGameweekMapper.mapEntryGameweek(entryGameweek, getPlayerMap());
+		});
 	}
 
 	/**
 	 * Get the FPL player types.
 	 *
 	 * @return the list of player types.
+	 *
+	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
+	 * @throws XFPLResourceNotFound     if the player types could not be found.
 	 */
 	public List<FPLPlayerType> getPlayerTypes()
-			  throws XFPLAPIResponseException, XFPLUnavailableException
+			  throws XFPLAPIResponseException, XFPLUnavailableException, XFPLResourceNotFound
 	{
-		try
-		{
-			JsonStaticData data = getStaticData();
-			PlayerTypeMapper mapper = new PlayerTypeMapper();
+		JsonStaticData data = getStaticData();
 
-			List<FPLPlayerType> playerTypes =
-					  data.getElementTypes().stream().map(elemType -> mapper.mapPlayerType(elemType))
-								 .collect(Collectors.toList());
-
-			return playerTypes;
-		}
-		catch(XConnectionException ex)
-		{
-			throw new XFPLUnavailableException();
-		}
-		catch(XResponseMappingException ex)
-		{
-			throw new XFPLAPIResponseException();
-		}
-		catch(XResourceNotFound xrnf)
-		{
-			throw new XFPLResourceNotFound();
-		}
+		return data.getElementTypes().stream().map(elemType -> playerTypeMapper.mapPlayerType(elemType))
+				  .collect(Collectors.toList());
 	}
 
 	private JsonStaticData getStaticData()
-			  throws XFPLAPIResponseException, XFPLUnavailableException
+			  throws XFPLAPIResponseException, XFPLUnavailableException, XFPLResourceNotFound
 	{
 		if(cachedData.getStaticData() != null)
 		{
+			LOGGER.debug("Static data cache hit");
 			return cachedData.getStaticData();
 		}
 
+		LOGGER.debug("Static data cache miss, fetching from FPL");
+		JsonStaticData data = translated(() -> this.fplClient.getStaticData());
+		this.cachedData.storeStaticData(data);
+		return data;
+	}
+
+	/**
+	 * Translates internal client exceptions into the public {@code XFPL*} exception hierarchy so that
+	 * every public entry point in this class fails in a consistent, documented way.
+	 *
+	 * @param <T>  the type returned by the client call
+	 * @param call the client call to invoke and translate exceptions for
+	 *
+	 * @return the result of {@code call}
+	 */
+	private <T> T translated(Supplier<T> call)
+			  throws XFPLUnavailableException, XFPLAPIResponseException, XFPLResourceNotFound
+	{
 		try
 		{
-			JsonStaticData data = this.fplClient.getStaticData();
-			this.cachedData.storeStaticData(data);
-			return data;
+			return call.get();
 		}
-		catch(XConnectionException ex)
+		catch(XConnectionException | XAPIException ex)
 		{
-			throw new XFPLUnavailableException();
+			LOGGER.warn("FPL call failed, could not connect or was rejected", ex);
+			throw new XFPLUnavailableException(ex.getMessage(), ex);
 		}
 		catch(XResponseMappingException ex)
 		{
-			throw new XFPLAPIResponseException();
+			LOGGER.warn("FPL call failed, could not interpret the response", ex);
+			throw new XFPLAPIResponseException(ex);
 		}
-		catch(XResourceNotFound xrnf)
+		catch(XResourceNotFound ex)
 		{
+			LOGGER.warn("FPL call failed, requested resource was not found", ex);
 			throw new XFPLResourceNotFound();
 		}
 	}
 
 	private Map<Integer, FPLTeam> getTeamMap()
 	{
-		Map<Integer, FPLTeam> teams = getTeams()
-				  .stream()
-				  .collect(Collectors.toMap(t -> t.getId(), t -> t));
+		Map<Integer, FPLTeam> teams = cachedData.getTeamMap();
+		if(teams == null)
+		{
+			JsonStaticData data = getStaticData();
+			teams = data.getTeams()
+					  .stream()
+					  .map(t -> teamMapper.mapTeam(t))
+					  .collect(Collectors.toMap(t -> t.getId(), t -> t, (a, b) -> a, LinkedHashMap::new));
+			cachedData.storeTeamMap(teams);
+		}
 		return teams;
 	}
 
 	private Map<Integer, FPLPlayer> getPlayerMap()
 	{
-		Map<Integer, FPLPlayer> players = getPlayers()
-				  .stream()
-				  .collect(Collectors.toMap(p -> p.getId(), p -> p));
+		Map<Integer, FPLPlayer> players = cachedData.getPlayerMap();
+		if(players == null)
+		{
+			JsonStaticData data = getStaticData();
+			players = data.getElements()
+					  .stream()
+					  .map(p -> playerMapper.mapPlayer(p, getTeamMap()))
+					  .collect(Collectors.toMap(p -> p.getId(), p -> p, (a, b) -> a, LinkedHashMap::new));
+			cachedData.storePlayerMap(players);
+		}
 		return players;
 	}
 }

@@ -5,7 +5,7 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the So Аftware without restriction, including without limitation the rights
+ * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -26,6 +26,7 @@ package com.github.jamoamo.jfpl;
 import com.github.jamoamo.jfpl.model.FPLTeam;
 
 /**
+ * Maps a team from the one returned from the FPL JSON API to one exposed by this library.
  *
  * @author James Amoore
  */
@@ -33,7 +34,6 @@ class TeamMapper
 {
 	protected FPLTeam mapTeam(JsonTeam jsonTeam)
 	{
-		//why are tests skipped?
 		FPLTeam team = new FPLTeam(jsonTeam.getId(), jsonTeam.getName(), jsonTeam.getShortName());
 		return team;
 	}

@@ -5,7 +5,7 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the So Аftware without restriction, including without limitation the rights
+ * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -29,6 +29,8 @@ import com.github.jamoamo.jfpl.model.FPLPlayer;
 import com.github.jamoamo.jfpl.model.FPLPlayerType;
 import com.github.jamoamo.jfpl.model.FPLPosition;
 import com.github.jamoamo.jfpl.model.FPLTeam;
+import com.github.jamoamo.jfpl.model.FPLUser;
+import com.github.jamoamo.jfpl.model.FPLUserHistory;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
@@ -445,5 +447,273 @@ public class FPLTest
 		player.setTeam(team);
 		return player;
 	}
-	
+
+	@Test
+	public void testLogin_success()
+	{
+		TestClient testClient = new TestClient();
+		testClient.loginSuccess = true;
+
+		FPL instance = new FPL(testClient);
+		assertDoesNotThrow(() -> instance.login(new FPLLoginCredentials("user", "pass")));
+		assertTrue(instance.isLoggedIn());
+	}
+
+	@Test
+	public void testLogin_failure()
+	{
+		TestClient testClient = new TestClient();
+		testClient.loginSuccess = false;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLLoginException.class,
+				  () -> instance.login(new FPLLoginCredentials("user", "wrongpass")));
+		assertFalse(instance.isLoggedIn());
+	}
+
+	@Test
+	public void testLogin_XFPLLoginException_onClientError()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwIOException = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLLoginException.class,
+				  () -> instance.login(new FPLLoginCredentials("user", "pass")));
+	}
+
+	@Test
+	public void testGetUser()
+	{
+		JsonUser user = new JsonUser();
+		user.setId(25518);
+		user.setName("Team Name");
+		user.setPlayerFirstName("James");
+		user.setPlayerLastName("Amoore");
+
+		TestClient testClient = new TestClient();
+		testClient.user = user;
+		testClient.data.setTeams(new ArrayList<>());
+
+		FPL instance = new FPL(testClient);
+		FPLUser result = instance.getUser(25518);
+		assertEquals(25518, result.getId());
+		assertEquals("James", result.getPlayerFirstName());
+		assertEquals("Amoore", result.getPlayerLastName());
+	}
+
+	@Test
+	public void testGetUser_XFPLUnavailableException()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwIOException = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLUnavailableException.class, () -> instance.getUser(25518));
+	}
+
+	@Test
+	public void testGetUser_XFPLAPIResponseException()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwAPIException = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLAPIResponseException.class, () -> instance.getUser(25518));
+	}
+
+	@Test
+	public void testGetUser_XFPLResourceNotFound()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwResourceNotFound = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLResourceNotFound.class, () -> instance.getUser(25518));
+	}
+
+	@Test
+	public void testGetCurrentUser_null()
+	{
+		TestClient testClient = new TestClient();
+		testClient.currentUser = null;
+
+		FPL instance = new FPL(testClient);
+		assertNull(instance.getCurrentUser());
+	}
+
+	@Test
+	public void testGetCurrentUser()
+	{
+		JsonCurrentUserPlayer player = new JsonCurrentUserPlayer();
+		player.setEntry(25518);
+		JsonCurrentUser current = new JsonCurrentUser();
+		current.setPlayer(player);
+
+		JsonUser user = new JsonUser();
+		user.setId(25518);
+		user.setName("Team Name");
+
+		TestClient testClient = new TestClient();
+		testClient.currentUser = current;
+		testClient.user = user;
+		testClient.data.setTeams(new ArrayList<>());
+
+		FPL instance = new FPL(testClient);
+		FPLUser result = instance.getCurrentUser();
+		assertEquals(25518, result.getId());
+	}
+
+	@Test
+	public void testGetCurrentUser_XFPLUnavailableException()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwIOException = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLUnavailableException.class, () -> instance.getCurrentUser());
+	}
+
+	@Test
+	public void testGetUserHistory()
+	{
+		JsonUserHistory history = new JsonUserHistory();
+		history.setCurrent(new ArrayList<>());
+		history.setPast(new ArrayList<>());
+
+		TestClient testClient = new TestClient();
+		testClient.userHistory = history;
+
+		FPL instance = new FPL(testClient);
+		FPLUserHistory result = instance.getUserHistory(25518);
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testGetUserHistory_XFPLUnavailableException()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwIOException = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLUnavailableException.class, () -> instance.getUserHistory(25518));
+	}
+
+	@Test
+	public void testGetUserHistory_XFPLAPIResponseException()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwAPIException = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLAPIResponseException.class, () -> instance.getUserHistory(25518));
+	}
+
+	@Test
+	public void testGetUserHistory_XFPLResourceNotFound()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwResourceNotFound = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLResourceNotFound.class, () -> instance.getUserHistory(25518));
+	}
+
+	@Test
+	public void testGetCurrentUserHistory()
+	{
+		JsonCurrentUserPlayer player = new JsonCurrentUserPlayer();
+		player.setEntry(25518);
+		JsonCurrentUser current = new JsonCurrentUser();
+		current.setPlayer(player);
+
+		JsonUserHistory history = new JsonUserHistory();
+		history.setCurrent(new ArrayList<>());
+		history.setPast(new ArrayList<>());
+
+		TestClient testClient = new TestClient();
+		testClient.currentUser = current;
+		testClient.userHistory = history;
+
+		FPL instance = new FPL(testClient);
+		FPLUserHistory result = instance.getCurrentUserHistory();
+		assertNotNull(result);
+	}
+
+	@Test
+	public void testGetCurrentUserHistory_XFPLUnavailableException()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwIOException = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLUnavailableException.class, () -> instance.getCurrentUserHistory());
+	}
+
+	@Test
+	public void testGetCurrentUserTeam_null()
+	{
+		TestClient testClient = new TestClient();
+		testClient.currentUser = null;
+
+		FPL instance = new FPL(testClient);
+		assertNull(instance.getCurrentUserTeam());
+	}
+
+	@Test
+	public void testGetCurrentUserTeam_XFPLUnavailableException()
+	{
+		JsonCurrentUserPlayer player = new JsonCurrentUserPlayer();
+		player.setEntry(25518);
+		JsonCurrentUser current = new JsonCurrentUser();
+		current.setPlayer(player);
+
+		TestClient testClient = new TestClient();
+		testClient.currentUser = current;
+		testClient.throwIOException = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLUnavailableException.class, () -> instance.getCurrentUserTeam());
+	}
+
+	@Test
+	public void testGetEntryGameweek_XFPLUnavailableException()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwIOException = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLUnavailableException.class, () -> instance.getEntryGameweek(25518, 1));
+	}
+
+	@Test
+	public void testGetEntryGameweek_XFPLAPIResponseException()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwAPIException = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLAPIResponseException.class, () -> instance.getEntryGameweek(25518, 1));
+	}
+
+	@Test
+	public void testGetEntryGameweek_XFPLResourceNotFound()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwResourceNotFound = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLResourceNotFound.class, () -> instance.getEntryGameweek(25518, 1));
+	}
+
+	@Test
+	public void testGetPlayers_XFPLResourceNotFound()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwResourceNotFound = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLResourceNotFound.class, () -> instance.getPlayers());
+	}
+
 }

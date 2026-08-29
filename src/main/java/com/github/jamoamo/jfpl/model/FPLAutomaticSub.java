@@ -21,17 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.jamoamo.jfpl;
+package com.github.jamoamo.jfpl.model;
 
 /**
- * An exception that is thrown when the FPL service is down such as when the game is being updated.
- *
+ * A sub automatically made during a game week when one of the players in the first 11 didn't play.
  * @author James Amoore
  */
-public class XFPLServiceUnavailable extends Exception
+public final class FPLAutomaticSub
 {
-	XFPLServiceUnavailable(String message)
+	private final FPLPlayer playerIn;
+	private final FPLPlayer playerOut;
+	
+	/**
+	 * Creates a new instance.
+	 * 
+	 * @param playerIn The player brought in.
+	 * @param playerOut The player taken out.
+	 */
+	public FPLAutomaticSub(FPLPlayer playerIn, FPLPlayer playerOut)
 	{
-		super(String.format("FPL Service unavailable: %s", message));
+		this.playerIn = playerIn;
+		this.playerOut = playerOut;
+	}
+
+	/**
+	 * Returns the player brought in.
+	 * 
+	 * @return the player brought in.
+	 */
+	public FPLPlayer getPlayerIn()
+	{
+		return playerIn;
+	}
+	
+	/**
+	 * Returns the player brought out.
+	 * 
+	 * @return the player brought out.
+	 */
+	public FPLPlayer getPlayerOut()
+	{
+		return playerOut;
 	}
 }
