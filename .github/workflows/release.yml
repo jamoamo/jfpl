@@ -19,6 +19,7 @@ concurrency:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   release:
@@ -100,6 +101,11 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
+      - name: Create release branch
+        env:
+          RELEASE_VERSION: ${{ steps.versions.outputs.release_version }}
+        run: git checkout -b "release/v$RELEASE_VERSION"
+
       - name: Set release version
         env:
           RELEASE_VERSION: ${{ steps.versions.outputs.release_version }}
@@ -126,10 +132,54 @@ jobs:
           mvn -B versions:set -DnewVersion="$NEXT_VERSION" -DprocessAllModules -DgenerateBackupPoms=false
           git commit -am "Prepare for next development iteration $NEXT_VERSION"
 
-      - name: Push commits and tag
+      - name: Push release branch and tag
         env:
           RELEASE_VERSION: ${{ steps.versions.outputs.release_version }}
-        run: git push origin main "refs/tags/v$RELEASE_VERSION"
+          RELEASE_PAT: ${{ secrets.RELEASE_PAT }}
+        run: |
+          git push origin "refs/tags/v$RELEASE_VERSION"
+          git push "https://x-access-token:${RELEASE_PAT}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/release/v$RELEASE_VERSION"
+
+      - name: Open release pull request
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PAT }}
+          RELEASE_VERSION: ${{ steps.versions.outputs.release_version }}
+        run: |
+          set -euo pipefail
+          URL=$(gh pr create \
+            --base main \
+            --head "release/v$RELEASE_VERSION" \
+            --title "Release $RELEASE_VERSION" \
+            --body "Automated release commit and next-development version bump for v$RELEASE_VERSION.")
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Auto-merge release pull request
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PAT }}
+          PR_URL: ${{ steps.pr.outputs.url }}
+        run: gh pr merge --merge --auto --delete-branch "$PR_URL"
+
+      - name: Wait for release pull request to merge
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PAT }}
+          PR_URL: ${{ steps.pr.outputs.url }}
+        run: |
+          set -euo pipefail
+          for _ in $(seq 1 60); do
+            STATE=$(gh pr view "$PR_URL" --json state --jq .state)
+            if [[ "$STATE" == "MERGED" ]]; then
+              echo "Release pull request merged."
+              exit 0
+            fi
+            if [[ "$STATE" == "CLOSED" ]]; then
+              echo "::error::Release pull request was closed without merging."
+              exit 1
+            fi
+            sleep 15
+          done
+          echo "::error::Timed out waiting for the release pull request to merge (required checks may have failed)."
+          exit 1
 
       - name: Create GitHub release
         env:
