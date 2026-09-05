@@ -40,6 +40,7 @@ class TestClient implements IFPLClient
 	JsonUser user;
 	JsonUserHistory userHistory;
 	JsonEntryGameweek entryGameweek;
+	JsonLiveGameweek liveGameweek;
 	boolean throwIOException = false;
 	boolean throwAPIException = false;
 	boolean throwResourceNotFound = false;
@@ -107,6 +108,14 @@ class TestClient implements IFPLClient
 	{
 		checkExceptions();
 		return entryGameweek;
+	}
+
+	@Override
+	public JsonLiveGameweek getLiveGameweek(int event)
+			  throws XClientException
+	{
+		checkExceptions();
+		return liveGameweek;
 	}
 
 }

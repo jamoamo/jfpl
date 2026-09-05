@@ -39,6 +39,7 @@ public final class FPLFixture
 	private final FPLTeam awayTeam;
 	private final int homeDifficulty;
 	private final int awayDifficulty;
+	private final boolean finished;
 
 	/**
 	 * Creates a new instance.
@@ -50,9 +51,10 @@ public final class FPLFixture
 	 * @param awayTeam       The team playing away from home
 	 * @param homeDifficulty The difficulty of playing the home team
 	 * @param awayDifficulty The difficulty of playing the away team
+	 * @param finished       Whether the fixture has been played to completion
 	 */
 	public FPLFixture(int id, int gameweek, LocalDateTime dateTime, FPLTeam homeTeam, FPLTeam awayTeam,
-							int homeDifficulty, int awayDifficulty)
+							int homeDifficulty, int awayDifficulty, boolean finished)
 	{
 		this.id = id;
 		this.gameweek = gameweek;
@@ -61,6 +63,7 @@ public final class FPLFixture
 		this.dateTime = dateTime == null ? null : LocalDateTime.from(dateTime);
 		this.homeDifficulty = homeDifficulty;
 		this.awayDifficulty = awayDifficulty;
+		this.finished = finished;
 	}
 
 	/**
@@ -121,6 +124,14 @@ public final class FPLFixture
 	public int getAwayDifficulty()
 	{
 		return awayDifficulty;
+	}
+
+	/**
+	 * @return {@code true} if the fixture has been played to completion, else {@code false}.
+	 */
+	public boolean isFinished()
+	{
+		return finished;
 	}
 
 }

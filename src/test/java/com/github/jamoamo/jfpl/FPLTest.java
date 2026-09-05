@@ -25,6 +25,7 @@ package com.github.jamoamo.jfpl;
 
 import com.github.jamoamo.jfpl.model.FPLFixture;
 import com.github.jamoamo.jfpl.model.FPLGameweek;
+import com.github.jamoamo.jfpl.model.FPLGameweekPlayerStats;
 import com.github.jamoamo.jfpl.model.FPLPlayer;
 import com.github.jamoamo.jfpl.model.FPLPlayerType;
 import com.github.jamoamo.jfpl.model.FPLPosition;
@@ -33,6 +34,7 @@ import com.github.jamoamo.jfpl.model.FPLUser;
 import com.github.jamoamo.jfpl.model.FPLUserHistory;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -581,6 +583,104 @@ public class FPLTest
 
 		FPL instance = new FPL(testClient);
 		assertThrows(XFPLResourceNotFound.class, () -> instance.getPlayers());
+	}
+
+	/**
+	 * Test of getLiveGameweek method, of class FPL.
+	 */
+	@Test
+	public void testGetLiveGameweek()
+	{
+		List<JsonPlayer> players = new ArrayList<>();
+		players.add(createPlayer(1, 3, "Bruno", "Fernandes", 12));
+		players.add(createPlayer(2, 2, "Harry", "Maguire", 12));
+		List<JsonTeam> teams = new ArrayList<>();
+		teams.add(createTeam(12, "Man Utd", "MUN"));
+
+		TestClient testClient = new TestClient();
+		testClient.data.setTeams(teams);
+		testClient.data.setElements(players);
+		testClient.liveGameweek = createLiveGameweek(
+				  createLiveElement(1, 90, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 30, 13),
+				  createLiveElement(2, 90, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 20, 7));
+
+		FPL instance = new FPL(testClient);
+		List<FPLGameweekPlayerStats> result = instance.getLiveGameweek(3);
+		assertEquals(2, result.size());
+
+		assertEquals(1, result.get(0).getPlayer().getId());
+		assertEquals(90, result.get(0).getMinutes());
+		assertEquals(2, result.get(0).getGoalsScored());
+		assertEquals(1, result.get(0).getAssists());
+		assertEquals(13, result.get(0).getTotalPoints());
+
+		assertEquals(2, result.get(1).getPlayer().getId());
+		assertEquals(1, result.get(1).getCleanSheets());
+		assertEquals(7, result.get(1).getTotalPoints());
+	}
+
+	@Test
+	public void testGetLiveGameweek_XFPLUnavailableException()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwIOException = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLUnavailableException.class, () -> instance.getLiveGameweek(3));
+	}
+
+	@Test
+	public void testGetLiveGameweek_XFPLAPIResponseException()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwAPIException = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLAPIResponseException.class, () -> instance.getLiveGameweek(3));
+	}
+
+	@Test
+	public void testGetLiveGameweek_XFPLResourceNotFound()
+	{
+		TestClient testClient = new TestClient();
+		testClient.throwResourceNotFound = true;
+
+		FPL instance = new FPL(testClient);
+		assertThrows(XFPLResourceNotFound.class, () -> instance.getLiveGameweek(3));
+	}
+
+	private JsonLiveGameweek createLiveGameweek(JsonLiveElement... elements)
+	{
+		JsonLiveGameweek liveGameweek = new JsonLiveGameweek();
+		liveGameweek.setElements(Arrays.asList(elements));
+		return liveGameweek;
+	}
+
+	private JsonLiveElement createLiveElement(
+			  int id, int minutes, int goalsScored, int assists, int cleanSheets, int goalsConceded,
+			  int ownGoals, int penaltiesSaved, int penaltiesMissed, int yellowCards, int redCards,
+			  int saves, int bonus, int bps, int totalPoints)
+	{
+		JsonLiveElementStats stats = new JsonLiveElementStats();
+		stats.setMinutes(minutes);
+		stats.setGoalsScored(goalsScored);
+		stats.setAssists(assists);
+		stats.setCleanSheets(cleanSheets);
+		stats.setGoalsConceded(goalsConceded);
+		stats.setOwnGoals(ownGoals);
+		stats.setPenaltiesSaved(penaltiesSaved);
+		stats.setPenaltiesMissed(penaltiesMissed);
+		stats.setYellowCards(yellowCards);
+		stats.setRedCards(redCards);
+		stats.setSaves(saves);
+		stats.setBonus(bonus);
+		stats.setBps(bps);
+		stats.setTotalPoints(totalPoints);
+
+		JsonLiveElement element = new JsonLiveElement();
+		element.setId(id);
+		element.setStats(stats);
+		return element;
 	}
 
 }

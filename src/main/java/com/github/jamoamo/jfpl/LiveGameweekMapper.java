@@ -23,31 +23,46 @@
  */
 package com.github.jamoamo.jfpl;
 
-import com.github.jamoamo.jfpl.model.FPLFixture;
-import com.github.jamoamo.jfpl.model.FPLTeam;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import com.github.jamoamo.jfpl.model.FPLGameweekPlayerStats;
+import com.github.jamoamo.jfpl.model.FPLPlayer;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * Maps a fixture from the one returned from the FPL JSON API to one exposed by this library.
+ * Maps the live-gameweek response from the FPL JSON API to the one exposed by this library.
  *
  * @author James Amoore
  */
-class FixtureMapper
+class LiveGameweekMapper
 {
-	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-
-	protected FPLFixture mapFixture(final JsonFixture jsonFixture, final Map<Integer, FPLTeam> teamMap)
+	protected List<FPLGameweekPlayerStats> mapLiveGameweek(
+			  JsonLiveGameweek jsonLiveGameweek, Map<Integer, FPLPlayer> playerMap)
 	{
-		FPLTeam homeTeam = teamMap.get(jsonFixture.getTeamH());
-		FPLTeam awayTeam = teamMap.get(jsonFixture.getTeamA());
-		LocalDateTime kickoff = null;
-		if(jsonFixture.getKickoffTime() != null)
-		{
-			kickoff = LocalDateTime.parse(jsonFixture.getKickoffTime(), FORMATTER);
-		}
-		return new FPLFixture(jsonFixture.getId(), jsonFixture.getEvent(), kickoff, homeTeam, awayTeam, jsonFixture.
-									 getTeamHDifficulty(), jsonFixture.getTeamADifficulty(), jsonFixture.isFinished());
+		return jsonLiveGameweek.getElements()
+				  .stream()
+				  .map(element -> mapElement(element, playerMap))
+				  .collect(Collectors.toList());
+	}
+
+	private FPLGameweekPlayerStats mapElement(JsonLiveElement element, Map<Integer, FPLPlayer> playerMap)
+	{
+		JsonLiveElementStats stats = element.getStats();
+		return new FPLGameweekPlayerStats(
+				  playerMap.get(element.getId()),
+				  stats.getMinutes(),
+				  stats.getGoalsScored(),
+				  stats.getAssists(),
+				  stats.getCleanSheets(),
+				  stats.getGoalsConceded(),
+				  stats.getOwnGoals(),
+				  stats.getPenaltiesSaved(),
+				  stats.getPenaltiesMissed(),
+				  stats.getYellowCards(),
+				  stats.getRedCards(),
+				  stats.getSaves(),
+				  stats.getBonus(),
+				  stats.getBps(),
+				  stats.getTotalPoints());
 	}
 }

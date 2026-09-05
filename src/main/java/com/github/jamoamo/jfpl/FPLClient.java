@@ -39,6 +39,7 @@ class FPLClient implements IFPLClient
 	private static final String URL_SEPARATOR = "/";
 	private static final String URL_HISTORY = "/history/";
 	private static final String URL_ENTRY_GAMEWEEK = "%sentry/%d/event/%d/picks/";
+	private static final String URL_LIVE_GAMEWEEK = "%sevent/%d/live/";
 
 	private final HttpConnection request;
 
@@ -110,5 +111,14 @@ class FPLClient implements IFPLClient
 		JsonEntryGameweek entryGameweek = request.getRequest(String.format(URL_ENTRY_GAMEWEEK, apiUrl, entity, event),
 																			  JsonEntryGameweek.class);
 		return entryGameweek;
+	}
+
+	@Override
+	public JsonLiveGameweek getLiveGameweek(int event)
+			  throws XClientException
+	{
+		JsonLiveGameweek liveGameweek = request.getRequest(String.format(URL_LIVE_GAMEWEEK, apiUrl, event),
+																		  JsonLiveGameweek.class);
+		return liveGameweek;
 	}
 }

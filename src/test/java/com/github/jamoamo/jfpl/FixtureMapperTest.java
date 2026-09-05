@@ -73,14 +73,15 @@ public class FixtureMapperTest
 		assertEquals(0, result.getDateTime().getSecond());
 		assertEquals(2, result.getHomeDifficulty());
 		assertEquals(4, result.getAwayDifficulty());
+		assertTrue(result.isFinished());
 	}
-	
+
 	@Test
 	public void testMapFixture_nullDateTime()
 	{
 		JsonFixture jsonFixture = new JsonFixture();
 		jsonFixture.setEvent(1);
-		jsonFixture.setFinished(true);
+		jsonFixture.setFinished(false);
 		jsonFixture.setKickoffTime(null);
 		jsonFixture.setTeamA(12);
 		jsonFixture.setTeamH(13);
@@ -98,5 +99,6 @@ public class FixtureMapperTest
 		assertNull(result.getDateTime());
 		assertEquals(2, result.getHomeDifficulty());
 		assertEquals(4, result.getAwayDifficulty());
+		assertFalse(result.isFinished());
 	}
 }

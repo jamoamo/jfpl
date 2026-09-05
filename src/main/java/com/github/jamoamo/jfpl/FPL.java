@@ -27,6 +27,7 @@ import com.github.jamoamo.jfpl.model.FPLEntryGameweek;
 import com.github.jamoamo.jfpl.model.FPLPlayer;
 import com.github.jamoamo.jfpl.model.FPLFixture;
 import com.github.jamoamo.jfpl.model.FPLGameweek;
+import com.github.jamoamo.jfpl.model.FPLGameweekPlayerStats;
 import com.github.jamoamo.jfpl.model.FPLPlayerType;
 import com.github.jamoamo.jfpl.model.FPLTeam;
 import com.github.jamoamo.jfpl.model.FPLUser;
@@ -62,6 +63,7 @@ public final class FPL
 	private final UserHistoryMapper userHistoryMapper = new UserHistoryMapper();
 	private final EntryGameweekMapper entryGameweekMapper = new EntryGameweekMapper();
 	private final PlayerTypeMapper playerTypeMapper = new PlayerTypeMapper();
+	private final LiveGameweekMapper liveGameweekMapper = new LiveGameweekMapper();
 
 	/**
 	 * Create a connection to FPL without logging in. Certain functionality will not be available.
@@ -248,6 +250,28 @@ public final class FPL
 
 		return data.getElementTypes().stream().map(elemType -> playerTypeMapper.mapPlayerType(elemType))
 				  .collect(Collectors.toList());
+	}
+
+	/**
+	 * Get every player's stats for a single gameweek (minutes, goals, bonus, etc. for that gameweek only),
+	 * as opposed to {@link #getPlayers()} which returns season-to-date totals.
+	 *
+	 * @param gameweek the gameweek number to get live stats for.
+	 *
+	 * @return the gameweek stats for every player.
+	 *
+	 * @throws XFPLUnavailableException if the client could not connect to the FPL server.
+	 * @throws XFPLAPIResponseException if the response from the FPL server could not be interpreted.
+	 * @throws XFPLResourceNotFound     if the gameweek could not be found.
+	 */
+	public List<FPLGameweekPlayerStats> getLiveGameweek(int gameweek)
+			  throws XFPLUnavailableException, XFPLAPIResponseException, XFPLResourceNotFound
+	{
+		return translated(() ->
+		{
+			JsonLiveGameweek liveGameweek = this.fplClient.getLiveGameweek(gameweek);
+			return liveGameweekMapper.mapLiveGameweek(liveGameweek, getPlayerMap());
+		});
 	}
 
 	private JsonStaticData getStaticData()

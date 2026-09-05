@@ -23,28 +23,33 @@
  */
 package com.github.jamoamo.jfpl;
 
-import java.util.List;
-
-interface IFPLClient
+/**
+ * One player's entry in the {@code /event/{id}/live/} endpoint's {@code elements} array.
+ *
+ * @author James Amoore
+ */
+class JsonLiveElement
 {
-	JsonUser getUser(int id)
-			  throws XClientException;
+	private int id;
+	private JsonLiveElementStats stats;
 
-	JsonStaticData getStaticData()
-			  throws XClientException;
+	public int getId()
+	{
+		return id;
+	}
 
-	List<JsonFixture> getFixtures()
-			  throws XClientException;
+	public void setId(int id)
+	{
+		this.id = id;
+	}
 
-	List<JsonFixture> getFixturesForGameweek(int gameweekNr)
-			  throws XClientException;
+	public JsonLiveElementStats getStats()
+	{
+		return stats;
+	}
 
-	JsonUserHistory getUserHistory(int id)
-			  throws XClientException;
-
-	JsonEntryGameweek getEntryGameweek(int entity, int event)
-			  throws XClientException;
-
-	JsonLiveGameweek getLiveGameweek(int event)
-			  throws XClientException;
+	public void setStats(JsonLiveElementStats stats)
+	{
+		this.stats = stats;
+	}
 }

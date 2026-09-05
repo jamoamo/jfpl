@@ -25,26 +25,23 @@ package com.github.jamoamo.jfpl;
 
 import java.util.List;
 
-interface IFPLClient
+/**
+ * The response from the FPL {@code /event/{id}/live/} endpoint: every player's stats for that single
+ * gameweek only.
+ *
+ * @author James Amoore
+ */
+class JsonLiveGameweek
 {
-	JsonUser getUser(int id)
-			  throws XClientException;
+	private List<JsonLiveElement> elements;
 
-	JsonStaticData getStaticData()
-			  throws XClientException;
+	public List<JsonLiveElement> getElements()
+	{
+		return elements;
+	}
 
-	List<JsonFixture> getFixtures()
-			  throws XClientException;
-
-	List<JsonFixture> getFixturesForGameweek(int gameweekNr)
-			  throws XClientException;
-
-	JsonUserHistory getUserHistory(int id)
-			  throws XClientException;
-
-	JsonEntryGameweek getEntryGameweek(int entity, int event)
-			  throws XClientException;
-
-	JsonLiveGameweek getLiveGameweek(int event)
-			  throws XClientException;
+	public void setElements(List<JsonLiveElement> elements)
+	{
+		this.elements = elements;
+	}
 }
